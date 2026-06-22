@@ -5,9 +5,9 @@ description: Provides read-only access to PostgreSQL databases, allowing LLMs to
 author: modelcontextprotocol
 url: https://github.com/modelcontextprotocol/servers-archived/tree/main/src/postgres
 tags:
+  - database
   - postgresql
   - sql
-  - database
 content:
   - name: NPX
     prerequisites:

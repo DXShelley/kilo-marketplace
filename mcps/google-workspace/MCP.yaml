@@ -5,9 +5,9 @@ description: Control Gmail, Google Calendar, Docs, Sheets, Slides, Chat, Forms, 
 author: taylorwilsdon
 url: https://github.com/taylorwilsdon/google_workspace_mcp
 tags:
-  - productivity
   - automation
   - api-integration
+  - productivity
 prerequisites:
   - Google Cloud Project with OAuth 2.0 credentials
 content:

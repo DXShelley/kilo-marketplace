@@ -5,9 +5,9 @@ description: Enables searching, listing, and reading files from Google Drive, wi
 author: modelcontextprotocol
 url: https://github.com/modelcontextprotocol/servers-archived/tree/main/src/gdrive
 tags:
-  - information-retrieval
   - file-management
   - file-search
+  - information-retrieval
 prerequisites:
   - Google account with Drive API access
 content:
