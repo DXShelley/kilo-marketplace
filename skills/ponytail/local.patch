@@ -1,32 +1,21 @@
 diff -ruN a/ponytail/SKILL.md b/ponytail/SKILL.md
---- a/ponytail/SKILL.md	2026-06-22 12:20:51
-+++ b/ponytail/SKILL.md	2026-06-22 12:20:47
-@@ -1,16 +1,14 @@
- ---
- name: ponytail
- description: >
--  Forces the laziest solution that actually works, simplest, shortest, most
--  minimal. Channels a senior dev who has seen everything: question whether the
--  task needs to exist at all (YAGNI), reach for the standard library before
--  custom code, native platform features before dependencies, one line before
+--- a/ponytail/SKILL.md	2026-06-22 12:23:36
++++ b/ponytail/SKILL.md	2026-06-22 12:23:30
+@@ -5,12 +5,11 @@
+   minimal. Channels a senior dev who has seen everything: question whether the
+   task needs to exist at all (YAGNI), reach for the standard library before
+   custom code, native platform features before dependencies, one line before
 -  fifty. Supports intensity levels: lite, full (default), ultra. Use whenever
--  the user says "ponytail", "be lazy", "lazy mode", "simplest solution",
--  "minimal solution", "yagni", "do less", or "shortest path", and whenever they
--  complain about over-engineering, bloat, boilerplate, or unnecessary
--  dependencies.
++  fifty. Use whenever
+   the user says "ponytail", "be lazy", "lazy mode", "simplest solution",
+   "minimal solution", "yagni", "do less", or "shortest path", and whenever they
+   complain about over-engineering, bloat, boilerplate, or unnecessary
+   dependencies.
 -argument-hint: '[lite|full|ultra]'
-+  Forces the laziest solution that actually works: simplest, shortest, and most
-+  minimal. Channels a senior dev who has seen everything: questions whether the
-+  task needs to exist at all (YAGNI), reaches for the standard library before
-+  custom code, native platform features before dependencies, and one line before
-+  fifty. Use whenever the user says "ponytail", "be lazy", "lazy mode",
-+  "simplest solution", "minimal solution", "yagni", "do less", or "shortest
-+  path", and whenever they complain about over-engineering, bloat, boilerplate,
-+  or unnecessary dependencies.
  license: MIT
  metadata:
    category: development
-@@ -28,8 +26,7 @@
+@@ -28,8 +27,7 @@
  ## Persistence
  
  ACTIVE EVERY RESPONSE. No drift back to over-building. Still active if
@@ -36,7 +25,7 @@ diff -ruN a/ponytail/SKILL.md b/ponytail/SKILL.md
  
  ## The ladder
  
-@@ -66,19 +63,6 @@
+@@ -66,19 +64,6 @@
  
  Pattern: `[code] → skipped: [X], add when [Y].`
  
@@ -56,7 +45,7 @@ diff -ruN a/ponytail/SKILL.md b/ponytail/SKILL.md
  ## When NOT to be lazy
  
  Never simplify away: input validation at trust boundaries, error handling
-@@ -99,8 +83,7 @@
+@@ -99,8 +84,7 @@
  
  ## Boundaries
  
