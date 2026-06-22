@@ -256,131 +256,106 @@ Examples:
 
 ---
 
-## Contributing Custom Modes
+## Contributing Custom Agents
 
-Custom modes allow you to tailor Kilo Code's behavior for specific tasks or workflows. You can contribute modes that benefit the community.
+Custom agents tailor Kilo's behavior for specific tasks or workflows. Agent definitions are the source of truth; the legacy modes catalog is generated from them for backward compatibility.
 
-### Mode Requirements
+### Agent Requirements
 
-All contributed modes must:
+All contributed agents must:
 
-1. **Serve a clear purpose** - Optimized for specific tasks like documentation, testing, or security review
-2. **Be well-documented** - Include clear descriptions and use cases
-3. **Define appropriate permissions** - Use tool groups and file restrictions responsibly
-4. **Be tested** - Verify the mode works correctly in Kilo Code
+1. **Serve a clear purpose** - Optimize for specific tasks like documentation, testing, or security review
+2. **Be well-documented** - Include a clear description and complete prompt
+3. **Define appropriate permissions** - Grant tool and file access responsibly
+4. **Be tested** - Verify the agent works correctly in Kilo
 
-### Mode Structure
+### Agent Structure
 
-Create a new folder with your mode name (use lowercase and hyphens):
+Create a new folder whose kebab-case name matches the agent ID:
 
 ```
-modes/
-└── mode-name/
-    └── MODE.yaml
+agents/
+└── agent-name/
+    └── AGENT_DEFINITION.md
 ```
 
-The `MODE.yaml` file should contain:
+The `AGENT_DEFINITION.md` file contains YAML frontmatter followed by the agent prompt:
 
-```yaml
-id: mode-slug
-name: Mode Display Name
-description: Brief description of what this mode does
+```markdown
+---
+id: agent-name
+name: Agent Display Name
+description: Brief description of what this agent does
 author: "@your-github-username"
-tags: [relevant, tags, here]
-content: |
-  slug: mode-slug
-  name: 🎯 Mode Display Name
-  roleDefinition: |
-    You are a specialist in [domain]. Your expertise includes:
-    - Capability 1
-    - Capability 2
-    - Capability 3
-  groups:
-    - read
-    - edit
-    - command
-  customInstructions: |
-    Specific behavioral guidelines for this mode.
+tags:
+  - relevant
+  - tags
+mode: primary
+permission:
+  read: allow
+  edit: allow
+  bash: allow
+  mcp: deny
+  question: allow
+---
+
+You are a specialist in [domain]. Your expertise includes:
+
+- Capability 1
+- Capability 2
+- Capability 3
+
+Follow the project's conventions and provide clear, actionable results.
 ```
 
-### Mode Properties
+### Agent Properties
 
 | Property | Required | Description |
 |----------|----------|-------------|
-| `id` | Yes | Unique identifier (kebab-case) |
+| `id` | Yes | Unique kebab-case identifier matching the directory name |
 | `name` | Yes | Display name shown in the marketplace |
-| `description` | Yes | Brief description of the mode's purpose |
+| `description` | Yes | Brief description of the agent's purpose |
 | `author` | Yes | Your GitHub username with @ prefix |
-| `tags` | Yes | Array of relevant tags for discovery |
-| `content.slug` | Yes | Internal identifier (must match `id`) |
-| `content.name` | Yes | Display name with optional emoji |
-| `content.roleDefinition` | Yes | Defines the mode's expertise and personality |
-| `content.groups` | Yes | Tool groups the mode can access |
-| `content.customInstructions` | No | Additional behavioral guidelines |
-| `content.whenToUse` | No | Guidance for automated mode selection |
+| `tags` | Yes | Relevant tags for discovery |
+| `mode` | No | Agent availability: `primary`, `subagent`, or `all`; defaults to `primary` |
+| `permission` | No | Tool permissions and optional file restrictions |
+| Markdown body | Yes | Complete agent role and behavioral instructions |
 
-### Available Tool Groups
+### Permissions
+
+Common permission keys are:
 
 - `read` - Read files and explore the codebase
-- `edit` - Modify files (can include file restrictions)
-- `command` - Execute terminal commands
-- `browser` - Browser automation capabilities
+- `edit` - Modify files, optionally limited by glob patterns
+- `bash` - Execute terminal commands
 - `mcp` - Access MCP server tools
+- `question` - Ask the user structured questions
+- `plan_exit` - Complete planning workflows where supported
 
-### File Restrictions Example
-
-To restrict which files a mode can edit:
+Use `allow` or `deny` for unrestricted decisions. To restrict edits to selected files, deny the default glob and allow specific patterns:
 
 ```yaml
-groups:
-  - read
-  - - edit
-    - fileRegex: \.(md|mdx)$
-      description: Markdown files only
-  - command
+permission:
+  read: allow
+  edit:
+    "*": deny
+    "*.md": allow
+    "*.mdx": allow
+  bash: deny
 ```
 
-### Mode Examples
+### Generated Marketplaces
 
-**Documentation Writer** (`modes/docs-writer/MODE.yaml`):
-```yaml
-id: docs-writer
-name: Documentation Writer
-description: Technical documentation expert for clear, comprehensive docs
-author: "@your-username"
-tags: [documentation, markdown, technical-writing]
-content: |
-  slug: docs-writer
-  name: 📝 Documentation Writer
-  roleDefinition: |
-    You are a technical writer specializing in clear documentation.
-  groups:
-    - read
-    - - edit
-      - fileRegex: \.md$
-        description: Markdown files only
-  customInstructions: |
-    Focus on clarity, proper formatting, and comprehensive examples.
+Do not add or edit `modes/*/MODE.yaml` files. Run both generators after changing an agent definition:
+
+```bash
+cd bin
+pnpm install
+pnpm exec tsx generate-agents-marketplace.ts
+pnpm exec tsx generate-modes-marketplace.ts
 ```
 
-**Security Reviewer** (`modes/security-review/MODE.yaml`):
-```yaml
-id: security-review
-name: Security Reviewer
-description: Read-only security analysis and vulnerability assessment
-author: "@your-username"
-tags: [security, audit, code-review]
-content: |
-  slug: security-review
-  name: 🔒 Security Reviewer
-  roleDefinition: |
-    You are a security specialist reviewing code for vulnerabilities.
-  groups:
-    - read
-    - browser
-  customInstructions: |
-    Focus on input validation, authentication flaws, and data exposure risks.
-```
+The first command updates `agents/marketplace.yaml`. The second converts agent prompts and permissions into the backward-compatible `modes/marketplace.yaml` format. Some native agent permissions have no legacy mode equivalent and are omitted from that generated catalog.
 
 ---
 
@@ -575,6 +550,6 @@ parameters:
 
 ## Questions?
 
-Open an issue if you have questions about contributing or need help structuring your skill, mode, or MCP server.
+Open an issue if you have questions about contributing or need help structuring your skill, agent, or MCP server.
 
 Thank you for contributing to Kilo Marketplace!

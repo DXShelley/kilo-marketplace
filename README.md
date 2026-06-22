@@ -1,6 +1,6 @@
 <h1 align="center">Kilo Marketplace</h1>
 
-A curated collection of **Skills**, **MCP Servers**, and **Modes** for enhancing AI agent capabilities across the Kilo ecosystem—including Kilo Code (VS Code extension), Kilo CLI, and compatible AI agents.
+A curated collection of **Skills**, **MCP Servers**, and **Agents** for enhancing AI agent capabilities across the Kilo ecosystem—including Kilo Code (VS Code extension), Kilo CLI, and compatible AI agents.
 
 ---
 
@@ -12,7 +12,7 @@ The Kilo Marketplace is a community-driven repository of agent tooling prompts a
 |----------|-------------|
 | **[Skills](#skills)** | Modular workflows and domain expertise that teach agents how to perform specific tasks |
 | **[MCP Servers](#mcp-servers)** | Standardized integrations that connect agents to external tools and services |
-| **[Modes](#modes)** | Custom agent personalities and behaviors with tailored tool access |
+| **[Agents](#agents)** | Custom agent personalities and behaviors with tailored tool access |
 
 ---
 
@@ -24,8 +24,8 @@ The Kilo Marketplace is a community-driven repository of agent tooling prompts a
   - [Creating Skills](#creating-skills)
 - [MCP Servers](#mcp-servers)
   - [What Are MCP Servers?](#what-are-mcp-servers)
-- [Modes](#modes)
-  - [What Are Modes?](#what-are-modes)
+- [Agents](#agents)
+  - [What Are Agents?](#what-are-agents)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -120,26 +120,24 @@ Browse available MCP servers in the [`mcps/`](./mcps/) directory.
 
 ---
 
-## Modes
+## Agents
 
-### What Are Modes?
+### What Are Agents?
 
-Modes are custom agent configurations that define specialized behaviors, personalities, and tool access. They allow you to create purpose-built agents for specific tasks like documentation writing, code review, or security analysis.
+Agents are custom configurations that define specialized behaviors, personalities, and tool access. They allow you to create purpose-built assistants for tasks like documentation writing, code review, or testing.
 
-A mode defines:
-- **Role Definition**: The agent's identity and expertise
-- **Available Tools**: Which tool groups the agent can access
-- **File Restrictions**: Which files the agent can read or edit
-- **Custom Instructions**: Behavioral guidelines and rules
+An agent defines:
+- **Prompt**: The agent's identity, expertise, and behavioral guidelines
+- **Permissions**: Which tools the agent can access
+- **File Restrictions**: Which files the agent can edit
+- **Metadata**: How the agent is presented and discovered in the marketplace
 
 **Example use cases:**
-- A "Documentation Writer" mode that can only edit Markdown files
-- A "Security Reviewer" mode with read-only access for auditing
-- A "Test Engineer" mode focused on test files
+- A documentation specialist that can only edit text files
+- A code reviewer with read-only file access
+- A test engineer focused on test files
 
-Modes can be shared as YAML configurations and imported into Kilo Code or other compatible tools.
-
-Browse available modes in the [`modes/`](./modes/) directory.
+Browse agent definitions in the [`agents/`](./agents/) directory. The legacy [`modes/marketplace.yaml`](./modes/marketplace.yaml) catalog is generated from these definitions for backward compatibility.
 
 ---
 
@@ -147,7 +145,7 @@ Browse available modes in the [`modes/`](./modes/) directory.
 
 We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on:
 
-- How to submit new skills, MCP servers, or modes
+- How to submit new skills, MCP servers, or agents
 - Quality standards
 - Pull request process
 - Code of conduct

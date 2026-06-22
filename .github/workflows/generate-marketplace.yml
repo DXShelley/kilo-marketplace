@@ -37,7 +37,7 @@ jobs:
         run: pnpm exec tsx generate-skill-marketplace.ts
         working-directory: bin
 
-      - name: Generate modes marketplace.yaml
+      - name: Generate compatibility modes marketplace.yaml
         run: pnpm exec tsx generate-modes-marketplace.ts
         working-directory: bin
 
