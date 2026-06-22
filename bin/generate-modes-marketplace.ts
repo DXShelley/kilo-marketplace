@@ -24,9 +24,23 @@ function requireString(value: unknown, field: string, file: string): string {
 }
 
 function globToRegex(glob: string): string {
-  return glob
-    .replace(/[.+^${}()|[\]\\]/g, "\\$&")
-    .replace(/\*\*|\*|\?/g, (wildcard) => (wildcard === "?" ? "." : ".*"));
+  let regex = "";
+
+  for (let index = 0; index < glob.length; index += 1) {
+    const character = glob[index];
+    if (character === "*" && glob[index + 1] === "*") {
+      regex += ".*";
+      index += 1;
+    } else if (character === "*") {
+      regex += "[^/]*";
+    } else if (character === "?") {
+      regex += "[^/]";
+    } else {
+      regex += character.replace(/[.+^${}()|[\]\\]/g, "\\$&");
+    }
+  }
+
+  return regex;
 }
 
 function groupsFromPermissions(value: unknown): unknown[] {
@@ -58,6 +72,7 @@ function groupsFromPermissions(value: unknown): unknown[] {
   if (permission.bash === "allow") groups.push("command");
   if (permission.mcp === "allow") groups.push("mcp");
 
+  // Browser is intentionally omitted because native agent permissions have no equivalent capability.
   return groups;
 }
 
