@@ -955,7 +955,7 @@ items:
     author: modelcontextprotocol
     url: https://github.com/modelcontextprotocol/servers-archived/tree/main/src/gdrive
     tags:
-      - document-management
+      - information-retrieval
       - file-management
       - file-search
     prerequisites:
