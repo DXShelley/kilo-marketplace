@@ -8,9 +8,9 @@
 # - information-retrieval: 11
 # - collaboration: 10
 # - database-management: 10
+# - storage: 8
 # - api-integration: 7
 # - documentation: 7
-# - storage: 7
 # - database: 6
 # - sql: 6
 # - data-extraction: 5
@@ -899,6 +899,7 @@ items:
     url: https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem
     tags:
       - file-search
+      - storage
       - automation
     content:
       - name: NPX
