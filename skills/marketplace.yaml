@@ -353,12 +353,3 @@ items:
     githubUrl: https://github.com/Kilo-Org/kilo-marketplace/tree/main/skills/webapp-testing
     rawUrl: https://raw.githubusercontent.com/Kilo-Org/kilo-marketplace/main/skills/webapp-testing/SKILL.md
     content: https://github.com/Kilo-Org/kilo-marketplace/releases/download/skills-latest/webapp-testing.tar.gz
-  - id: file-organizer
-    description: >-
-      Intelligently organizes your files and folders across your computer by understanding context, finding duplicates,
-      suggesting better structures, and automating cleanup tasks. Reduces cognitive load and keeps your digital
-      workspace tidy without manual effort.
-    category: productivity-organization
-    githubUrl: https://github.com/Kilo-Org/kilo-marketplace/tree/main/skills/file-organizer
-    rawUrl: https://raw.githubusercontent.com/Kilo-Org/kilo-marketplace/main/skills/file-organizer/SKILL.md
-    content: https://github.com/Kilo-Org/kilo-marketplace/releases/download/skills-latest/file-organizer.tar.gz
