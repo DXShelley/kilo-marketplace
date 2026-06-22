@@ -85,6 +85,7 @@ items:
         Provide constructive feedback on code patterns, potential bugs, security issues, and improvement opportunities. Be specific and actionable in suggestions.
       groups:
         - read
+        - browser
         - command
   - id: code-simplifier
     name: Code Simplifier
@@ -163,6 +164,7 @@ items:
       groups:
         - read
         - edit
+        - browser
         - command
         - mcp
   - id: code-skeptic
@@ -243,6 +245,7 @@ items:
         - - edit
           - fileRegex: (?:(?:^|/)[^/]*\.md|(?:^|/)[^/]*\.mdc|(?:^|/)[^/]*\.mdx)$
             description: Files allowed by agent edit permissions
+        - browser
         - command
         - mcp
   - id: docs-specialist
@@ -296,6 +299,7 @@ items:
         - - edit
           - fileRegex: (?:(?:^|/)[^/]*\.ts|(?:^|/)[^/]*\.tsx|(?:^|/)[^/]*\.js|(?:^|/)[^/]*\.jsx|(?:^|/)[^/]*\.css|(?:^|/)[^/]*\.scss|(?:^|/)[^/]*\.less)$
             description: Files allowed by agent edit permissions
+        - browser
         - command
   - id: test-engineer
     name: Test Engineer

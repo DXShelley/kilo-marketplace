@@ -355,7 +355,7 @@ pnpm exec tsx generate-agents-marketplace.ts
 pnpm exec tsx generate-modes-marketplace.ts
 ```
 
-The first command updates `agents/marketplace.yaml`. The second converts agent prompts and permissions into the backward-compatible `modes/marketplace.yaml` format. Native-only permissions such as `question` and `plan_exit` are omitted. Legacy-only capabilities such as `browser` are not retained because the canonical agent format has no equivalent permission.
+The first command updates `agents/marketplace.yaml`. The second converts agent prompts and permissions into the backward-compatible `modes/marketplace.yaml` format. Native-only permissions such as `question` and `plan_exit` are omitted. Legacy-only compatibility adjustments, such as retaining a `browser` group, belong in `modes/legacy-overrides.yaml` rather than the canonical agent definition.
 
 ---
 

@@ -9,12 +9,16 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import matter from "gray-matter";
-import { Document, Scalar } from "yaml";
+import { Document, Scalar, parse } from "yaml";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const agentsDir = path.join(__dirname, "..", "agents");
 const modesDir = path.join(__dirname, "..", "modes");
 const MARKETPLACE_KEYS = ["author", "authorUrl", "tags", "prerequisites"];
+const legacyOverrides = parse(fs.readFileSync(path.join(modesDir, "legacy-overrides.yaml"), "utf-8")).overrides as Record<
+  string,
+  { addGroups?: string[] }
+>;
 
 function requireString(value: unknown, field: string, file: string): string {
   if (typeof value !== "string" || value.trim().length === 0) {
@@ -43,8 +47,8 @@ function globToRegex(glob: string): string {
   return regex;
 }
 
-function groupsFromPermissions(value: unknown): unknown[] {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return [];
+function groupsFromPermissions(value: unknown, addGroups: string[] = []): unknown[] {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return [...addGroups];
 
   const permission = value as Record<string, unknown>;
   const groups: unknown[] = [];
@@ -69,10 +73,11 @@ function groupsFromPermissions(value: unknown): unknown[] {
     }
   }
 
+  const insertionIndex = groups.length;
   if (permission.bash === "allow") groups.push("command");
   if (permission.mcp === "allow") groups.push("mcp");
+  groups.splice(insertionIndex, 0, ...addGroups.filter((group) => !groups.includes(group)));
 
-  // Browser is intentionally omitted because native agent permissions have no equivalent capability.
   return groups;
 }
 
@@ -97,7 +102,7 @@ function modeFromAgent(dirName: string): Record<string, unknown> {
     name,
     description,
     roleDefinition: prompt,
-    groups: groupsFromPermissions(frontmatter.permission),
+    groups: groupsFromPermissions(frontmatter.permission, legacyOverrides[id]?.addGroups),
   });
   const roleDefinition = modeDoc.get("roleDefinition", true);
   if (roleDefinition instanceof Scalar) roleDefinition.type = Scalar.BLOCK_LITERAL;
@@ -121,6 +126,11 @@ const items = fs
     return mode;
   })
   .sort((a, b) => (a.id as string).localeCompare(b.id as string));
+
+const agentIds = new Set(items.map((item) => item.id));
+for (const id of Object.keys(legacyOverrides)) {
+  if (!agentIds.has(id)) throw new Error(`modes/legacy-overrides.yaml: unknown agent ${id}`);
+}
 
 const doc = new Document({ items });
 const output = doc.toString({ lineWidth: 120 });

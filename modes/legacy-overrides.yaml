@@ -1,0 +1,13 @@
+overrides:
+  code-reviewer:
+    addGroups:
+      - browser
+  code-simplifier:
+    addGroups:
+      - browser
+  code-skeptic:
+    addGroups:
+      - browser
+  frontend-specialist:
+    addGroups:
+      - browser
