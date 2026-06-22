@@ -138,6 +138,32 @@ function listFilesRecursive(dir: string, prefix = ""): string[] {
   return files.sort();
 }
 
+function applyLocalRemovals(skillDir: string, normalizedDir: string): void {
+  const removePath = path.join(skillDir, "local.remove");
+  if (!fs.existsSync(removePath)) return;
+
+  const entries = fs
+    .readFileSync(removePath, "utf-8")
+    .split(/\r?\n/)
+    .map((entry) => entry.trim())
+    .filter((entry) => entry && !entry.startsWith("#"));
+
+  for (const entry of entries) {
+    const target = path.resolve(normalizedDir, entry);
+    const relativeTarget = path.relative(normalizedDir, target);
+    if (
+      relativeTarget === "" ||
+      relativeTarget.startsWith("..") ||
+      path.isAbsolute(relativeTarget)
+    ) {
+      throw new Error(`invalid local.remove path: ${entry}`);
+    }
+    if (fs.existsSync(target)) {
+      fs.rmSync(target, { recursive: true });
+    }
+  }
+}
+
 /**
  * Fetch upstream skills and generate patches by comparing with local versions.
  */
@@ -211,6 +237,8 @@ function generatePatchesFromRepo(
         fs.writeFileSync(normalizedSkillMd, normalized);
       }
 
+      applyLocalRemovals(skill.dir, normalizedDir);
+
       // Generate unified diff between normalized upstream and local
       try {
         const diff = execSync(
@@ -237,8 +265,8 @@ function generatePatchesFromRepo(
             .replace(new RegExp(escapeRegExp(normalizedDir), "g"), `a/${skill.name}`)
             .replace(new RegExp(escapeRegExp(skill.dir), "g"), `b/${skill.name}`);
 
-          // Filter out the local.patch file itself from the diff
-          diffOutput = filterOutPatchFile(diffOutput, skill.name);
+          // Filter out local control files from the diff
+          diffOutput = filterOutControlFiles(diffOutput);
 
           if (diffOutput.trim() === "") {
             const patchPath = path.join(skill.dir, "local.patch");
@@ -272,13 +300,13 @@ function escapeRegExp(str: string): string {
 }
 
 /**
- * Filter out diff hunks that only relate to the local.patch file itself.
+ * Filter out diff hunks that only relate to local control files.
  */
-function filterOutPatchFile(diffOutput: string, skillName: string): string {
+function filterOutControlFiles(diffOutput: string): string {
   // Split diff into per-file sections (each starts with "diff -ruN")
   const sections = diffOutput.split(/(?=^diff -ruN )/m);
   const filtered = sections.filter((section) => {
-    return !section.includes(`local.patch`);
+    return !section.includes("local.patch") && !section.includes("local.remove");
   });
   return filtered.join("");
 }
