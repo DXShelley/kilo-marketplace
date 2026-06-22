@@ -5,7 +5,7 @@ description: Control Gmail, Google Calendar, Docs, Sheets, Slides, Chat, Forms, 
 author: taylorwilsdon
 url: https://github.com/taylorwilsdon/google_workspace_mcp
 tags:
-  - google-drive
+  - productivity
   - automation
   - api-integration
 prerequisites:

@@ -190,7 +190,7 @@ items:
     url: https://github.com/axiomhq/mcp-server-axiom
     tags:
       - database-management
-      - sql
+      - application-monitoring
       - data-analysis
     content:
       - name: Go Binary
@@ -955,7 +955,7 @@ items:
     author: modelcontextprotocol
     url: https://github.com/modelcontextprotocol/servers-archived/tree/main/src/gdrive
     tags:
-      - google-drive
+      - document-management
       - file-management
       - file-search
     prerequisites:
@@ -1261,7 +1261,7 @@ items:
     author: taylorwilsdon
     url: https://github.com/taylorwilsdon/google_workspace_mcp
     tags:
-      - google-drive
+      - productivity
       - automation
       - api-integration
     prerequisites:
@@ -1990,7 +1990,7 @@ items:
     tags:
       - postgresql
       - sql
-      - database-management
+      - database
     content:
       - name: NPX
         prerequisites:

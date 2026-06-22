@@ -6,7 +6,7 @@ author: axiomhq
 url: https://github.com/axiomhq/mcp-server-axiom
 tags:
   - database-management
-  - sql
+  - application-monitoring
   - data-analysis
 content:
   - name: Go Binary
