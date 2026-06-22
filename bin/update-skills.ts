@@ -35,6 +35,10 @@ interface SkillInfo {
   frontmatter: Record<string, any>;
 }
 
+function ensureFinalNewline(content: string): string {
+  return content.replace(/(?:\r?\n)+$/, "") + "\n";
+}
+
 /**
  * Collect all skills that have a metadata.source field.
  * Optionally filter to only the given skill names.
@@ -251,7 +255,9 @@ function updateFromRepo(repoUrl: string, skills: SkillInfo[]): void {
         ...(skill.source.license_path && { license_path: skill.source.license_path }),
       };
 
-      const updatedContent = matter.stringify(body, newFrontmatter);
+      const updatedContent = ensureFinalNewline(
+        matter.stringify(body, newFrontmatter),
+      );
       fs.writeFileSync(newSkillMdPath, updatedContent);
 
       // Copy LICENSE from the configured license_path (repo-root-relative) if it exists

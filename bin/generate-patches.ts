@@ -36,6 +36,10 @@ interface SkillInfo {
   frontmatter: Record<string, any>;
 }
 
+function ensureFinalNewline(content: string): string {
+  return content.replace(/(?:\r?\n)+$/, "") + "\n";
+}
+
 /**
  * Collect all skills that have a metadata.source field.
  */
@@ -114,7 +118,7 @@ function normalizeUpstreamSkillMd(
     }),
   };
 
-  return matter.stringify(body, fm);
+  return ensureFinalNewline(matter.stringify(body, fm));
 }
 
 /**
