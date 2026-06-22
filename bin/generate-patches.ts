@@ -95,7 +95,7 @@ function groupByRepo(skills: SkillInfo[]): Map<string, SkillInfo[]> {
 /**
  * Normalize upstream SKILL.md the same way update-skills.ts does:
  * - Ensure metadata object exists
- * - Preserve category from local frontmatter if upstream doesn't set one
+ * - Preserve marketplace-owned metadata from local frontmatter
  * - Inject source info
  */
 function normalizeUpstreamSkillMd(
@@ -108,6 +108,9 @@ function normalizeUpstreamSkillMd(
 
   if (!fm.metadata.category && skill.frontmatter?.metadata?.category) {
     fm.metadata.category = skill.frontmatter.metadata.category;
+  }
+  if (skill.frontmatter?.metadata?.suggest_for) {
+    fm.metadata.suggest_for = skill.frontmatter.metadata.suggest_for;
   }
 
   fm.metadata.source = {

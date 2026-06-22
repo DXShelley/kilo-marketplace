@@ -7,6 +7,15 @@ description: >-
   shadcn/ui components - not for simple single-file HTML/JSX artifacts.
 license: Complete terms in LICENSE.txt
 metadata:
+  suggest_for:
+    extension:
+      - "*.html"
+      - "*.css"
+      - "*.scss"
+      - "*.js"
+      - "*.jsx"
+      - "*.ts"
+      - "*.tsx"
   category: development
   source:
     repository: 'https://github.com/ComposioHQ/awesome-claude-skills'

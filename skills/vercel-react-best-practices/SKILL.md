@@ -8,6 +8,10 @@ description: >-
   or performance improvements.
 license: MIT
 metadata:
+  suggest_for:
+    extension:
+      - "*.jsx"
+      - "*.tsx"
   author: vercel
   version: 1.0.0
   category: development

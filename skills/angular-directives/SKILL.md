@@ -9,6 +9,10 @@ description: >-
   Note - use native @if/@for/@switch for control flow, not custom structural
   directives.
 metadata:
+  suggest_for:
+    extension:
+      - "*.ts"
+      - "*.html"
   category: development
   source:
     repository: 'https://github.com/analogjs/angular-skills'

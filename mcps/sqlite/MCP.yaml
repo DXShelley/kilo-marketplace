@@ -2,6 +2,13 @@ id: sqlite
 name: SQLite
 description: Provides database interaction and business intelligence capabilities through SQLite, enabling SQL queries,
   data analysis, and automated business insight generation.
+suggest_for:
+  extension:
+    - "*.sql"
+    - "*.sqlite"
+    - "*.sqlite3"
+    - "*.db"
+    - "*.db3"
 author: modelcontextprotocol
 url: https://github.com/modelcontextprotocol/servers-archived/tree/main/src/sqlite
 tags:

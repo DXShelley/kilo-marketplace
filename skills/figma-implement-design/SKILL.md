@@ -7,6 +7,19 @@ description: >-
   Figma URLs, or asks to build components matching Figma specs. For Figma canvas
   writes via `use_figma`, use `figma-use`.
 metadata:
+  suggest_for:
+    extension:
+      - "*.html"
+      - "*.css"
+      - "*.scss"
+      - "*.sass"
+      - "*.less"
+      - "*.js"
+      - "*.jsx"
+      - "*.ts"
+      - "*.tsx"
+      - "*.vue"
+      - "*.svelte"
   category: development
   source:
     repository: 'https://github.com/openai/skills'
