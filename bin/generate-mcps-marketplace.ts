@@ -49,10 +49,7 @@ const items = fs
     console.log(`Added: ${mcp.name}`);
     return marketplaceMcp;
   })
-  .sort((a, b) => {
-    const categoryComparison = a.category.localeCompare(b.category);
-    return categoryComparison !== 0 ? categoryComparison : a.id.localeCompare(b.id);
-  });
+  .sort((a, b) => a.id.localeCompare(b.id));
 
 const categoryCounts = new Map<string, number>();
 for (const item of items) {
