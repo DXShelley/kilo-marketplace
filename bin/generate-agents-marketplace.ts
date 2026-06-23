@@ -9,6 +9,7 @@ import * as fs from "fs";
 import * as path from "path";
 import matter from "gray-matter";
 import {
+  AGENT_CATEGORIES,
   buildCategorySummary,
   generateMarketplace,
   repoPathFromBin,
@@ -18,16 +19,6 @@ import {
 const agentsDir = repoPathFromBin("agents");
 
 const AGENT_MODES = new Set(["primary", "subagent", "all"]);
-const AGENT_CATEGORIES = new Set([
-  "business",
-  "creative-media",
-  "data",
-  "development",
-  "observability",
-  "productivity",
-  "search",
-  "web-automation",
-]);
 const AGENT_CONFIG_KEYS = ["model", "variant", "temperature", "top_p", "permission", "color", "steps", "hidden"];
 const MARKETPLACE_KEYS = ["author", "authorUrl", "prerequisites"];
 

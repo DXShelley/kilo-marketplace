@@ -11,21 +11,12 @@ import * as yaml from "yaml";
 import {
   buildCategorySummary,
   generateMarketplace,
+  MARKETPLACE_CATEGORIES,
   repoPathFromBin,
   validateSuggestFor,
 } from "./marketplace-generator-utils.ts";
 
 const mcpsDir = repoPathFromBin("mcps");
-
-const categories = new Set([
-  "business",
-  "data",
-  "development",
-  "observability",
-  "productivity",
-  "search",
-  "web-automation",
-]);
 
 generateMarketplace({
   rootDir: mcpsDir,
@@ -33,7 +24,7 @@ generateMarketplace({
     const content = fs.readFileSync(path.join(mcpsDir, dirName, "MCP.yaml"), "utf-8");
     const mcp = yaml.parse(content);
 
-    if (!categories.has(mcp.category)) {
+    if (!MARKETPLACE_CATEGORIES.has(mcp.category)) {
       throw new Error(`${dirName}/MCP.yaml: invalid category "${mcp.category}"`);
     }
     if (mcp.tags !== undefined) {

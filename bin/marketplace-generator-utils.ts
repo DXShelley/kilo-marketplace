@@ -23,6 +23,21 @@ type GenerateMarketplaceOptions<T> = {
   finalMessage: (count: number) => string;
 };
 
+export const MARKETPLACE_CATEGORIES = new Set([
+  "business",
+  "data",
+  "development",
+  "observability",
+  "productivity",
+  "search",
+  "web-automation",
+]);
+
+export const AGENT_CATEGORIES = new Set([
+  ...MARKETPLACE_CATEGORIES,
+  "creative-media",
+]);
+
 export function repoPathFromBin(...segments: string[]): string {
   return path.join(BIN_DIR, "..", ...segments);
 }
