@@ -882,6 +882,9 @@ items:
     description: The Firebase MCP server allows AI-powered development tools to work with your Firebase projects. It can
       create and manage Firebase projects, manage Authentication users, work with data in Cloud Firestore and Data
       Connect, retrieve schemas, understand security rules, and send messages with Cloud Messaging.
+    suggest_for:
+      extension:
+        - "*.rules"
     author: firebase
     url: https://firebase.google.com/docs/cli/mcp-server
     category: data
@@ -1274,6 +1277,10 @@ items:
   - id: ida-pro
     name: IDA Pro
     description: An MCP server for interacting with the IDA Pro disassembler.
+    suggest_for:
+      extension:
+        - "*.idb"
+        - "*.i64"
     author: mrexodia
     url: https://github.com/mrexodia/ida-pro-mcp
     category: development
@@ -1294,6 +1301,9 @@ items:
     description: Connects Kilo to JupyterLab through the built-in MCP server used by Jupyter AI, an incubating JupyterLab
       project. Provides tools to inspect, create, edit, and execute notebooks and cells in a running local Jupyter
       server.
+    suggest_for:
+      extension:
+        - "*.ipynb"
     author: jupyter-ai-contrib
     url: https://github.com/jupyter-ai-contrib/jupyter-server-mcp
     category: data
@@ -1540,6 +1550,9 @@ items:
     name: MotherDuck
     description: Enables database operations with MotherDuck and local DuckDB, providing tools for connection
       initialization, schema reading, and query execution.
+    suggest_for:
+      extension:
+        - "*.duckdb"
     author: motherduckdb
     url: https://github.com/motherduckdb/mcp-server-motherduck
     category: data
@@ -1562,10 +1575,6 @@ items:
             "command": "uvx",
             "args": ["mcp-server-motherduck", "--db-path", "{{DB_PATH}}"]
           }
-        parameters:
-          - name: Database Path
-            key: DB_PATH
-            placeholder: /path/to/your/local.db
       - name: UVX with In-Memory Database
         prerequisites:
           - Python
@@ -1574,15 +1583,6 @@ items:
           {
             "command": "uvx",
             "args": ["mcp-server-motherduck", "--db-path", ":memory:"]
-          }
-      - name: UVX with Read-Only Mode
-        prerequisites:
-          - Python
-          - uv
-        content: |
-          {
-            "command": "uvx",
-            "args": ["mcp-server-motherduck", "--db-path", "{{DB_PATH}}", "--read-only"]
           }
       - name: UVX with SaaS Mode
         prerequisites:
@@ -1594,6 +1594,9 @@ items:
             "args": ["mcp-server-motherduck", "--db-path", "md:", "--motherduck-token", "{{MOTHERDUCK_TOKEN}}", "--saas-mode"]
           }
     parameters:
+      - name: Database Path
+        key: DB_PATH
+        placeholder: /path/to/your/local.db
       - name: MotherDuck Token
         key: MOTHERDUCK_TOKEN
         placeholder: your_motherduck_token_here

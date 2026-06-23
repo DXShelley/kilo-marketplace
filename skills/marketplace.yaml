@@ -110,6 +110,10 @@ items:
       Triggers on component creation, refactoring class-based inputs to signals, adding host bindings, or implementing
       accessible interactive components.
     category: development
+    suggest_for:
+      extension:
+        - "*.component.ts"
+        - "*.component.html"
     githubUrl: https://github.com/Kilo-Org/kilo-marketplace/tree/main/skills/angular-component
     rawUrl: https://raw.githubusercontent.com/Kilo-Org/kilo-marketplace/main/skills/angular-component/SKILL.md
     content: https://github.com/Kilo-Org/kilo-marketplace/releases/download/skills-latest/angular-component.tar.gz
@@ -130,6 +134,9 @@ items:
       composition. Triggers on creating reusable DOM behaviors, extending element functionality, or composing behaviors
       across components. Note - use native @if/@for/@switch for control flow, not custom structural directives.
     category: development
+    suggest_for:
+      extension:
+        - "*.directive.ts"
     githubUrl: https://github.com/Kilo-Org/kilo-marketplace/tree/main/skills/angular-directives
     rawUrl: https://raw.githubusercontent.com/Kilo-Org/kilo-marketplace/main/skills/angular-directives/SKILL.md
     content: https://github.com/Kilo-Org/kilo-marketplace/releases/download/skills-latest/angular-directives.tar.gz

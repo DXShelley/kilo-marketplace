@@ -24,6 +24,28 @@ const categories = new Set([
   "web-automation",
 ]);
 
+function validateSuggestFor(value: unknown, mcpId: string): void {
+  if (value === undefined) return;
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error(`${mcpId}: suggest_for must be an object`);
+  }
+
+  const extensions = (value as { extension?: unknown }).extension;
+  if (
+    !Array.isArray(extensions) ||
+    extensions.length === 0 ||
+    !extensions.every(
+      (extension) =>
+        typeof extension === "string" &&
+        /^\*\.[A-Za-z0-9]+(?:\.[A-Za-z0-9]+)*$/.test(extension),
+    )
+  ) {
+    throw new Error(
+      `${mcpId}: suggest_for.extension must be a non-empty list of patterns like "*.ipynb"`,
+    );
+  }
+}
+
 const items = fs
   .readdirSync(mcpsDir, { withFileTypes: true })
   .filter((d) => d.isDirectory() && !d.name.startsWith("."))
@@ -37,6 +59,7 @@ const items = fs
     if (mcp.tags !== undefined) {
       throw new Error(`${dir.name}/MCP.yaml: use category instead of tags`);
     }
+    validateSuggestFor(mcp.suggest_for, mcp.id || dir.name);
 
     const marketplaceMcp = {} as typeof mcp;
     for (const [key, value] of Object.entries(mcp)) {

@@ -245,13 +245,20 @@ function updateFromRepo(repoUrl: string, skills: SkillInfo[]): void {
         newFrontmatter.metadata = {};
       }
 
-      // Preserve category from our local frontmatter if upstream doesn't set one
+      // Preserve marketplace-owned metadata from our local frontmatter
       if (
         !newFrontmatter.metadata.category &&
         skill.frontmatter?.metadata?.category
       ) {
         newFrontmatter.metadata.category =
           skill.frontmatter.metadata.category;
+      }
+      if (
+        !newFrontmatter.metadata.suggest_for &&
+        skill.frontmatter?.metadata?.suggest_for
+      ) {
+        newFrontmatter.metadata.suggest_for =
+          skill.frontmatter.metadata.suggest_for;
       }
 
       // Re-inject source info (upstream won't have this)
