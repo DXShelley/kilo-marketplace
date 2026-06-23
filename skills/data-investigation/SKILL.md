@@ -196,5 +196,4 @@ Every completed investigation should leave behind:
 
 ## Related Skills
 
-- Use `mailing-list-sql` when the output is a user selection query for marketing or outreach.
 - Use `answering-natural-language-questions-with-dbt` when the goal is answering a business question rather than debugging why analysis or metrics disagree.
