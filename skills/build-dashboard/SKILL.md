@@ -1,13 +1,16 @@
 ---
 name: build-dashboard
-description: Build an interactive HTML dashboard with charts, filters, and tables. Use when creating an executive overview with KPI cards, turning query results into a shareable self-contained report, building a team monitoring snapshot, or needing multiple charts with filters in one browser-openable file.
-argument-hint: "<description> [data source]"
-license: MIT
+description: >-
+  Build an interactive HTML dashboard with charts, filters, and tables. Use when
+  creating an executive overview with KPI cards, turning query results into a
+  shareable self-contained report, building a team monitoring snapshot, or
+  needing multiple charts with filters in one browser-openable file.
+argument-hint: '<description> [data source]'
 metadata:
-  category: development
+  category: unknown
   source:
-    repository: https://github.com/anthropics/knowledge-work-plugins
-    path: build-dashboard
+    repository: 'https://github.com/anthropics/knowledge-work-plugins'
+    path: data/skills/build-dashboard
 ---
 
 # /build-dashboard - Build Interactive Dashboards

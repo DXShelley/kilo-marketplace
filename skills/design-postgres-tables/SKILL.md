@@ -1,12 +1,39 @@
 ---
-name: postgresql-table-design
-description: Use this skill when designing or reviewing a PostgreSQL-specific schema. Covers best-practices, data types, indexing, constraints, performance patterns, and advanced features
-license: MIT
+name: design-postgres-tables
+description: >
+  Use this skill for general PostgreSQL table design.
+
+
+  **Trigger when user asks to:**
+
+  - Design PostgreSQL tables, schemas, or data models when creating new tables
+  and when modifying existing ones.
+
+  - Choose data types, constraints, or indexes for PostgreSQL
+
+  - Create user tables, order tables, reference tables, or JSONB schemas
+
+  - Understand PostgreSQL best practices for normalization, constraints, or
+  indexing
+
+  - Design update-heavy, upsert-heavy, or OLTP-style tables
+
+
+
+  **Keywords:** PostgreSQL schema, table design, data types, PRIMARY KEY,
+  FOREIGN KEY, indexes, B-tree, GIN, JSONB, constraints, normalization, identity
+  columns, partitioning, row-level security
+
+
+  Comprehensive reference covering data types, indexing strategies, constraints,
+  JSONB patterns, partitioning, and PostgreSQL-specific best practices.
+license: Apache-2.0
 metadata:
-  category: development
+  author: tigerdata
+  category: unknown
   source:
-    repository: https://github.com/timescale/pg-aiguide
-    path: design-postgres-tables
+    repository: 'https://github.com/timescale/pg-aiguide'
+    path: skills/design-postgres-tables
 ---
 
 # PostgreSQL Table Design
@@ -42,7 +69,7 @@ metadata:
 - **Arrays**: `TEXT[]`, `INTEGER[]`, etc. Use for ordered lists where you query elements. Index with **GIN** for containment (`@>`, `<@`) and overlap (`&&`) queries. Access: `arr[1]` (1-indexed), `arr[1:3]` (slicing). Good for tags, categories; avoid for relations—use junction tables instead. Literal syntax: `'{val1,val2}'` or `ARRAY[val1,val2]`.
 - **Range types**: `daterange`, `numrange`, `tstzrange` for intervals. Support overlap (`&&`), containment (`@>`), operators. Index with **GiST**. Good for scheduling, versioning, numeric ranges. Pick a bounds scheme and use it consistently; prefer `[)` (inclusive/exclusive) by default.
 - **Network types**: `INET` for IP addresses, `CIDR` for network ranges, `MACADDR` for MAC addresses. Support network operators (`<<`, `>>`, `&&`).
-- **Geometric types**: `POINT`, `LINE`, `POLYGON`, `CIRCLE` for 2D spatial data. Index with **GiST**. Consider **PostGIS** for advanced spatial features.
+- **Geometric types**: avoid `POINT`, `LINE`, `POLYGON`, `CIRCLE`. Index with **GiST**. Consider **PostGIS** for spatial features.
 - **Text search**: `TSVECTOR` for full-text search documents, `TSQUERY` for search queries. Index `tsvector` with **GIN**. Always specify language: `to_tsvector('english', col)` and `to_tsquery('english', 'query')`. Never use single-argument versions. This applies to both index expressions and queries.
 - **Domain types**: `CREATE DOMAIN email AS TEXT CHECK (VALUE ~ '^[^@]+@[^@]+$')` for reusable custom types with validation. Enforces constraints across tables.
 - **Composite types**: `CREATE TYPE address AS (street TEXT, city TEXT, zip TEXT)` for structured data within columns. Access with `(col).field` syntax.
@@ -57,6 +84,7 @@ metadata:
 - DO NOT use `timetz` type; DO use `timestamptz` instead.
 - DO NOT use `timestamptz(0)` or any other precision specification; DO use `timestamptz` instead
 - DO NOT use `serial` type; DO use `generated always as identity` instead.
+- DO NOT use `POINT`, `LINE`, `POLYGON`, `CIRCLE` built-in types, DO use `geometry` from postgis extension instead.
 
 ## Table Types
 

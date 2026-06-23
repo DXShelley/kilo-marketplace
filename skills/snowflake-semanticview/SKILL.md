@@ -1,12 +1,16 @@
 ---
 name: snowflake-semanticview
-description: Create, alter, and validate Snowflake semantic views using Snowflake CLI (snow). Use when asked to build or troubleshoot semantic views/semantic layer definitions with CREATE/ALTER SEMANTIC VIEW, to validate semantic-view DDL against Snowflake via CLI, or to guide Snowflake CLI installation and connection setup.
-license: MIT
+description: >-
+  Create, alter, and validate Snowflake semantic views using Snowflake CLI
+  (snow). Use when asked to build or troubleshoot semantic views/semantic layer
+  definitions with CREATE/ALTER SEMANTIC VIEW, to validate semantic-view DDL
+  against Snowflake via CLI, or to guide Snowflake CLI installation and
+  connection setup.
 metadata:
-  category: development
+  category: unknown
   source:
-    repository: https://github.com/github/awesome-copilot
-    path: snowflake-semanticview
+    repository: 'https://github.com/github/awesome-copilot'
+    path: skills/snowflake-semanticview
 ---
 
 # Snowflake Semantic Views

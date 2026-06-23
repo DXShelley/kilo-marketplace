@@ -1,11 +1,12 @@
 ---
 name: data-analysis-jupyter
-description: Expert guidance for data analysis, visualization, and Jupyter Notebook development with pandas, matplotlib, seaborn, and numpy.
-license: MIT
+description: >-
+  Expert guidance for data analysis, visualization, and Jupyter Notebook
+  development with pandas, matplotlib, seaborn, and numpy.
 metadata:
-  category: development
+  category: unknown
   source:
-    repository: https://github.com/mindrally/skills
+    repository: 'https://github.com/mindrally/skills'
     path: data-analysis-jupyter
 ---
 

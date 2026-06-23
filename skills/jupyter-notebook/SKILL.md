@@ -1,12 +1,15 @@
 ---
-name: "jupyter-notebook"
-description: "Use when the user asks to create, scaffold, or edit Jupyter notebooks (`.ipynb`) for experiments, explorations, or tutorials; prefer the bundled templates and run the helper script `new_notebook.py` to generate a clean starting notebook."
-license: Complete terms in LICENSE.txt
+name: jupyter-notebook
+description: >-
+  Use when the user asks to create, scaffold, or edit Jupyter notebooks
+  (`.ipynb`) for experiments, explorations, or tutorials; prefer the bundled
+  templates and run the helper script `new_notebook.py` to generate a clean
+  starting notebook.
 metadata:
-  category: development
+  category: unknown
   source:
-    repository: https://github.com/openai/skills
-    path: jupyter-notebook
+    repository: 'https://github.com/openai/skills'
+    path: skills/.curated/jupyter-notebook
 ---
 
 

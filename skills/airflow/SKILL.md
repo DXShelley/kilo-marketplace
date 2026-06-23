@@ -1,12 +1,21 @@
 ---
 name: airflow
-description: Queries, manages, and troubleshoots Apache Airflow using the af CLI. Covers listing DAGs, triggering runs, reading task logs, diagnosing failures, debugging DAG import errors, checking connections, variables, pools, and monitoring health. Also routes to sub-skills for writing DAGs, debugging, deploying, and migrating Airflow 2 to 3. Use when user mentions "Airflow", "DAG", "DAG run", "task log", "import error", "parse error", "broken DAG", or asks to "trigger a pipeline", "debug import errors", "check Airflow health", "list connections", "retry a run", or any Airflow operation. Do NOT use for warehouse/SQL analytics on Airflow metadata tables — use analyzing-data instead.
-license: MIT
+description: >-
+  Queries, manages, and troubleshoots Apache Airflow using the af CLI. Covers
+  listing DAGs, triggering runs, reading task logs, diagnosing failures,
+  debugging DAG import errors, checking connections, variables, pools, and
+  monitoring health. Also routes to sub-skills for writing DAGs, debugging,
+  deploying, and migrating Airflow 2 to 3. Use when user mentions "Airflow",
+  "DAG", "DAG run", "task log", "import error", "parse error", "broken DAG", or
+  asks to "trigger a pipeline", "debug import errors", "check Airflow health",
+  "list connections", "retry a run", or any Airflow operation. Do NOT use for
+  warehouse/SQL analytics on Airflow metadata tables — use analyzing-data
+  instead.
 metadata:
-  category: development
+  category: unknown
   source:
-    repository: https://github.com/astronomer/agents
-    path: airflow
+    repository: 'https://github.com/astronomer/agents'
+    path: skills/airflow
 ---
 
 # Airflow Operations
