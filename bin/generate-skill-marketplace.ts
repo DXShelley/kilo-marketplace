@@ -10,10 +10,9 @@ import * as path from "path";
 import matter from "gray-matter";
 import {
   foldedScalar,
-  listVisibleDirectories,
+  generateMarketplace,
   repoPathFromBin,
   validateSuggestFor,
-  writeMarketplaceYaml,
 } from "./marketplace-generator-utils.ts";
 
 const skillsDir = repoPathFromBin("skills");
@@ -25,8 +24,9 @@ const RAW_BASE_URL =
 const CONTENT_BASE_URL =
   "https://github.com/Kilo-Org/kilo-marketplace/releases/download/skills-latest";
 
-const items = listVisibleDirectories(skillsDir)
-  .map((dirName) => {
+generateMarketplace({
+  rootDir: skillsDir,
+  parseItem: (dirName) => {
     const { data } = matter(
       fs.readFileSync(path.join(skillsDir, dirName, "SKILL.md"), "utf-8"),
     );
@@ -43,12 +43,10 @@ const items = listVisibleDirectories(skillsDir)
       rawUrl: `${RAW_BASE_URL}/${dirName}/SKILL.md`,
       content: `${CONTENT_BASE_URL}/${dirName}.tar.gz`,
     };
-  })
-  .sort((a, b) => {
+  },
+  sortItems: (a, b) => {
     const catCmp = (a.category || "zzz").localeCompare(b.category || "zzz");
     return catCmp !== 0 ? catCmp : a.id.localeCompare(b.id);
-  });
-
-writeMarketplaceYaml(path.join(skillsDir, "marketplace.yaml"), items);
-
-console.log(`\nGenerated marketplace.yaml with ${items.length} skills`);
+  },
+  finalMessage: (count) => `\nGenerated marketplace.yaml with ${count} skills`,
+});

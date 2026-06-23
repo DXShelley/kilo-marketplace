@@ -14,6 +14,15 @@ type SuggestForOptions = {
   filenameExample: string;
 };
 
+type GenerateMarketplaceOptions<T> = {
+  rootDir: string;
+  outputFile?: string;
+  parseItem: (dirName: string) => T;
+  sortItems?: (a: T, b: T) => number;
+  header?: (items: T[]) => string | undefined;
+  finalMessage: (count: number) => string;
+};
+
 export function repoPathFromBin(...segments: string[]): string {
   return path.join(BIN_DIR, "..", ...segments);
 }
@@ -33,6 +42,20 @@ export function writeMarketplaceYaml(
   const doc = new Document({ items });
   const yaml = doc.toString({ lineWidth: 120 });
   fs.writeFileSync(outputPath, header ? `${header}\n${yaml}` : yaml);
+}
+
+export function generateMarketplace<T>(options: GenerateMarketplaceOptions<T>): T[] {
+  const items = listVisibleDirectories(options.rootDir).map(options.parseItem);
+  if (options.sortItems) items.sort(options.sortItems);
+
+  writeMarketplaceYaml(
+    path.join(options.rootDir, options.outputFile ?? "marketplace.yaml"),
+    items,
+    options.header?.(items),
+  );
+
+  console.log(options.finalMessage(items.length));
+  return items;
 }
 
 export function buildCategorySummary(

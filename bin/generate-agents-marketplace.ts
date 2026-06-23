@@ -10,10 +10,9 @@ import * as path from "path";
 import matter from "gray-matter";
 import {
   buildCategorySummary,
-  listVisibleDirectories,
+  generateMarketplace,
   repoPathFromBin,
   requireString,
-  writeMarketplaceYaml,
 } from "./marketplace-generator-utils.ts";
 
 const agentsDir = repoPathFromBin("agents");
@@ -123,22 +122,21 @@ function agentFromMarkdown(dirName: string): MarketplaceAgent {
   return agent as MarketplaceAgent;
 }
 
-const items = listVisibleDirectories(agentsDir)
-  .map((dirName) => {
+generateMarketplace({
+  rootDir: agentsDir,
+  parseItem: (dirName) => {
     const agent = agentFromMarkdown(dirName);
     console.log(`Added: ${agent.name}`);
     return agent;
-  })
-  .sort((a, b) => a.id.localeCompare(b.id));
-
-const categorySummary = buildCategorySummary(items, {
-  title: "Agent category usage",
-  resourceNameSingular: "agent",
-  resourceNamePlural: "agents",
-  scriptName: "bin/generate-agents-marketplace.ts",
-  singleCategoryAware: true,
+  },
+  sortItems: (a, b) => a.id.localeCompare(b.id),
+  header: (items) =>
+    buildCategorySummary(items, {
+      title: "Agent category usage",
+      resourceNameSingular: "agent",
+      resourceNamePlural: "agents",
+      scriptName: "bin/generate-agents-marketplace.ts",
+      singleCategoryAware: true,
+    }),
+  finalMessage: (count) => `\nGenerated marketplace.yaml with ${count} agents`,
 });
-
-writeMarketplaceYaml(path.join(agentsDir, "marketplace.yaml"), items, categorySummary);
-
-console.log(`\nGenerated marketplace.yaml with ${items.length} agents`);

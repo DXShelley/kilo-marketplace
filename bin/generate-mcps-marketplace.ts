@@ -10,10 +10,9 @@ import * as path from "path";
 import * as yaml from "yaml";
 import {
   buildCategorySummary,
-  listVisibleDirectories,
+  generateMarketplace,
   repoPathFromBin,
   validateSuggestFor,
-  writeMarketplaceYaml,
 } from "./marketplace-generator-utils.ts";
 
 const mcpsDir = repoPathFromBin("mcps");
@@ -28,8 +27,9 @@ const categories = new Set([
   "web-automation",
 ]);
 
-const items = listVisibleDirectories(mcpsDir)
-  .map((dirName) => {
+generateMarketplace({
+  rootDir: mcpsDir,
+  parseItem: (dirName) => {
     const content = fs.readFileSync(path.join(mcpsDir, dirName, "MCP.yaml"), "utf-8");
     const mcp = yaml.parse(content);
 
@@ -54,16 +54,14 @@ const items = listVisibleDirectories(mcpsDir)
 
     console.log(`Added: ${mcp.name}`);
     return marketplaceMcp;
-  })
-  .sort((a, b) => a.id.localeCompare(b.id));
-
-const categorySummary = buildCategorySummary(items, {
-  title: "MCP category usage",
-  resourceNameSingular: "MCP",
-  resourceNamePlural: "MCPs",
-  scriptName: "bin/generate-mcps-marketplace.ts",
+  },
+  sortItems: (a, b) => a.id.localeCompare(b.id),
+  header: (items) =>
+    buildCategorySummary(items, {
+      title: "MCP category usage",
+      resourceNameSingular: "MCP",
+      resourceNamePlural: "MCPs",
+      scriptName: "bin/generate-mcps-marketplace.ts",
+    }),
+  finalMessage: (count) => `\nGenerated marketplace.yaml with ${count} MCPs`,
 });
-
-writeMarketplaceYaml(path.join(mcpsDir, "marketplace.yaml"), items, categorySummary);
-
-console.log(`\nGenerated marketplace.yaml with ${items.length} MCPs`);
