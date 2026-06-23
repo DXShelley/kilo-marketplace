@@ -1,184 +1,109 @@
 # Kilo Marketplace Review Guidance
 
-Review the complete pull request diff against its base branch. Do not limit a new
-review to files changed by the latest commit. Independently verify existing bot
-findings and inspect every newly added or modified file, including bundled
-resources that are not directly referenced by the diff summary.
+Review the cumulative PR diff against its base, not only the latest commit. Use
+`AGENTS.md` and `CONTRIBUTING.md` as policy. Review every added package file,
+including scripts, hooks, references, assets, templates, notebooks, archives,
+binaries, licenses, and local controls.
 
-Use `AGENTS.md` and `CONTRIBUTING.md` as repository policy. Prefer actionable
-correctness, security, licensing, portability, packaging, and user-impact
-findings over style preferences.
+Reviews are read-only. Never edit, create worktrees, install dependencies,
+regenerate, refresh, patch, package, or run commands that write locally or
+remotely. Use repository content and existing CI/PR evidence. If evidence is
+missing, state what is unverified and give the exact targeted maintainer command
+or CI check.
 
-Reviews are read-only. Never edit files, create worktrees, install dependencies,
-regenerate artifacts, refresh imports, apply patches, package, or run commands
-that write locally or remotely. Use repository content and existing CI. For a
-mutating or unavailable validation, name the missing evidence and exact targeted
-maintainer check.
+## Coverage and sub-agents
 
-## Severity
+Use no sub-agents for trivial docs, formatting, or generated-only changes; use
+1-2 for a focused risk. Use all 6 for multi-package imports or changes combining
+external sources, executable code, and assets. Shard them across:
 
-- **Critical**: credential exposure, code execution, data loss/corruption,
-  materially wrong business results, or unusable primary functionality.
-- **Warning**: broken workflows/examples, missing required metadata, unsafe
-  defaults, portability failures, incomplete packaging, or lost local changes.
-- **Suggestion**: material maintainability, discoverability, or token-efficiency
-  improvement without current breakage.
+1. provenance, licensing, metadata, generated entries, and update behavior;
+2. scripts, hooks, templates, notebooks, archives, and binaries;
+3. packaging, missing resources, links, and installation portability;
+4. domain correctness of formulas, SQL, APIs, versions, and examples;
+5. injection, secrets, subprocesses, network actions, cost, and consent;
+6. activation quality, overlap, progressive disclosure, and token efficiency.
 
-Report only defects with a concrete trigger and impact. Upstream origin does not
-reduce severity because the marketplace distributes the content.
+Sub-agents remain read-only and return path, line, severity, trigger, impact,
+minimal fix, and confidence. The main reviewer verifies and deduplicates them.
 
-## Sub-agent usage
+## New or imported packages
 
-Use 0 sub-agents for formatting-only, generated-output-only, or trivial
-single-file documentation changes, regardless of diff size.
+Verify:
 
-Use 1-2 focused sub-agents when one or two risky areas need independent
-verification, such as an executable script, licensing, an MCP configuration, or
-marketplace generation.
+- A distinct real use case and precise activation description.
+- Directory name, definition ID/name, marketplace ID, and archive name agree.
+- `metadata.source.repository`, source path, attribution, and authorship match
+  the actual canonical public source.
+- Contributed third-party skills have `metadata.source.license_path` as required
+  by `CONTRIBUTING.md`. Elsewhere accept the top-level `license` alternative from
+  `AGENTS.md`; never require both. Verify the license exists upstream and covers
+  every copied file.
+- Categories are intentional, never importer placeholders such as `unknown`.
+  `metadata.suggest_for.extension` contains only distinctive patterns.
+- Every local and sibling-package reference resolves from the installed package
+  with correct case; no promised dependency or resource is absent.
+- Examples are independently correct: imports, syntax, schemas, units, edge
+  cases, current APIs/versions, and semantics of claimed optimizations.
+- Commands do not assume Claude/Codex/plugin layouts, `/mnt/user-data`, an
+  upstream repository root, or an undeclared working directory.
+- Destructive, production-changing, or paid actions require confirmation and
+  safe defaults. Secrets use placeholders/environment variables and never enter
+  commands, tracked files, generated output, or logs.
+- Generated HTML, SQL, shell, and subprocess examples safely handle untrusted
+  input. Archives and binaries are inspected rather than treated as opaque.
 
-Use up to 6 sub-agents for PRs spanning several review domains. Use all 6 when
-a PR imports or refreshes multiple packages, or combines executable code,
-external sources, and packaged assets. File or line count alone is not a reason
-to add sub-agents.
+Use existing tests/CI to assess helpers beyond syntax: meaningful modes, artifact
+schemas, output location, and overwrite behavior. Report missing behavioral
+coverage; do not execute helpers that write.
 
-For a large skill PR, shard the review as follows:
+## Skill quality
 
-1. Provenance and repository integration: source paths, licenses, frontmatter,
-   categories, IDs, generated marketplace entries, and update behavior.
-2. Bundled code and assets: scripts, hooks, templates, notebooks, archives,
-   binaries, dependencies, and end-to-end helper behavior.
-3. Packaging and portability: missing files, broken links, installation-layout
-   assumptions, environment-specific paths, and cross-platform commands.
-4. Domain correctness: independently validate formulas, SQL, API usage, code
-   examples, version claims, and whether "better" examples preserve semantics.
-5. Security and destructive behavior: injection, secret persistence, unsafe
-   subprocesses, downloads, uploads, overwrites, deletion, cost, and consent.
-6. Skill quality: activation scope, overlap, progressive disclosure, token use,
-   duplicated guidance, and whether the skill provides enough value to ship.
+Keep `SKILL.md` focused on activation, decisions, workflow, safety, and
+navigation. Flag always-loaded catalogs or code, generic background, duplication,
+dead or low-value references, broad activation, and overlapping skills without a
+composition rule. Prefer tested scripts/templates for deterministic work, but do
+not reward brevity that omits safety or verification. For batch imports, include
+a concise per-skill quality verdict.
 
-Sub-agents remain read-only and do not comment. They return path, line, severity,
-trigger, impact, remediation, and confidence. The main reviewer verifies and
-deduplicates findings and targets only valid changed lines.
+## Updates and generated output
 
-## New and imported skills
+Treat `local.patch` and `local.remove` as maintained security/correctness
+controls. Never run updater or patch generation in review. Inspect normalization
+and compare intentional local differences with these controls.
 
-Review the whole skill directory, not only `SKILL.md`: scripts, hooks,
-references, resources, assets, examples, templates, notebooks, archives,
-binaries, nested skills, and licenses.
+For affected skills, require maintainer/CI evidence of two stable focused runs:
 
-Verify all of the following:
+- `npx tsx bin/update-skills.ts <skill-name ...>`
+- when patches change, `npx tsx bin/generate-patches.ts <skill-name ...>`
 
-- The skill solves a distinct real use case and its description says when it
-  should activate without matching unrelated work.
-- Directory name, frontmatter `name`, marketplace ID, and archive name agree.
-- `metadata.source.repository` and `metadata.source.path` identify the actual
-  public canonical source. Attribution and author claims match that source.
-- For contributed third-party skills, require `metadata.source.license_path` as
-  specified by `CONTRIBUTING.md`. For other skills, accept top-level `license` as
-  the alternative documented by `AGENTS.md`; never require both. Verify the
-  declared license against upstream and ensure it covers every copied file.
-  `license_path` must be repository-root-relative and exist upstream.
-- Category is intentional and is not the importer placeholder `unknown`.
-- Every referenced sibling skill or file is shipped and resolves with correct
-  case from the installed skill directory.
-- Examples are executable and current. Check imports, syntax, schemas, API and
-  database versions, units, edge cases, and semantic equivalence. Do not assume
-  upstream examples are correct.
-- Commands work in Kilo's installation layout and do not assume Claude, Codex,
-  a plugin repository root, `/mnt/user-data`, or an undeclared working directory.
-- Destructive, production-changing, or paid actions require explicit
-  confirmation and safe defaults. Credentials use placeholders or environment
-  variables and are never committed, embedded in commands, persisted to tracked
-  files, or written to logs.
-- Generated HTML, SQL, shell, and subprocess examples handle untrusted input
-  safely.
-- Bundled files are necessary, non-placeholder, inspectable, and covered by the
-  stated license. Treat archives and binaries as content to inspect, not opaque
-  attachments.
+Without evidence, mark refresh/patch idempotence unverified and request the
+check. Report edits the next refresh will overwrite. Statically inspect failure
+handling, missing source/license, partial replacement, removal paths, symlinks,
+shell interpolation, cleanup, and upstream additions/deletions/renames.
 
-Use test or CI evidence to verify helpers beyond syntax: meaningful modes,
-artifact schemas, output locations, and overwrite behavior. Do not execute
-helpers that write; report missing behavioral coverage.
+Marketplace YAML is derived: review source definitions and generators, not
+unchanged generated churn. Verify deterministic output, unique IDs, valid
+categories, URLs, archive names, and required definition files. For agents check
+permissions/prompt/mode; for MCPs check installation JSON, parameters,
+placeholders, secrets, and category; for release workflows inspect packaged
+files.
 
-## Skill quality and token efficiency
+Use read-only evidence for `skills-ref validate`, repeatable marketplace
+regeneration, updater/patch idempotence, executable-resource tests, structured
+file schema validation, and local/source/license link resolution. CI passing
+alone does not prove examples, formulas, security, licenses, updater behavior,
+or bundled resources correct.
 
-Judge usefulness to a model, not mere comprehensiveness.
+## Findings
 
-- Keep `SKILL.md` focused on activation, decisions, workflow, safety, and
-  navigation; move catalogs and detailed examples to references.
-- Flag always-loaded CSS, JavaScript, API catalogs, or generic background where
-  progressive disclosure preserves behavior.
-- Identify duplication, low-value references, broad activation, dead resources,
-  and overlapping skills without a composition rule.
-- Prefer tested scripts/templates for safer deterministic repeated work.
-- Do not reward brevity that omits safety, correctness, or verification.
+Prioritize concrete defects over style. **Critical** includes credential
+exposure, code execution, data loss/corruption, materially wrong results, or
+unusable primary functionality. **Warning** includes broken workflows/examples,
+unsafe defaults, missing required metadata, portability failures, incomplete
+packaging, or lost local changes.
 
-Include a concise per-skill quality verdict in the review summary for batch
-imports, even when no individual line comment is warranted.
-
-## Updater and local controls
-
-Treat `local.patch` and `local.remove` as maintained correctness and security
-controls, not generated noise.
-
-Never run updater or patch-generation commands in review. Inspect normalization
-and compare local differences with the control files. Look for evidence that a
-maintainer ran `npx tsx bin/update-skills.ts <skill-name ...>` twice in a
-disposable worktree with a clean idempotence result. For patch changes, require
-two stable runs of `npx tsx bin/generate-patches.ts <skill-name ...>`. Otherwise
-mark this unverified and request the targeted check.
-
-Report local edits the next refresh will overwrite. Patch failure, missing source
-or license, and partial replacement must fail clearly. Statically check removal
-paths, symlinks, shell interpolation, cleanup, and upstream additions, deletions,
-renames, or binary changes.
-
-## Marketplace, agents, MCPs, and packaging
-
-Treat `skills/marketplace.yaml`, `agents/marketplace.yaml`, and
-`mcps/marketplace.yaml` as derived files. Fix source definitions or generators,
-not generated YAML. Inspect the item-level semantic delta rather than spending
-review tokens on unchanged generated sections.
-
-Verify deterministic regeneration, unique IDs, valid categories, accurate
-URLs, matching release archive names, and no missing definition files. Keep
-`metadata.suggest_for.extension` limited to distinctive high-confidence
-patterns rather than broad file types.
-
-For agents, verify permissions, prompt behavior, and mode. For MCPs, verify
-installation JSON, parameters, placeholders, secrets handling, and category.
-For release workflows, inspect the actual packaged file set: control files,
-unrelated upstream files, secrets, caches, and opaque assets must not be shipped
-accidentally.
-
-## Validation expectations
-
-Use read-only checks and existing CI/PR evidence. Do not install tools or run
-commands that write. Applicable evidence includes:
-
-- `skills-ref validate` results for every affected skill.
-- Clean, repeatable marketplace regeneration for source or generator changes.
-- Focused updater and patch idempotence for imported or refreshed skills.
-- Syntax and focused behavior tests for executable resources.
-- Schema validation for JSON, YAML, notebooks, manifests, and templates against
-  the format version they declare.
-- Resolution of local resource links and critical external source/license URLs.
-
-For missing evidence, state what is unverified and provide the exact maintainer
-command or CI check. Passing CI does not prove examples, formulas, security,
-licenses, updater behavior, or bundled resources are correct.
-
-## Review output
-
-Order findings by severity. Each finding must state:
-
-- Exact path and changed line
-- Concrete triggering condition
-- User or repository impact
-- Minimal practical correction
-
-Group cross-cutting instances in the summary, but place an inline comment on a
-representative changed line. Avoid duplicate comments, generic best-practice
-advice, speculative redesigns, typo-only findings, and findings that apply only
-to unchanged code. If no actionable findings remain, say so explicitly and list
-the validation performed.
+Each finding needs a changed path/line, trigger, impact, and minimal fix. Group
+cross-cutting instances in the summary and comment on one representative line.
+Deduplicate existing comments. If no issues remain, say so and list the evidence
+reviewed.
