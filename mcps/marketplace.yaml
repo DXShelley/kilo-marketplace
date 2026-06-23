@@ -1575,10 +1575,6 @@ items:
             "command": "uvx",
             "args": ["mcp-server-motherduck", "--db-path", "{{DB_PATH}}"]
           }
-        parameters:
-          - name: Database Path
-            key: DB_PATH
-            placeholder: /path/to/your/local.db
       - name: UVX with In-Memory Database
         prerequisites:
           - Python
@@ -1597,10 +1593,6 @@ items:
             "command": "uvx",
             "args": ["mcp-server-motherduck", "--db-path", "{{DB_PATH}}", "--read-only"]
           }
-        parameters:
-          - name: Database Path
-            key: DB_PATH
-            placeholder: /path/to/your/local.db
       - name: UVX with SaaS Mode
         prerequisites:
           - Python
@@ -1611,6 +1603,9 @@ items:
             "args": ["mcp-server-motherduck", "--db-path", "md:", "--motherduck-token", "{{MOTHERDUCK_TOKEN}}", "--saas-mode"]
           }
     parameters:
+      - name: Database Path
+        key: DB_PATH
+        placeholder: /path/to/your/local.db
       - name: MotherDuck Token
         key: MOTHERDUCK_TOKEN
         placeholder: your_motherduck_token_here
