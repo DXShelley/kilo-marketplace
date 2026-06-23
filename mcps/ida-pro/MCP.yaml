@@ -7,12 +7,7 @@ suggest_for:
     - "*.i64"
 author: mrexodia
 url: https://github.com/mrexodia/ida-pro-mcp
-tags:
-  - ida-pro
-  - reverse-engineering
-  - disassembler
-  - debugging
-  - security
+category: development
 content:
   - name: UVX
     prerequisites:

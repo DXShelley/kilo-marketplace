@@ -8,16 +8,7 @@ suggest_for:
     - "*.rules"
 author: firebase
 url: https://firebase.google.com/docs/cli/mcp-server
-tags:
-  - firebase
-  - gcp
-  - firestore
-  - authentication
-  - cloud-functions
-  - hosting
-  - storage
-  - data-connect
-  - cloud-messaging
+category: data
 content:
   - name: NPX
     prerequisites:

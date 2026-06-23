@@ -7,12 +7,7 @@ suggest_for:
     - "*.duckdb"
 author: motherduckdb
 url: https://github.com/motherduckdb/mcp-server-motherduck
-tags:
-  - duckdb
-  - motherduck
-  - sql
-  - database-management
-  - query-execution
+category: data
 content:
   - name: UVX
     prerequisites:
