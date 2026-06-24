@@ -1,12 +1,30 @@
 ---
-name: "glue-diagnostics"
-description: "Use this skill to investigate and troubleshoot AWS Glue problems by analyzing ETL jobs, crawlers, connections, Data Catalog, DPU utilization, Spark execution, and job bookmarks following structured runbooks. Activate when: job failures, job timeouts, OOM errors, Spark executor or driver crashes, crawler failures, schema detection issues, partition problems, JDBC connection failures, VPC/subnet connectivity, S3 endpoint access, Data Catalog sync issues, schema evolution conflicts, DPU sizing problems, shuffle bottlenecks, data skew, transformation errors, bookmark issues, data quality failures, IAM permission errors, encryption problems, Glue Studio visual editor errors, job generation failures, or the user says something is wrong with Glue without naming specific symptoms."
+name: glue-diagnostics
+description: >
+  Use this skill to investigate and troubleshoot AWS Glue problems by analyzing
+  ETL jobs, crawlers, connections, Data Catalog, DPU utilization, Spark
+  execution, and job bookmarks following structured runbooks. Activate when: job
+  failures, job timeouts, OOM errors, Spark executor or driver crashes, crawler
+  failures, schema detection issues, partition problems, JDBC connection
+  failures, VPC/subnet connectivity, S3 endpoint access, Data Catalog sync
+  issues, schema evolution conflicts, DPU sizing problems, shuffle bottlenecks,
+  data skew, transformation errors, bookmark issues, data quality failures, IAM
+  permission errors, encryption problems, Glue Studio visual editor errors, job
+  generation failures, or the user says something is wrong with Glue without
+  naming specific symptoms.
+compatibility: >
+  Requires AWS CLI or SDK access with Glue, S3, CloudWatch Logs, IAM, EC2 (for
+  VPC/connections), and optionally KMS permissions.
 metadata:
+  upstream:
+    version: 1.0.0
+    last_updated: '2025-04-12'
   category: data
   source:
-    repository: "https://github.com/aws-samples/sample-ai-agent-skills"
-    path: "glue-troubleshooting"
-    license_path: "LICENSE"
+    repository: 'https://github.com/aws-samples/sample-ai-agent-skills'
+    path: glue-troubleshooting
+    license_path: LICENSE
+    commit: 03fd42d6d0a40b6e9c1c35fe5015d53bfde1a789
 ---
 
 # Glue Diagnostics

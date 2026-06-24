@@ -1,12 +1,16 @@
 ---
-name: "databricks-unity-catalog"
-description: "Unity Catalog system tables and volumes. Use when querying system tables (audit, lineage, billing) or working with volume file operations (upload, download, list files in /Volumes/)."
+name: databricks-unity-catalog
+description: >-
+  Unity Catalog system tables and volumes. Use when querying system tables
+  (audit, lineage, billing) or working with volume file operations (upload,
+  download, list files in /Volumes/).
 metadata:
   category: data
   source:
-    repository: "https://github.com/databricks-solutions/ai-dev-kit"
-    path: "databricks-skills/databricks-unity-catalog"
-    license_path: "LICENSE.md"
+    repository: 'https://github.com/databricks-solutions/ai-dev-kit'
+    path: databricks-skills/databricks-unity-catalog
+    license_path: LICENSE.md
+    commit: 1c43c215042804a17fdfd8878a97f3617c8807be
 ---
 
 # Unity Catalog
@@ -102,8 +106,10 @@ mcp__databricks__execute_sql(
 
 ## Related Skills
 
-- **[databricks-core](../databricks-core/SKILL.md)** - for authentication, profiles, and Databricks CLI basics
+- **[databricks-spark-declarative-pipelines](../databricks-spark-declarative-pipelines/SKILL.md)** - for pipelines that write to Unity Catalog tables
 - **[databricks-jobs](../databricks-jobs/SKILL.md)** - for job execution data visible in system tables
+- **[databricks-synthetic-data-gen](../databricks-synthetic-data-gen/SKILL.md)** - for generating data stored in Unity Catalog Volumes
+- **[databricks-aibi-dashboards](../databricks-aibi-dashboards/SKILL.md)** - for building dashboards on top of Unity Catalog data
 
 ## Resources
 

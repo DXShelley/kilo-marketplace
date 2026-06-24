@@ -3,7 +3,7 @@ name: Datalayer Jupyter MCP (Local stdio)
 description: Runs Datalayer's local stdio client to read, edit, and execute Jupyter notebooks and manage kernels; use the separate Jupyter AI entry for its built-in HTTP endpoint.
 author: Datalayer
 url: https://github.com/datalayer/jupyter-mcp-server
-category: productivity
+category: data
 prerequisites:
   - Python and uv
   - JupyterLab with collaboration support and an authentication token

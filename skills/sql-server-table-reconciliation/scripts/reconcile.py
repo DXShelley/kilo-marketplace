@@ -23,7 +23,6 @@ Environment variables for credentials (when --auth sql):
 
 import argparse
 import os
-import re
 import sys
 from getpass import getpass
 
@@ -33,147 +32,39 @@ import pyarrow.compute as pc
 from mssql_python import connect as mssql_connect
 
 
-REGULAR_IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_$#]*$")
-MAX_IDENTIFIER_LENGTH = 128
-
-
-def split_identifier_list(value, delimiter=","):
-    """Split an identifier list without treating delimiters inside brackets as separators."""
-    parts = []
-    current = []
-    in_brackets = False
-    index = 0
-    while index < len(value):
-        char = value[index]
-        if char == "[":
-            if in_brackets:
-                raise ValueError(f"Invalid SQL Server identifier list: {value!r}")
-            in_brackets = True
-            current.append(char)
-        elif char == "]" and in_brackets:
-            if index + 1 < len(value) and value[index + 1] == "]":
-                current.extend(("]", "]"))
-                index += 1
-            else:
-                in_brackets = False
-                current.append(char)
-        elif char == delimiter and not in_brackets:
-            part = "".join(current).strip()
-            if not part:
-                raise ValueError(f"Empty SQL Server identifier in {value!r}")
-            parts.append(part)
-            current = []
-        else:
-            current.append(char)
-        index += 1
-    if in_brackets:
-        raise ValueError(f"Unterminated bracketed SQL Server identifier in {value!r}")
-    part = "".join(current).strip()
-    if not part:
-        raise ValueError(f"Empty SQL Server identifier in {value!r}")
-    parts.append(part)
-    return parts
-
-
-def parse_identifier(value):
-    """Parse one strict regular or bracket-delimited SQL Server identifier."""
-    value = value.strip()
-    if value.startswith("[") and value.endswith("]"):
-        inner = value[1:-1]
-        decoded = []
-        index = 0
-        while index < len(inner):
-            if inner[index] == "]":
-                if index + 1 >= len(inner) or inner[index + 1] != "]":
-                    raise ValueError(f"Invalid closing bracket in identifier {value!r}")
-                decoded.append("]")
-                index += 2
-                continue
-            decoded.append(inner[index])
-            index += 1
-        identifier = "".join(decoded)
-    elif REGULAR_IDENTIFIER_RE.fullmatch(value):
-        identifier = value
-    else:
-        raise ValueError(
-            f"Invalid SQL Server identifier {value!r}; use a regular identifier or [bracketed name]."
-        )
-    if not identifier or len(identifier) > MAX_IDENTIFIER_LENGTH:
-        raise ValueError(f"SQL Server identifier must contain 1-{MAX_IDENTIFIER_LENGTH} characters")
-    if any(ord(char) < 32 for char in identifier):
-        raise ValueError("SQL Server identifiers cannot contain control characters")
-    return identifier
-
-
-def parse_table_spec(value):
-    parts = split_identifier_list(value, delimiter=".")
-    if len(parts) != 2:
-        raise ValueError(f"Table must be exactly schema.table, got {value!r}")
-    table_name = "*" if parts[1].strip() == "*" else parse_identifier(parts[1])
-    return parse_identifier(parts[0]), table_name
-
-
-def parse_column_list(value):
-    return [parse_identifier(part) for part in split_identifier_list(value)]
-
-
-def quote_identifier(identifier):
-    """Quote an already parsed or metadata-sourced SQL Server identifier."""
-    if not isinstance(identifier, str) or not identifier or len(identifier) > MAX_IDENTIFIER_LENGTH:
-        raise ValueError("Invalid SQL Server identifier returned by metadata")
-    if "\x00" in identifier or any(ord(char) < 32 for char in identifier):
-        raise ValueError("SQL Server identifiers cannot contain control characters")
-    return f"[{identifier.replace(']', ']]')}]"
-
-
-def quote_table(table):
-    schema, table_name = table
-    return f"{quote_identifier(schema)}.{quote_identifier(table_name)}"
-
-
-def display_table(table):
-    return quote_table(table)
-
-
-def odbc_value(value):
-    """Brace and escape an ODBC connection-string value."""
-    return "{" + str(value).replace("}", "}}") + "}"
-
-
 # --- Connection Setup ---
-def connect(server, database, auth_mode, user=None, password=None,
-            insecure_trust_server_certificate=False):
-    """Connect using mssql-python with certificate validation by default.
+def connect(server, database, auth_mode, user=None, password=None):
+    """Connect using mssql-python driver.
 
     Reads credentials from env vars or prompts interactively. Never hardcodes."""
-    trust_server_certificate = "yes" if insecure_trust_server_certificate else "no"
     if auth_mode == "sql":
         user = user or os.environ.get("MSSQL_USER") or input("Username: ")
         password = password or os.environ.get("MSSQL_PASSWORD") or getpass("Password: ")
         conn_str = (
-            f"Server={odbc_value(server)};Database={odbc_value(database)};"
-            f"UID={odbc_value(user)};PWD={odbc_value(password)};"
-            f"TrustServerCertificate={trust_server_certificate};Encrypt=yes"
+            f"Server={server};Database={database};"
+            f"UID={user};PWD={password};"
+            f"TrustServerCertificate=yes;Encrypt=yes"
         )
     else:
         # Entra (Azure AD) authentication
         conn_str = (
-            f"Server={odbc_value(server)};Database={odbc_value(database)};"
+            f"Server={server};Database={database};"
             f"Authentication=ActiveDirectoryDefault;"
-            f"TrustServerCertificate={trust_server_certificate};Encrypt=yes"
+            f"TrustServerCertificate=yes;Encrypt=yes"
         )
     return mssql_connect(conn_str)
 
 
 # --- Table Discovery ---
 def resolve_tables(conn, table_spec):
-    """Resolve strict CLI table specs to (schema, table) tuples.
+    """Resolve table spec to list of schema.table names.
 
     Accepts: 'dbo.*', 'dbo.Orders,dbo.Items', or 'dbo.Orders'."""
     tables = []
-    for spec in split_identifier_list(table_spec):
-        schema, table_name = parse_table_spec(spec)
-        if table_name == "*":
+    for spec in table_spec.split(","):
+        spec = spec.strip()
+        schema, tbl = spec.split(".")
+        if tbl == "*":
             query = """
             SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
             WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'
@@ -182,9 +73,9 @@ def resolve_tables(conn, table_spec):
             cur = conn.cursor()
             cur.execute(query, [schema])
             rows = cur.arrow().to_pandas()
-            tables.extend((schema, str(name)) for name in rows["TABLE_NAME"])
+            tables.extend(f"{schema}.{t}" for t in rows["TABLE_NAME"])
         else:
-            tables.append((schema, table_name))
+            tables.append(spec)
     return tables
 
 
@@ -199,7 +90,7 @@ def compare_schema(source_conn, target_conn, table):
       AND TABLE_NAME = ?
     ORDER BY ORDINAL_POSITION
     """
-    schema_name, table_name = table
+    schema_name, table_name = table.split(".")
 
     src_cur = source_conn.cursor()
     src_cur.execute(query, [schema_name, table_name])
@@ -240,7 +131,7 @@ def compare_schema(source_conn, target_conn, table):
 # --- Primary Key Detection ---
 def detect_primary_key(conn, table):
     """Auto-detect PK columns from sys.index_columns."""
-    schema, tbl = table
+    schema, tbl = table.split(".")
     query = """
     SELECT c.name
     FROM sys.indexes i
@@ -260,9 +151,8 @@ def detect_primary_key(conn, table):
 # --- Data Extraction (Arrow) ---
 def extract_table(conn, table, pk_cols, chunk_size=100000):
     """Extract table data as Arrow Table, using Arrow columnar transfer."""
-    del chunk_size  # Reserved for a future batched extraction implementation.
-    pk_order = ", ".join(quote_identifier(column) for column in pk_cols)
-    query = f"SELECT * FROM {quote_table(table)} ORDER BY {pk_order}"
+    pk_order = ", ".join(pk_cols)
+    query = f"SELECT * FROM {table} ORDER BY {pk_order}"
     cur = conn.cursor()
     cur.execute(query)
     return cur.arrow()
@@ -271,12 +161,12 @@ def extract_table(conn, table, pk_cols, chunk_size=100000):
 # --- Hash Pre-check (for large tables) ---
 def extract_hashes(conn, table, pk_cols, compare_cols):
     """Extract PK + row hash for large table optimization."""
-    pk_select = ", ".join(quote_identifier(column) for column in pk_cols)
-    col_concat = ", ".join(quote_identifier(column) for column in compare_cols)
+    pk_select = ", ".join(pk_cols)
+    col_concat = ", ".join(compare_cols)
     query = f"""
     SELECT {pk_select},
            HASHBYTES('SHA2_256', CONCAT_WS('|', {col_concat})) AS row_hash
-    FROM {quote_table(table)}
+    FROM {table}
     ORDER BY {pk_select}
     """
     cur = conn.cursor()
@@ -329,30 +219,15 @@ def reconcile_table(source_conn, target_conn, table, pk_override=None, columns=N
     if not pk_cols:
         pk_cols = detect_primary_key(target_conn, table)
     if not pk_cols:
-        return {"table": display_table(table), "error": "No PK detected", "status": "SKIPPED"}
-
-    missing_pk_cols = [column for column in pk_cols if column not in common_cols]
-    if missing_pk_cols:
-        return {
-            "table": display_table(table),
-            "error": f"PK columns are not common to both tables: {missing_pk_cols}",
-            "status": "SKIPPED",
-        }
+        return {"table": table, "error": "No PK detected", "status": "SKIPPED"}
 
     compare_cols = columns if columns else [c for c in common_cols if c not in pk_cols]
-    missing_compare_cols = [column for column in compare_cols if column not in common_cols]
-    if missing_compare_cols:
-        return {
-            "table": display_table(table),
-            "error": f"Comparison columns are not common to both tables: {missing_compare_cols}",
-            "status": "SKIPPED",
-        }
 
     source_data = extract_table(source_conn, table, pk_cols, chunk_size)
     target_data = extract_table(target_conn, table, pk_cols, chunk_size)
 
     result = reconcile(source_data, target_data, pk_cols, compare_cols)
-    result["table"] = display_table(table)
+    result["table"] = table
     result["schema_drift"] = schema_drift
     result["status"] = (
         "PASS"
@@ -472,62 +347,33 @@ def main():
         default="console",
         help="Output format (default: console)",
     )
-    parser.add_argument(
-        "--insecure-trust-server-certificate",
-        action="store_true",
-        help="Disable SQL Server certificate validation (unsafe; use only for explicitly trusted development servers).",
-    )
     args = parser.parse_args()
 
-    try:
-        pk_override = parse_column_list(args.primary_key) if args.primary_key else None
-        columns = parse_column_list(args.columns) if args.columns else None
-        requested_tables = split_identifier_list(args.tables)
-        for table_spec in requested_tables:
-            parse_table_spec(table_spec)
-    except ValueError as exc:
-        parser.error(str(exc))
+    pk_override = [c.strip() for c in args.primary_key.split(",")] if args.primary_key else None
+    columns = [c.strip() for c in args.columns.split(",")] if args.columns else None
 
     print(f"Connecting to source: {args.source_server}/{args.source_database}")
-    source_conn = connect(
-        args.source_server,
-        args.source_database,
-        args.auth,
-        insecure_trust_server_certificate=args.insecure_trust_server_certificate,
-    )
+    source_conn = connect(args.source_server, args.source_database, args.auth)
 
     print(f"Connecting to target: {args.target_server}/{args.target_database}")
-    try:
-        target_conn = connect(
-            args.target_server,
-            args.target_database,
-            args.auth,
-            insecure_trust_server_certificate=args.insecure_trust_server_certificate,
-        )
-    except Exception:
-        source_conn.close()
-        raise
+    target_conn = connect(args.target_server, args.target_database, args.auth)
 
-    try:
-        tables = resolve_tables(source_conn, args.tables)
-        print(f"Tables to reconcile: {[display_table(table) for table in tables]}")
+    tables = resolve_tables(source_conn, args.tables)
+    print(f"Tables to reconcile: {tables}")
 
-        results = []
-        for table in tables:
-            print(f"Reconciling {display_table(table)}...")
-            results.append(
-                reconcile_table(
-                    source_conn, target_conn, table,
-                    pk_override=pk_override,
-                    columns=columns,
-                    chunk_size=args.chunk_size,
-                )
+    results = []
+    for table in tables:
+        print(f"Reconciling {table}...")
+        results.append(
+            reconcile_table(
+                source_conn, target_conn, table,
+                pk_override=pk_override,
+                columns=columns,
+                chunk_size=args.chunk_size,
             )
+        )
 
-        generate_report(results, output_format=args.output)
-    finally:
-        source_conn.close()
-        target_conn.close()
+    generate_report(results, output_format=args.output)
 
 
 if __name__ == "__main__":

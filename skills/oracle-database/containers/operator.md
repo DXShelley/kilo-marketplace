@@ -8,7 +8,7 @@
 
 - **Registry path:** `container-registry.oracle.com/database/operator`
 - **OCR short description:** This image is part of and for use with the Oracle Database Operator for Kubernetes
-- **Latest pull command shown on OCR:** `docker pull container-registry.oracle.com/database/operator:latest`
+- **Image selection:** Resolve an exact reviewed digest for `container-registry.oracle.com/database/operator` from Oracle Container Registry and pull `container-registry.oracle.com/database/operator@sha256:<reviewed-digest>`. Do not use a moving tag.
 - **License note on OCR:** OCR states that the software in this repository is licensed under the Universal Permissive License (UPL).
 
 ## What Oracle Documents Here

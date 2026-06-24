@@ -1,12 +1,20 @@
 ---
-name: "data-quality-frameworks-sickn33"
-description: "Implement data quality validation with Great Expectations, dbt tests, and data contracts. Use when building data quality pipelines, implementing validation rules, or establishing data contracts."
+name: data-quality-frameworks-sickn33
+description: >-
+  Implement data quality validation with Great Expectations, dbt tests, and data
+  contracts. Use when building data quality pipelines, implementing validation
+  rules, or establishing data contracts.
 metadata:
+  upstream:
+    risk: unknown
+    source: community
+    date_added: '2026-02-27'
   category: data
   source:
-    repository: "https://github.com/sickn33/antigravity-awesome-skills"
-    path: "skills/data-quality-frameworks"
-    license_path: "LICENSE"
+    repository: 'https://github.com/sickn33/antigravity-awesome-skills'
+    path: skills/data-quality-frameworks
+    license_path: LICENSE
+    commit: bdce4fc3ce8899e7c1133204e5825955a7f940da
 ---
 
 # Data Quality Frameworks

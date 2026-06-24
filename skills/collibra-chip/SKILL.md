@@ -1,12 +1,15 @@
 ---
-name: "collibra-chip"
-description: "This skill should be used when a connected Collibra Chip MCP server can provide domain-specific Collibra workflows and references."
+name: collibra-chip
+description: >-
+  This skill should be used when a connected Collibra Chip MCP server can
+  provide domain-specific Collibra workflows and references.
 metadata:
   category: data
   source:
-    repository: "https://github.com/collibra/chip"
-    path: "SKILLS.md"
-    license_path: "LICENSE"
+    repository: 'https://github.com/collibra/chip'
+    path: pkg/skills/files/collibra/index
+    license_path: LICENSE
+    commit: 613bd03a4c8326cf19049d64884b12d9fb8e5b01
 ---
 
 # Collibra Chip MCP Skill Discovery

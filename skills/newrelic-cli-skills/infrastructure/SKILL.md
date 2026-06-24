@@ -2,7 +2,7 @@
 name: "newrelic-cli-infrastructure"
 description: "This subskill should be used when investigating New Relic Infrastructure host CPU, memory, disk, network, process, or capacity metrics with the New Relic CLI and NRQL. Use the parent newrelic-cli-skills skill for setup and routing."
 metadata:
-  category: data
+  category: observability
   source:
     repository: "https://github.com/vince-winkintel/newrelic-cli-skills"
     path: "infrastructure"

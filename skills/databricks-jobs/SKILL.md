@@ -1,12 +1,16 @@
 ---
-name: "databricks-jobs"
-description: "Develop and deploy Lakeflow Jobs on Databricks via DABs, Python SDK, or the CLI. Use when creating data engineering jobs with notebooks, Python wheels, SQL, dbt, or pipelines. Invoke BEFORE starting implementation."
+name: databricks-jobs
+description: >-
+  Develop and deploy Lakeflow Jobs on Databricks via DABs, Python SDK, or the
+  CLI. Use when creating data engineering jobs with notebooks, Python wheels,
+  SQL, dbt, or pipelines. Invoke BEFORE starting implementation.
 metadata:
   category: data
   source:
-    repository: "https://github.com/databricks/databricks-agent-skills"
-    path: "skills/databricks-jobs"
-    license_path: "LICENSE"
+    repository: 'https://github.com/databricks/databricks-agent-skills'
+    path: skills/databricks-jobs
+    license_path: LICENSE
+    commit: 3985599b8efaf0bb155be7e60847a3975bf45331
 ---
 
 # Lakeflow Jobs Development
@@ -34,7 +38,7 @@ databricks bundle init default-python --config-file <(echo '{"project_name": "my
 
 - `project_name`: letters, numbers, underscores only
 
-After scaffolding, create `CLAUDE.md` and `AGENTS.md` in the project directory. These files are essential to provide agents with guidance on how to work with the project. Use this content:
+After scaffolding, create `AGENTS.md` in the project directory to provide agents with project guidance. Use this content:
 
 ```
 # Declarative Automation Bundles Project

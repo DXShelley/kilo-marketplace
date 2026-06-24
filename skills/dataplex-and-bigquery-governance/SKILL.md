@@ -1,12 +1,17 @@
 ---
-name: "dataplex-and-bigquery-governance"
-description: "Guides agents through GCP-native data governance workflows with Dataplex and BigQuery. Use when designing lakes, zones, policy tags, metadata quality, lineage, discovery, and governed publishing across Cloud Storage, BigQuery, Dataflow, Dataproc, and Google Cloud analytics platforms."
+name: dataplex-and-bigquery-governance
+description: >-
+  Guides agents through GCP-native data governance workflows with Dataplex and
+  BigQuery. Use when designing lakes, zones, policy tags, metadata quality,
+  lineage, discovery, and governed publishing across Cloud Storage, BigQuery,
+  Dataflow, Dataproc, and Google Cloud analytics platforms.
 metadata:
   category: data
   source:
-    repository: "https://github.com/vaquarkhan/data-engineering-agent-skills"
-    path: "skills/dataplex-and-bigquery-governance"
-    license_path: "LICENSE"
+    repository: 'https://github.com/vaquarkhan/data-engineering-agent-skills'
+    path: skills/dataplex-and-bigquery-governance
+    license_path: LICENSE
+    commit: 421ef57e8d42c464b29339193c18dd5bd2946bc2
 ---
 
 # Dataplex And BigQuery Governance

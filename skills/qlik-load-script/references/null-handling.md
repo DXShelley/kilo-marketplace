@@ -2,7 +2,7 @@
 
 The canonical reference for script-layer null handling. Covers the null constructors and inspection functions (`Null()`, `IsNull()`, `NullCount()`), the three substitution/cleaning strategies (`vCleanNull` for string-encoded nulls, `NullAsValue` for sparse dimensions, explicit guards for date arithmetic), the key-field NULL phantom-association risk, and a defensive-coding decision framework.
 
-For expression-side null handling, keep chart measures explicit about defaults and division guards rather than relying on script-side substitutions.
+For null handling in **expressions** (chart-side measures, set analysis, division guards), see `qlik-expressions` SKILL.md Section 9.
 
 ---
 
@@ -372,6 +372,6 @@ In this example:
 ## See Also
 
 - `qlik-load-script` SKILL.md Section 6 — inline summary of the three strategies
-- Expression-side measures should document defaults and use explicit null/division guards where needed
+- `qlik-expressions` SKILL.md Section 9 — null handling in expressions (`Alt`, `Coalesce`, `RangeSum`, division guards, documentation requirement)
 - `script-templates/clean-null-function.qvs` — `vCleanNull`, `vCleanDate`, `vCleanNumeric`, `vDualBool` definitions
 - help.qlik.com Cloud — Null function, IsNull function, NullCount function, NullAsValue statement, Null-value handling

@@ -1,12 +1,23 @@
 ---
-name: "splunk-ingest-processor-setup"
-description: "Render Cisco Data Fabric ingest-time routing workflows and Splunk Cloud Platform Ingest Processor setup plans with SPL2 pipelines, source types, destinations, lifecycle handoffs, queue and monitoring searches, metrics, OCSF, decrypt, S3 archive, custom pipeline templates, AI-powered data management readiness, and downstream readiness checks. Use when the user asks to configure Ingest Processor, author Ingest Processor pipelines, route or transform data at ingest time, validate Ingest Processor readiness, or compare Ingest Processor with Edge Processor and Data Manager, including Cisco Data Fabric or telemetry pipeline management requests that involve Splunk Cloud ingest-time routing and transformation."
+name: splunk-ingest-processor-setup
+description: >-
+  Render Cisco Data Fabric ingest-time routing workflows and Splunk Cloud
+  Platform Ingest Processor setup plans with SPL2 pipelines, source types,
+  destinations, lifecycle handoffs, queue and monitoring searches, metrics,
+  OCSF, decrypt, S3 archive, custom pipeline templates, AI-powered data
+  management readiness, and downstream readiness checks. Use when the user asks
+  to configure Ingest Processor, author Ingest Processor pipelines, route or
+  transform data at ingest time, validate Ingest Processor readiness, or compare
+  Ingest Processor with Edge Processor and Data Manager, including Cisco Data
+  Fabric or telemetry pipeline management requests that involve Splunk Cloud
+  ingest-time routing and transformation.
 metadata:
-  category: data
+  category: observability
   source:
-    repository: "https://github.com/chambear2809/splunk-cisco-skills"
-    path: "skills/splunk-ingest-processor-setup"
-    license_path: "LICENSE"
+    repository: 'https://github.com/chambear2809/splunk-cisco-skills'
+    path: skills/splunk-ingest-processor-setup
+    license_path: LICENSE
+    commit: 99b2c778dbeaad84023765d24e1a13f414009f6a
 ---
 
 # Splunk Ingest Processor Setup
@@ -57,7 +68,7 @@ bash skills/splunk-ingest-processor-setup/scripts/validate.sh
 
 ## Outputs
 
-The default output directory is `splunk-ingest-processor-rendered/`. Re-running against an existing generated directory requires `--force`; the renderer refuses unmarked directories and dangerous paths such as the filesystem root, home, repository root, or current working directory.
+The default output directory is `splunk-ingest-processor-rendered/`:
 
 - `readiness-report.md` and `coverage-report.json`.
 - `apply-plan.json` with `ui_handoff` actions only.

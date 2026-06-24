@@ -1,12 +1,18 @@
 ---
-name: "okta-identity-integration-patterns"
-description: "Integrate Okta for enterprise identity workflows including OIDC login, group claims, and policy-based access controls. Use when implementing workforce or B2B identity scenarios."
+name: okta-identity-integration-patterns
+description: >-
+  Integrate Okta for enterprise identity workflows including OIDC login, group
+  claims, and policy-based access controls. Use when implementing workforce or
+  B2B identity scenarios.
 metadata:
-  category: data
+  upstream:
+    disable-model-invocation: true
+  category: development
   source:
-    repository: "https://github.com/vaquarkhan/Fullstack-development-agent-skills"
-    path: "skills/okta-identity-integration-patterns"
-    license_path: "LICENSE"
+    repository: 'https://github.com/vaquarkhan/Fullstack-development-agent-skills'
+    path: skills/okta-identity-integration-patterns
+    license_path: LICENSE
+    commit: fb12d1dea34a790f3ac1ccb66d331877b5dc8bd0
 ---
 
 # Okta Identity Integration Patterns

@@ -1,12 +1,15 @@
 ---
-name: "adbc"
-description: "Connect to and work with databases using Arrow Database Connectivity (ADBC). Use whenever the user needs to use a database."
+name: adbc
+description: >-
+  Connect to and work with databases using Arrow Database Connectivity (ADBC).
+  Use whenever the user needs to use a database.
 metadata:
   category: data
   source:
-    repository: "https://github.com/columnar-tech/skills"
-    path: "skills/adbc"
-    license_path: "LICENSE"
+    repository: 'https://github.com/columnar-tech/skills'
+    path: skills/adbc
+    license_path: LICENSE
+    commit: 8add65001dfb37b423e31124a0749d7879557723
 ---
 
 ## Find a driver for a database

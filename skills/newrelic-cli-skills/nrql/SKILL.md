@@ -2,7 +2,7 @@
 name: "newrelic-cli-nrql"
 description: "This subskill should be used when composing or running ad hoc NRQL queries for New Relic telemetry, facets, time windows, rates, and comparisons. Use newrelic-nrql-debug-ladder instead for failing, empty, or schema-mismatched queries."
 metadata:
-  category: data
+  category: observability
   source:
     repository: "https://github.com/vince-winkintel/newrelic-cli-skills"
     path: "nrql"

@@ -1,12 +1,29 @@
 ---
-name: "hadoop"
-description: "Manage Hadoop clusters with HDFS operations, YARN job tuning, and distributed processing diagnostics."
+name: hadoop
+description: >-
+  Manage Hadoop clusters with HDFS operations, YARN job tuning, and distributed
+  processing diagnostics.
 metadata:
+  clawdbot:
+    emoji: "\U0001F418"
+    requires:
+      bins:
+        - hdfs
+        - yarn
+        - hadoop
+    os:
+      - linux
+      - darwin
+  upstream:
+    slug: hadoop
+    version: 1.0.0
+    homepage: 'https://clawic.com/skills/hadoop'
   category: data
   source:
-    repository: "https://github.com/clawic/skills"
-    path: "skills/hadoop"
-    license_path: "LICENSE"
+    repository: 'https://github.com/clawic/skills'
+    path: skills/hadoop
+    license_path: LICENSE
+    commit: ff40511e7588b7b91d4427b65931f420a7412bb0
 ---
 
 ## Setup

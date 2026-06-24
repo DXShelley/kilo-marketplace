@@ -1,12 +1,22 @@
 ---
-name: "dashboarding"
-description: "This skill should be used when creating, modifying, or organizing Grafana dashboards, including panels, variables, transformations, links, annotations, and dashboard JSON."
+name: dashboarding
+description: >-
+  Create, modify, and organise Grafana dashboards including panels, variables,
+  transformations, and alerting. Use when the user asks to create a Grafana
+  dashboard, add a panel, configure a time series or stat panel, add template
+  variables, set up dashboard linking, use transformations, configure
+  thresholds, build a dashboard for a service, or export dashboard JSON.
+  Triggers on phrases like "create dashboard", "add panel", "time series panel",
+  "Grafana dashboard JSON", "template variables", "dashboard variable", "panel
+  transformation", "threshold", "stat panel", "table panel", "Grafana
+  annotations", or "dashboard folder".
 metadata:
-  category: data
+  category: observability
   source:
-    repository: "https://github.com/grafana/skills"
-    path: "skills/grafana-core/dashboarding"
-    license_path: "LICENSE"
+    repository: 'https://github.com/grafana/skills'
+    path: skills/grafana-core/dashboarding
+    license_path: LICENSE
+    commit: e8424d242290be2ae187a74b5fd854174f0c5411
 ---
 
 # Grafana Dashboard Authoring

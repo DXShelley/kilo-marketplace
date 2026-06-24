@@ -1,6 +1,6 @@
 # Off-Platform Streaming with AI SDK v6
 
-These patterns are for apps deployed **outside** Databricks Apps (e.g., Vercel, AWS, standalone Node.js servers) using direct AI SDK v6 integration with Databricks AI Gateway. For AppKit-based apps, use the serving plugin exposed by the generated app template instead.
+These patterns are for apps deployed **outside** Databricks Apps (e.g., Vercel, AWS, standalone Node.js servers) using direct AI SDK v6 integration with Databricks AI Gateway. For AppKit-based apps, use the **`databricks-apps`** skill's built-in serving plugin instead.
 
 ## AI SDK v6 Streaming Pattern
 

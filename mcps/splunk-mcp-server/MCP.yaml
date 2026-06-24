@@ -5,7 +5,7 @@ author: Splunk
 url: https://splunkbase.splunk.com/app/7931
 category: observability
 prerequisites:
-  - Splunk MCP Server app 1.2.0 installed and configured
+  - Splunk MCP Server app 1.2.0 installed at an HTTPS endpoint owned by the user's Splunk deployment
   - Encrypted MCP token with mcp_tool_execute capability
 content:
   - name: Splunk Instance Remote

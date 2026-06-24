@@ -1,12 +1,18 @@
 ---
-name: "gcp-secret-manager"
-description: "Secure secrets in Google Cloud Secret Manager. Configure IAM policies, integrate with GKE, and manage secret versions. Use when managing secrets in GCP environments."
+name: gcp-secret-manager
+description: >-
+  Secure secrets in Google Cloud Secret Manager. Configure IAM policies,
+  integrate with GKE, and manage secret versions. Use when managing secrets in
+  GCP environments.
 metadata:
-  category: data
+  author: devops-skills
+  version: '1.0'
+  category: development
   source:
-    repository: "https://github.com/BagelHole/DevOps-Security-Agent-Skills"
-    path: "security/secrets/gcp-secret-manager"
-    license_path: "LICENSE"
+    repository: 'https://github.com/BagelHole/DevOps-Security-Agent-Skills'
+    path: security/secrets/gcp-secret-manager
+    license_path: LICENSE
+    commit: 0365f57a079b1332f95cf26e31dd2d5332a8399f
 ---
 
 # GCP Secret Manager
@@ -43,34 +49,19 @@ gcloud services list --enabled --filter="name:secretmanager"
 ## Secret Creation and Management
 
 ```bash
-# Create a secret resource (no value yet)
-SECRET_ID="db-password"
-gcloud secrets create "$SECRET_ID" \
+# Create a secret (creates the secret resource, not the value)
+gcloud secrets create db-password \
   --replication-policy="automatic" \
   --labels="env=production,team=platform"
 
-# Add a value without a literal or secret-bearing command-line argument.
-umask 077
-SECRET_FILE=$(mktemp)
-trap 'rm -f "$SECRET_FILE"' EXIT
-read -r -s -p "Secret value: " SECRET_VALUE
-printf '\n'
-printf '%s' "$SECRET_VALUE" > "$SECRET_FILE"
-unset SECRET_VALUE
-gcloud secrets versions add "$SECRET_ID" --data-file="$SECRET_FILE"
-rm -f "$SECRET_FILE"
-trap - EXIT
+# Add the secret value (first version)
+echo -n "S3cur3P@ssw0rd!" | gcloud secrets versions add db-password --data-file=-
 
-# For a structured value, create a mode-0600 JSON file from a trusted secret
-# provider or masked editor. Use placeholders such as <DB_USER>, <DB_PASSWORD>,
-# and db.example.internal in templates; never commit the populated file.
-CREDENTIALS_FILE=$(mktemp)
-chmod 0600 "$CREDENTIALS_FILE"
-# Populate $CREDENTIALS_FILE securely, then run:
-# gcloud secrets create db-credentials --data-file="$CREDENTIALS_FILE" \
-#   --replication-policy="automatic" \
-#   --labels="env=production,team=platform"
-rm -f "$CREDENTIALS_FILE"
+# Create secret with value in one command
+echo -n '{"username":"dbadmin","password":"S3cur3P@ss!","host":"10.0.1.5","port":5432}' | \
+  gcloud secrets create db-credentials --data-file=- \
+  --replication-policy="automatic" \
+  --labels="env=production,team=platform"
 
 # Create with specific region replication
 gcloud secrets create regional-secret \
@@ -83,17 +74,14 @@ gcloud secrets create sensitive-secret \
   --locations="us-central1" \
   --kms-key-name="projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"
 
-# Access into a mode-0600 file instead of printing the secret to the terminal.
-umask 077
-ACCESS_FILE=$(mktemp)
-trap 'rm -f "$ACCESS_FILE"' EXIT
-gcloud secrets versions access latest --secret="$SECRET_ID" --out-file="$ACCESS_FILE"
-# Pass $ACCESS_FILE directly to the application, then remove it.
-rm -f "$ACCESS_FILE"
-trap - EXIT
+# Access the latest version
+gcloud secrets versions access latest --secret=db-password
 
-# Add a new version (rotation) using the same masked-prompt/temp-file pattern.
-# Do not disable the previous version until consumers pass validation.
+# Access a specific version
+gcloud secrets versions access 3 --secret=db-password
+
+# Add a new version (rotation)
+echo -n "N3wS3cur3P@ss!" | gcloud secrets versions add db-password --data-file=-
 
 # List all secrets
 gcloud secrets list --format="table(name, createTime, labels)"
@@ -101,38 +89,21 @@ gcloud secrets list --format="table(name, createTime, labels)"
 # List versions of a secret
 gcloud secrets versions list db-password --format="table(name, state, createTime)"
 
-# Disable a version only after confirming consumers use the replacement; this is recoverable.
+# Disable a version (makes it inaccessible but recoverable)
 gcloud secrets versions disable 1 --secret=db-password
 
 # Enable a disabled version
 gcloud secrets versions enable 1 --secret=db-password
 
-# PERMANENT version destruction: inspect the exact target and verify that a tested
-# replacement or approved recovery source exists. Destroyed payloads cannot be recovered.
-SECRET_ID="<SECRET_ID>"
-VERSION="<VERSION_NUMBER>"
-gcloud secrets describe "$SECRET_ID"
-gcloud secrets versions describe "$VERSION" --secret="$SECRET_ID"
-read -r -p "Type DESTROY ${SECRET_ID} VERSION ${VERSION}: " CONFIRMATION
-if [ "$CONFIRMATION" = "DESTROY ${SECRET_ID} VERSION ${VERSION}" ]; then
-  gcloud secrets versions destroy "$VERSION" --secret="$SECRET_ID"
-else
-  printf '%s\n' "Aborted; target confirmation did not match."
-fi
+# Destroy a version (permanent)
+gcloud secrets versions destroy 1 --secret=db-password
 
-# ENTIRE-SECRET deletion can remove metadata and all versions. Confirm retention,
-# dependencies, and the tested recovery source; treat deletion as unrecoverable.
-gcloud secrets versions list "$SECRET_ID" --format="table(name,state,createTime)"
-read -r -p "Type DELETE SECRET ${SECRET_ID}: " CONFIRMATION
-if [ "$CONFIRMATION" = "DELETE SECRET ${SECRET_ID}" ]; then
-  gcloud secrets delete "$SECRET_ID"
-else
-  printf '%s\n' "Aborted; target confirmation did not match."
-fi
+# Delete the entire secret
+gcloud secrets delete db-password
 
-# Set an approved future expiration on a secret
+# Set expiration on a secret
 gcloud secrets update db-password \
-  --expire-time="<RFC3339_FUTURE_EXPIRY>"
+  --expire-time="2026-06-01T00:00:00Z"
 
 # Set TTL-based expiration
 gcloud secrets update temp-token \
@@ -397,7 +368,7 @@ func main() {
     if err != nil {
         log.Fatalf("Error: %v", err)
     }
-    fmt.Printf("Secret retrieved (%d bytes); value not logged\n", len(secret))
+    fmt.Printf("Secret: %s\n", secret)
 }
 ```
 
@@ -540,7 +511,7 @@ resource "google_secret_manager_secret_iam_member" "app_accessor" {
 
 ## Related Skills
 
-- [vault-api](../vault-api/SKILL.md) - HashiCorp Vault API workflows
-- [gcp-iam](../gcp-iam/SKILL.md) - Google Cloud IAM and Workload Identity
-- [creating-secrets-using-best-practices](../creating-secrets-using-best-practices/SKILL.md) - provider-neutral secret handling
-- [azure-key-vault](../azure-key-vault/SKILL.md) - Azure secret management
+- [hashicorp-vault](../hashicorp-vault/) - Multi-cloud secrets
+- [gcp-gke](../../../infrastructure/cloud-gcp/gcp-gke/) - GKE integration
+- [aws-secrets-manager](../aws-secrets-manager/) - AWS secret management
+- [azure-keyvault](../azure-keyvault/) - Azure secret management

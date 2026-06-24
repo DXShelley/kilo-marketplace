@@ -1,12 +1,17 @@
 ---
-name: "datarobot-feature-engineering"
-description: "Guidance for feature engineering, feature discovery, feature importance analysis, and understanding DataRobot's automated feature engineering capabilities. Use when working with feature engineering, feature discovery, or analyzing feature importance in DataRobot."
+name: datarobot-feature-engineering
+description: >-
+  Guidance for feature engineering, feature discovery, feature importance
+  analysis, and understanding DataRobot's automated feature engineering
+  capabilities. Use when working with feature engineering, feature discovery, or
+  analyzing feature importance in DataRobot.
 metadata:
   category: data
   source:
-    repository: "https://github.com/datarobot-oss/datarobot-agent-skills"
-    path: "skills/datarobot-feature-engineering"
-    license_path: "LICENSE"
+    repository: 'https://github.com/datarobot-oss/datarobot-agent-skills'
+    path: skills/datarobot-feature-engineering
+    license_path: LICENSE
+    commit: f4b3c29db60e1d735285a6f51328a69a2b500338
 ---
 
 # DataRobot Feature Engineering Skill

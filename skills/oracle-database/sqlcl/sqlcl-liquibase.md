@@ -379,8 +379,10 @@ jobs:
 
       - name: Install SQLcl
         run: |
-          wget -q https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip
-          unzip -q sqlcl-latest.zip -d /opt/sqlcl
+          curl -fsSL "${{ vars.SQLCL_DOWNLOAD_URL }}" -o sqlcl.zip
+          printf '%s  %s\n' "${{ vars.SQLCL_SHA256 }}" sqlcl.zip | sha256sum -c -
+          unzip -l sqlcl.zip
+          unzip -q sqlcl.zip -d /opt/sqlcl
           echo "/opt/sqlcl/sqlcl/bin" >> $GITHUB_PATH
 
       - name: Set up wallet
@@ -407,7 +409,7 @@ jobs:
 ```yaml
 deploy_db:
   stage: deploy
-  image: container-registry.oracle.com/database/sqlcl:latest
+  image: $SQLCL_IMAGE  # Set to container-registry.oracle.com/database/sqlcl@sha256:<reviewed-digest>
   script:
     - cd db
     - |

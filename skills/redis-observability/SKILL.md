@@ -1,12 +1,22 @@
 ---
-name: "redis-observability"
-description: "Redis observability guidance — which metrics to monitor (memory, connections, hit ratio, ops/sec, rejected connections), which built-in commands to reach for during incident triage (SLOWLOG, INFO, MEMORY DOCTOR, CLIENT LIST, FT.PROFILE), and when to use the Redis Insight GUI. Use when setting up monitoring or alerts for a Redis instance, diagnosing a performance regression, profiling a slow FT.SEARCH query, or wiring Redis metrics into Prometheus, Datadog, or similar."
+name: redis-observability
+description: >-
+  Redis observability guidance — which metrics to monitor (memory, connections,
+  hit ratio, ops/sec, rejected connections), which built-in commands to reach
+  for during incident triage (SLOWLOG, INFO, MEMORY DOCTOR, CLIENT LIST,
+  FT.PROFILE), and when to use the Redis Insight GUI. Use when setting up
+  monitoring or alerts for a Redis instance, diagnosing a performance
+  regression, profiling a slow FT.SEARCH query, or wiring Redis metrics into
+  Prometheus, Datadog, or similar.
 metadata:
-  category: data
+  author: 'Redis, Inc.'
+  version: 0.1.0
+  category: observability
   source:
-    repository: "https://github.com/redis/agent-skills"
-    path: "skills/redis-observability"
-    license_path: "LICENSE"
+    repository: 'https://github.com/redis/agent-skills'
+    path: skills/redis-observability
+    license_path: LICENSE
+    commit: 3d6f25505ea2adff4dd62d5a0e7f4a5b076fa047
 ---
 
 # Redis Observability

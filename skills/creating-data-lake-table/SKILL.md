@@ -1,12 +1,25 @@
 ---
-name: "creating-data-lake-table"
-description: "This skill should be used when creating Amazon S3 Tables managed Iceberg tables, validating target databases and schemas, or preparing tables for Athena, Glue ETL, or Lake Formation."
+name: creating-data-lake-table
+description: >-
+  Create managed Iceberg tables using Amazon S3 Tables (s3tables API namespace)
+  with automatic compaction and snapshot management. Sets up table bucket,
+  namespace, table, schema, Glue catalog registration, partitioning, IAM access
+  control. Triggers on: create table, data lake table, analytics table,
+  structured data storage, S3 Tables, Iceberg, Athena table, partitioning
+  strategy, access permissions. Do NOT use  for: importing files (use
+  ingesting-into-data-lake), vector storage (use storing-and-querying-vectors),
+  querying existing tables (use querying-data-lake), or locating existing table
+  (use finding-data-lake-assets).
 metadata:
+  upstream:
+    version: 1
+    argument-hint: '[table-description|schema-spec]'
   category: data
   source:
-    repository: "https://github.com/aws/agent-toolkit-for-aws"
-    path: "skills/specialized-skills/storage-skills/creating-data-lake-table"
-    license_path: "LICENSE"
+    repository: 'https://github.com/aws/agent-toolkit-for-aws'
+    path: skills/specialized-skills/storage-skills/creating-data-lake-table
+    license_path: LICENSE
+    commit: cbdc61a29707dc97989d5d11a2b53ad584781e78
 ---
 
 # Create Data Lake Tables with Amazon S3 Tables

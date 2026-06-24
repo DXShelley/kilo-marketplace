@@ -1,12 +1,18 @@
 ---
-name: "db2-rhel"
-description: "Use when installing, configuring, or managing IBM DB2 LUW on RHEL 9 (and AlmaLinux/Rocky 9) — instance creation, database administration, buffer pool and tablespace management, backup/restore with HADR, performance tuning (db2advis, db2pd, MON functions), runstats/reorg, SELinux contexts, firewalld rules, and DB2 pureScale. Part of the db2-* skill family."
+name: db2-rhel
+description: >-
+  Use when installing, configuring, or managing IBM DB2 LUW on RHEL 9 (and
+  AlmaLinux/Rocky 9) — instance creation, database administration, buffer pool
+  and tablespace management, backup/restore with HADR, performance tuning
+  (db2advis, db2pd, MON functions), runstats/reorg, SELinux contexts, firewalld
+  rules, and DB2 pureScale. Part of the db2-* skill family.
 metadata:
   category: data
   source:
-    repository: "https://github.com/joogy06/agent-foundry"
-    path: "skills/db2-rhel"
-    license_path: "LICENSE"
+    repository: 'https://github.com/joogy06/agent-foundry'
+    path: skills/db2-rhel
+    license_path: LICENSE
+    commit: 527e3a8e9d395f564d62a63ef3bff5ff44bc9b6f
 ---
 
 # IBM DB2 LUW — Administration on RHEL 9

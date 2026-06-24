@@ -407,15 +407,14 @@ def idempotent_etl():
     @task
     def extract(execution_date=None):
         """Idempotent extraction - same date always returns same data."""
-        start_at = execution_date.date()
-        end_at = start_at + timedelta(days=1)
+        date_str = execution_date.strftime("%Y-%m-%d")
 
-        # Values are bound parameters; table/column identifiers are fixed application code.
-        query = """
+        # Query for specific date only
+        query = f"""
             SELECT * FROM source_table
-            WHERE created_at >= %s AND created_at < %s
+            WHERE DATE(created_at) = '{date_str}'
         """
-        return query_database(query, (start_at, end_at))
+        return query_database(query)
 
     @task
     def transform(data):
@@ -424,19 +423,15 @@ def idempotent_etl():
 
     @task
     def load(data, execution_date=None):
-        """Idempotently replace one validated date partition."""
-        partition_date = execution_date.date()
+        """Idempotent load - delete before insert or use MERGE."""
+        date_str = execution_date.strftime("%Y-%m-%d")
 
-        # Keep delete + insert atomic. Never interpolate partition values into SQL.
-        with database_transaction() as connection:
-            connection.execute(
-                "DELETE FROM target WHERE date = %s",
-                (partition_date,),
-            )
-            insert_data(connection, data)
+        # Option 1: Delete and reinsert
+        execute_sql(f"DELETE FROM target WHERE date = '{date_str}'")
+        insert_data(data)
 
-        # Prefer a database-native MERGE/UPSERT when supported:
-        # MERGE INTO target USING validated_staging ON target.id = validated_staging.id
+        # Option 2: Use MERGE/UPSERT
+        # MERGE INTO target USING source ON target.id = source.id
         # WHEN MATCHED THEN UPDATE
         # WHEN NOT MATCHED THEN INSERT
 
@@ -446,8 +441,6 @@ def idempotent_etl():
 
 dag = idempotent_etl()
 ```
-
-The `%s` marker is DB-API style; use the placeholder required by the selected driver. Bind values separately. Identifiers cannot be value-bound: keep them fixed, or validate every component against an allowlist and quote it with the driver's identifier API before constructing `DELETE`, `TRUNCATE`, or other DDL/DML. Never accept an arbitrary table name from a DAG parameter.
 
 #### Backfill Pattern
 
@@ -719,18 +712,12 @@ def process_with_transactions(consumer, producer):
 ```python
 # Use foreachBatch with idempotent writes
 def write_to_database_idempotent(batch_df, batch_id):
-    """Write a batch with replay-safe staging and an atomic merge."""
+    """Write batch with exactly-once semantics."""
 
+    # Add batch_id for deduplication
     batch_with_id = batch_df.withColumn("batch_id", lit(batch_id))
 
-    # Clear only this retry's batch using a bound value; never truncate shared staging.
-    with database_transaction() as connection:
-        connection.execute(
-            "DELETE FROM staging_events WHERE batch_id = %s",
-            (batch_id,),
-        )
-
-    # Retain batch_id in staging so retries can target the same rows safely.
+    # Use MERGE for idempotent writes
     batch_with_id.write \
         .format("jdbc") \
         .option("url", "jdbc:postgresql://localhost/db") \
@@ -739,24 +726,17 @@ def write_to_database_idempotent(batch_df, batch_id):
         .mode("append") \
         .save()
 
-    # Bind batch_id as a value. Merge and batch-scoped cleanup commit together.
-    with database_transaction() as connection:
-        connection.execute("""
-            MERGE INTO events AS target
-            USING (
-                SELECT * FROM staging_events WHERE batch_id = %s
-            ) AS source
-            ON target.event_id = source.event_id
-            WHEN MATCHED THEN UPDATE SET
-                event_time = source.event_time,
-                payload = source.payload
-            WHEN NOT MATCHED THEN INSERT (event_id, event_time, payload)
-                VALUES (source.event_id, source.event_time, source.payload)
-        """, (batch_id,))
-        connection.execute(
-            "DELETE FROM staging_events WHERE batch_id = %s",
-            (batch_id,),
-        )
+    # Merge staging to final (idempotent)
+    execute_sql("""
+        MERGE INTO events AS target
+        USING staging_events AS source
+        ON target.event_id = source.event_id
+        WHEN MATCHED THEN UPDATE SET *
+        WHEN NOT MATCHED THEN INSERT *
+    """)
+
+    # Clean staging
+    execute_sql("TRUNCATE staging_events")
 
 query = events.writeStream \
     .foreachBatch(write_to_database_idempotent) \
@@ -964,161 +944,47 @@ def process_cdc_event(event):
 ### Bulk Ingestion
 
 ```python
-# Validated bulk loading to Snowflake through a preconfigured external stage
-import re
-import uuid
-
-_IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_$]*$")
-_STAGE_PREFIX = re.compile(r"^[A-Za-z0-9_./=-]+$")
-
-
-def quote_qualified_identifier(name: str) -> str:
-    """Validate and quote a database object name; never accept raw SQL fragments."""
-    parts = name.split(".")
-    if not parts or any(not _IDENTIFIER.fullmatch(part) for part in parts):
-        raise ValueError(f"Invalid identifier: {name!r}")
-    return ".".join(f'"{part}"' for part in parts)
-
+# Efficient bulk loading to data warehouse
+from concurrent.futures import ThreadPoolExecutor
+import boto3
 
 class BulkIngester:
-    """Bulk ingest through a validated staging table without destroying the target."""
+    """Bulk ingest data to Snowflake via S3."""
 
-    def __init__(self, s3_bucket: str, stage_name: str, snowflake_conn):
+    def __init__(self, s3_bucket: str, snowflake_conn):
+        self.s3 = boto3.client('s3')
         self.bucket = s3_bucket
-        self.stage_name = stage_name  # Existing stage backed by a storage integration.
         self.snowflake = snowflake_conn
 
-    def ingest_dataframe(
-        self,
-        df,
-        table_name: str,
-        key_columns: tuple[str, ...],
-        mode: str = "merge",
-        confirmed_overwrite_target: str | None = None,
-    ):
-        if mode not in {"merge", "overwrite"}:
-            raise ValueError("mode must be 'merge' or 'overwrite'")
-        if mode == "overwrite" and confirmed_overwrite_target != table_name:
-            raise ValueError("overwrite requires exact target-name confirmation")
+    def ingest_dataframe(self, df, table_name: str, mode: str = "append"):
+        """Bulk ingest DataFrame to Snowflake."""
 
-        target_parts = table_name.split(".")
-        # Validation occurs before any identifier is interpolated into SQL.
-        target_sql = quote_qualified_identifier(table_name)
-        load_id = uuid.uuid4().hex
-        staging_name = ".".join(
-            [*target_parts[:-1], f"{target_parts[-1]}__load_{load_id}"]
-        )
-        staging_sql = quote_qualified_identifier(staging_name)
-        stage_sql = quote_qualified_identifier(self.stage_name)
+        # 1. Write to S3 as Parquet (compressed, columnar)
+        s3_path = f"s3://{self.bucket}/staging/{table_name}/{uuid.uuid4()}"
+        df.write.parquet(s3_path)
 
-        prefix = f"staging/{target_parts[-1]}/{load_id}"
-        if not _STAGE_PREFIX.fullmatch(prefix):
-            raise ValueError("Generated stage prefix contains unsafe characters")
-        s3_path = f"s3://{self.bucket}/{prefix}"
-        staged_files_sql = f"@{stage_sql}/{prefix}"
-
-        expected_rows = df.count()
-        df.write.mode("errorifexists").parquet(s3_path)
-
-        # Use the target's permanent table type and copy grants so an overwrite SWAP
-        # does not silently downgrade recovery guarantees or access. Retain it for rollback.
-        self.snowflake.execute(
-            f"CREATE TABLE {staging_sql} LIKE {target_sql} COPY GRANTS"
-        )
-
-        validation_errors = self.snowflake.execute(f"""
-            COPY INTO {staging_sql}
-            FROM {staged_files_sql}
-            FILE_FORMAT = (TYPE = 'PARQUET')
-            MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE
-            VALIDATION_MODE = 'RETURN_ALL_ERRORS'
-        """).fetchall()
-        if validation_errors:
-            raise ValueError(f"COPY validation failed: {validation_errors[:10]}")
-
+        # 2. Create external stage if not exists
         self.snowflake.execute(f"""
-            COPY INTO {staging_sql}
-            FROM {staged_files_sql}
+            CREATE STAGE IF NOT EXISTS {table_name}_stage
+            URL = '{s3_path}'
+            CREDENTIALS = (AWS_KEY_ID='...' AWS_SECRET_KEY='...')
             FILE_FORMAT = (TYPE = 'PARQUET')
-            MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE
-            ON_ERROR = 'ABORT_STATEMENT'
-            PURGE = FALSE
         """)
 
-        loaded_rows = self.snowflake.execute(
-            f"SELECT COUNT(*) FROM {staging_sql}"
-        ).fetchone()[0]
-        if loaded_rows != expected_rows:
-            raise ValueError(
-                f"Row-count mismatch: expected {expected_rows}, loaded {loaded_rows}"
-            )
-
-        columns = [
-            row[0]
-            for row in self.snowflake.execute(f"DESC TABLE {target_sql}").fetchall()
-        ]
-        if not key_columns or any(key not in columns for key in key_columns):
-            raise ValueError("key_columns must name columns in the target table")
-        quoted_columns = {name: quote_qualified_identifier(name) for name in columns}
-        quoted_keys = [quoted_columns[name] for name in key_columns]
-
-        null_key_predicate = " OR ".join(f"{key} IS NULL" for key in quoted_keys)
-        null_keys = self.snowflake.execute(
-            f"SELECT COUNT(*) FROM {staging_sql} WHERE {null_key_predicate}"
-        ).fetchone()[0]
-        key_list = ", ".join(quoted_keys)
-        duplicate_keys = self.snowflake.execute(f"""
-            SELECT COUNT(*) FROM (
-                SELECT {key_list}
-                FROM {staging_sql}
-                GROUP BY {key_list}
-                HAVING COUNT(*) > 1
-            )
-        """).fetchone()[0]
-        if null_keys or duplicate_keys:
-            raise ValueError(
-                f"Key validation failed: null={null_keys}, duplicate={duplicate_keys}"
-            )
-
+        # 3. COPY INTO (much faster than INSERT)
         if mode == "overwrite":
-            # SWAP is atomic. After it, staging_name holds the previous target for rollback.
-            self.snowflake.execute(f"ALTER TABLE {target_sql} SWAP WITH {staging_sql}")
-        else:
-            join_sql = " AND ".join(
-                f"target.{key} = source.{key}" for key in quoted_keys
-            )
-            update_columns = [name for name in columns if name not in key_columns]
-            update_sql = ", ".join(
-                f"target.{quoted_columns[name]} = source.{quoted_columns[name]}"
-                for name in update_columns
-            )
-            matched_clause = (
-                f"WHEN MATCHED THEN UPDATE SET {update_sql}" if update_sql else ""
-            )
-            column_list = ", ".join(quoted_columns.values())
-            value_list = ", ".join(
-                f"source.{quoted_columns[name]}" for name in columns
-            )
+            self.snowflake.execute(f"TRUNCATE TABLE {table_name}")
 
-            # MERGE commits atomically. Roll back on failure; keep staging data for replay.
-            self.snowflake.execute("BEGIN")
-            try:
-                self.snowflake.execute(f"""
-                    MERGE INTO {target_sql} AS target
-                    USING {staging_sql} AS source
-                    ON {join_sql}
-                    {matched_clause}
-                    WHEN NOT MATCHED THEN INSERT ({column_list})
-                    VALUES ({value_list})
-                """)
-                self.snowflake.execute("COMMIT")
-            except Exception:
-                self.snowflake.execute("ROLLBACK")
-                raise
+        self.snowflake.execute(f"""
+            COPY INTO {table_name}
+            FROM @{table_name}_stage
+            FILE_FORMAT = (TYPE = 'PARQUET')
+            MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE
+            ON_ERROR = 'CONTINUE'
+        """)
 
-        # Return retained recovery artifacts. Purge/drop only under an approved retention job
-        # after target reconciliation and explicit confirmation of these exact paths/names.
-        return {"staging_table": staging_name, "source_path": s3_path}
+        # 4. Cleanup staging files
+        self._cleanup_s3(s3_path)
 ```
 
 ---

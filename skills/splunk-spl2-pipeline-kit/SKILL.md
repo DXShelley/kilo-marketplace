@@ -1,12 +1,21 @@
 ---
-name: "splunk-spl2-pipeline-kit"
-description: "Render and lint reusable SPL2 pipeline templates for Cisco Data Fabric, Splunk Ingest Processor, and Edge Processor, including routing, redaction, sampling, lookups, metrics, OCSF, decrypt, stats, custom templates, SPL-to-SPL2 compatibility, and PCRE2 migration checks. Use when the user needs SPL2 pipeline authoring, conversion review, compatibility linting, or shared templates for Ingest Processor or Edge Processor workflows, including Cisco Data Fabric or telemetry pipeline management requests that need reusable SPL2 pipeline logic."
+name: splunk-spl2-pipeline-kit
+description: >-
+  Render and lint reusable SPL2 pipeline templates for Cisco Data Fabric, Splunk
+  Ingest Processor, and Edge Processor, including routing, redaction, sampling,
+  lookups, metrics, OCSF, decrypt, stats, custom templates, SPL-to-SPL2
+  compatibility, and PCRE2 migration checks. Use when the user needs SPL2
+  pipeline authoring, conversion review, compatibility linting, or shared
+  templates for Ingest Processor or Edge Processor workflows, including Cisco
+  Data Fabric or telemetry pipeline management requests that need reusable SPL2
+  pipeline logic.
 metadata:
-  category: data
+  category: observability
   source:
-    repository: "https://github.com/chambear2809/splunk-cisco-skills"
-    path: "skills/splunk-spl2-pipeline-kit"
-    license_path: "LICENSE"
+    repository: 'https://github.com/chambear2809/splunk-cisco-skills'
+    path: skills/splunk-spl2-pipeline-kit
+    license_path: LICENSE
+    commit: 99b2c778dbeaad84023765d24e1a13f414009f6a
 ---
 
 # Splunk SPL2 Pipeline Kit
@@ -57,7 +66,7 @@ bash skills/splunk-spl2-pipeline-kit/scripts/smoke_offline.sh
 
 ## Outputs
 
-The default output directory is `splunk-spl2-pipeline-kit-rendered/`. Re-rendering an existing generated directory requires `--force`; the tool refuses unmarked directories and dangerous paths such as the filesystem root, home, repository root, or current working directory.
+The default output directory is `splunk-spl2-pipeline-kit-rendered/`:
 
 - `templates/<profile>/*.spl2` - route, branch, redact, sample, lookup,
   extract, timestamp, JSON/XML, OCSF, decrypt, metrics, stats, S3, and

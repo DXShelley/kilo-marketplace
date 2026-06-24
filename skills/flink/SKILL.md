@@ -1,12 +1,18 @@
 ---
-name: "flink"
-description: "Apache Flink stream processing expertise for stateful computations over bounded and unbounded streams. Use when the user mentions Flink, Flink SQL, Table API, DataStream API, CDC, Kafka-to-Flink pipelines, checkpoints, savepoints, watermarks, windows, Flink Kubernetes Operator, or Flink integrations with Iceberg, Paimon, or Fluss."
+name: flink
+description: >-
+  Apache Flink stream processing expertise for stateful computations over
+  bounded and unbounded streams. Use when the user mentions Flink, Flink SQL,
+  Table API, DataStream API, CDC, Kafka-to-Flink pipelines, checkpoints,
+  savepoints, watermarks, windows, Flink Kubernetes Operator, or Flink
+  integrations with Iceberg, Paimon, or Fluss.
 metadata:
   category: data
   source:
-    repository: "https://github.com/gordonmurray/data-engineering-skills"
-    path: "flink"
-    license_path: "LICENSE"
+    repository: 'https://github.com/gordonmurray/data-engineering-skills'
+    path: flink
+    license_path: LICENSE
+    commit: 226973561ae6881d21b6567171195e8211863d75
 ---
 
 # Apache Flink Data Streaming Expert

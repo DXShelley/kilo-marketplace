@@ -1,12 +1,22 @@
 ---
-name: "chdb-datastore"
-description: "Use when the user has tabular data (pandas DataFrame, parquet, csv, Arrow, json) and wants to filter, group, aggregate, join, or speed up slow pandas. Provides chDB DataStore — same pandas API, ClickHouse engine underneath. Also handles reading from S3, MySQL, PostgreSQL, MongoDB, ClickHouse Cloud, Iceberg, Delta Lake as DataFrames and joining across sources. TRIGGER when: user mentions DataFrame, parquet, csv, \"fast pandas\", \"speed up pandas\", or cross-source DataFrame joins; user imports `chdb.datastore` or `from datastore import DataStore`. SKIP this skill for raw SQL syntax (use chdb-sql instead), ClickHouse server administration, or non-Python DataStore API work."
+name: chdb-datastore
+description: >-
+  Use when the user has tabular data (pandas DataFrame, parquet, csv, Arrow,
+  json) and wants to filter, group, aggregate, join, or speed up slow pandas.
+  Provides chDB DataStore — same pandas API, ClickHouse engine underneath. Also
+  handles reading from S3, MySQL, PostgreSQL, MongoDB, ClickHouse Cloud,
+  Iceberg, Delta Lake as DataFrames and joining across sources. TRIGGER when:
+  user mentions DataFrame, parquet, csv, "fast pandas", "speed up pandas", or
+  cross-source DataFrame joins; user imports `chdb.datastore` or `from datastore
+  import DataStore`. SKIP this skill for raw SQL syntax (use chdb-sql instead),
+  ClickHouse server administration, or non-Python DataStore API work.
 metadata:
   category: data
   source:
-    repository: "https://github.com/ClickHouse/agent-skills"
-    path: "skills/chdb-datastore"
-    license_path: "LICENSE"
+    repository: 'https://github.com/ClickHouse/agent-skills'
+    path: skills/chdb-datastore
+    license_path: LICENSE
+    commit: 544384f4fab1d6ed59f16a354d1c68296dfa6007
 ---
 
 # chdb DataStore — It's Just Faster Pandas
@@ -24,7 +34,7 @@ import chdb.datastore as pd
 DataStore is a **lazy, ClickHouse-backed pandas replacement**. Your existing pandas code works unchanged — but operations compile to optimized SQL and execute only when results are needed (e.g., `print()`, `len()`, iteration).
 
 ```bash
-pip install chdb
+pip install chdb==4.1.9
 ```
 
 ## Decision Tree: Pick the Right Approach
@@ -115,7 +125,7 @@ target.insert_into("category", "total", "count").select_from(
 
 | Problem | Fix |
 |---------|-----|
-| `ImportError: No module named 'chdb'` | `pip install chdb` |
+| `ImportError: No module named 'chdb'` | `pip install chdb==4.1.9` |
 | `ImportError: cannot import 'DataStore'` | Use `from datastore import DataStore` or `from chdb.datastore import DataStore` |
 | Database connection timeout | Include port in host: `host="db:3306"` not `host="db"` |
 | Join returns empty result | Check key types match (both int or both string); use `.to_sql()` to inspect |

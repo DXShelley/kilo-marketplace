@@ -1,12 +1,20 @@
 ---
-name: "dataset-evaluation"
-description: "Validates dataset formatting and quality for SageMaker model fine-tuning (SFT, DPO, or RLVR). Use when the user says \"is my dataset okay\", \"evaluate my data\", \"check my training data\", \"I have my own data\", or before starting any fine-tuning job. Detects file format, checks schema compliance against the selected model and technique, and reports whether the data is ready for training or evaluation."
+name: dataset-evaluation
+description: >-
+  Validates dataset formatting and quality for SageMaker model fine-tuning (SFT,
+  DPO, or RLVR). Use when the user says "is my dataset okay", "evaluate my
+  data", "check my training data", "I have my own data", or before starting any
+  fine-tuning job. Detects file format, checks schema compliance against the
+  selected model and technique, and reports whether the data is ready for
+  training or evaluation.
 metadata:
+  version: 1.0.0
   category: data
   source:
-    repository: "https://github.com/awslabs/agent-plugins"
-    path: "plugins/sagemaker-ai/skills/dataset-evaluation"
-    license_path: "LICENSE"
+    repository: 'https://github.com/awslabs/agent-plugins'
+    path: plugins/sagemaker-ai/skills/dataset-evaluation
+    license_path: LICENSE
+    commit: ba79e65ab968ed456b3cbee5f2d851d58239e864
 ---
 
 # Workflow Instruction

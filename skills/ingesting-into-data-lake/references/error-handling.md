@@ -91,7 +91,7 @@ Which approach would you prefer?
    - Check if role has AWSGlueServiceRole managed policy
    - Check if role has S3 read/write permissions
    - Check if role has S3 Tables inline policy
-   - Verify the role in IAM and add only the listed Glue, source-bucket read, target-bucket write, and S3 Tables permissions required by this job
+   - See [iam-role-management.md](iam-role-management.md) for complete setup
 
 2. **S3 bucket access denied**:
    - Verify IAM role has s3:GetObject, s3:ListBucket on source bucket
@@ -106,7 +106,7 @@ Which approach would you prefer?
      - s3tables:GetTable
      - s3tables:UpdateTableMetadataLocation
    - Verify resource ARN matches table bucket structure
-   - Scope the inline policy to the target table-bucket, namespace, and table resource ARNs whenever the service supports resource-level permissions
+   - See [iam-role-management.md](iam-role-management.md#s3-tables-inline-policy)
 
 4. **Athena query execution errors**:
    - Verify workgroup has output location configured

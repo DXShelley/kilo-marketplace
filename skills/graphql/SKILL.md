@@ -1,12 +1,13 @@
 ---
-name: "graphql"
-description: "Expert in GraphQL API development with type-safe patterns and optimization"
+name: graphql
+description: Expert in GraphQL API development with type-safe patterns and optimization
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/Mindrally/skills"
-    path: "graphql"
-    license_path: "LICENSE"
+    repository: 'https://github.com/Mindrally/skills'
+    path: graphql
+    license_path: LICENSE
+    commit: 05a71308897983093248d719a2ffa1bca61d0768
 ---
 
 # GraphQL

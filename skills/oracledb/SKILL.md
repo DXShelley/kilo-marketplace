@@ -1,12 +1,17 @@
 ---
-name: "oracledb"
-description: "Use these skills to manage and monitor Oracle databases by executing SQL statements, exploring schema metadata, analyzing query performance, monitoring active sessions and resource consumption, and managing storage and object health."
+name: oracledb
+description: >-
+  Use these skills to manage and monitor Oracle databases by executing SQL
+  statements, exploring schema metadata, analyzing query performance, monitoring
+  active sessions and resource consumption, and managing storage and object
+  health.
 metadata:
   category: data
   source:
-    repository: "https://github.com/gemini-cli-extensions/oracledb"
-    path: "skills/oracledb"
-    license_path: "LICENSE"
+    repository: 'https://github.com/gemini-cli-extensions/oracledb'
+    path: skills/oracledb
+    license_path: LICENSE
+    commit: d5a26255c6f2ffb32b5920735512629014622693
 ---
 
 ## Usage

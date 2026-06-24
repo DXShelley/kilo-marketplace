@@ -1,12 +1,27 @@
 ---
-name: "connecting-to-data-source"
-description: "This skill should be used when creating or validating an AWS Glue connection to a JDBC database, Redshift, Snowflake, BigQuery, or another external source before ingestion; it does not perform data movement."
+name: connecting-to-data-source
+description: >-
+  Create and troubleshoot AWS Glue connections to JDBC databases (Oracle, SQL
+  Server, PostgreSQL, MySQL, RDS), Redshift, Snowflake, and BigQuery. Gathers
+  connection hints from user, discovers existing connections and RDS/Redshift
+  candidates, registers credentials in Secrets Manager or IAM DB auth,
+  configures VPC, and tests. Triggers on: connect to database, set up Glue
+  connection, register data source, connect to Snowflake/BigQuery/RDS,
+  connection timeout, test connection, troubleshoot connection. Do NOT use for
+  moving data (use ingesting-into-data-lake), creating tables (use
+  creating-data-lake-table), queries (use querying-data-lake), catalog
+  exploration (use exploring-data-catalog), or SaaS (Salesforce, ServiceNow,
+  SAP, MongoDB, Kafka).
 metadata:
+  upstream:
+    version: 1
+    argument-hint: '[source-type|connection-name|hostname]'
   category: data
   source:
-    repository: "https://github.com/aws/agent-toolkit-for-aws"
-    path: "plugins/aws-data-analytics/skills/connecting-to-data-source"
-    license_path: "LICENSE"
+    repository: 'https://github.com/aws/agent-toolkit-for-aws'
+    path: plugins/aws-data-analytics/skills/connecting-to-data-source
+    license_path: LICENSE
+    commit: cbdc61a29707dc97989d5d11a2b53ad584781e78
 ---
 
 # Connect to Data Source

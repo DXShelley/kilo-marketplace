@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class SdkConfig(BaseSettings):
-    """Environment-first configuration. Loads from ``.env`` files and environment variables.
+    """Environment-first configuration with optional explicit env-file loading.
 
     Invariants:
     - At least one valid credential triplet must be present (PAT, username/password, or JWT).
@@ -22,7 +22,6 @@ class SdkConfig(BaseSettings):
     model_config = SettingsConfigDict(
         populate_by_name=True,
         extra="ignore",
-        env_file=".env",
         env_file_encoding="utf-8",
     )
 
@@ -59,40 +58,14 @@ class SdkConfig(BaseSettings):
             )
         return url
 
-    @classmethod
-    def _find_env_file(cls) -> str | None:
-        """Search for ``.env`` in a two-level fallback.
-
-        1. Current working directory.
-        2. Skill root (nearest ancestor of this source file containing ``pyproject.toml``).
-
-        Users should place their ``.env`` in the skill root directory, next to
-        ``.env.template`` and ``pyproject.toml``. This makes the skill portable
-        regardless of where it is installed in a user's project.
-
-        Returns the first existing path, or ``None`` if none found.
-        """
-        # 1. cwd
-        cwd_env = Path.cwd() / ".env"
-        if cwd_env.exists():
-            return str(cwd_env)
-
-        # 2. skill root — nearest ancestor of this source file with pyproject.toml
-        this_file = Path(__file__).resolve()
-        for parent in this_file.parents:
-            if (parent / "pyproject.toml").exists():
-                candidate = parent / ".env"
-                if candidate.exists():
-                    return str(candidate)
-                break
-
-        return None
-
     def __init__(self, **kwargs):
         if "_env_file" not in kwargs:
-            env_path = self._find_env_file()
-            if env_path:
-                kwargs["_env_file"] = env_path
+            env_file = os.environ.get("TABLEAU_ENV_FILE")
+            if env_file:
+                env_path = Path(env_file).expanduser().resolve()
+                if not env_path.is_file():
+                    raise ValueError(f"TABLEAU_ENV_FILE is not a file: {env_path}")
+                kwargs["_env_file"] = str(env_path)
             else:
                 kwargs["_env_file"] = None
         super().__init__(**kwargs)

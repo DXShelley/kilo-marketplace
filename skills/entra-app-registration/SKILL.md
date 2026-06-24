@@ -1,12 +1,22 @@
 ---
-name: "entra-app-registration"
-description: "Guides Microsoft Entra ID app registration, OAuth 2.0 authentication, and MSAL integration. USE FOR: create app registration, register Azure AD app, configure OAuth, set up authentication, add API permissions, generate service principal, MSAL example, console app auth, Entra ID setup, Azure AD authentication. DO NOT USE FOR: Azure RBAC or role assignments (use azure-rbac), Key Vault secrets (use azure-keyvault-expiration-audit), general Azure resource security guidance."
+name: entra-app-registration
+description: >-
+  Guides Microsoft Entra ID app registration, OAuth 2.0 authentication, and MSAL
+  integration. USE FOR: create app registration, register Azure AD app,
+  configure OAuth, set up authentication, add API permissions, generate service
+  principal, MSAL example, console app auth, Entra ID setup, Azure AD
+  authentication. DO NOT USE FOR: Azure RBAC or role assignments (use
+  azure-rbac), Key Vault secrets (use azure-keyvault-expiration-audit), general
+  Azure resource security guidance.
 metadata:
-  category: data
+  author: Microsoft
+  version: 1.1.1
+  category: development
   source:
-    repository: "https://github.com/microsoft/azure-skills"
-    path: "skills/entra-app-registration"
-    license_path: "LICENSE"
+    repository: 'https://github.com/microsoft/azure-skills'
+    path: skills/entra-app-registration
+    license_path: LICENSE
+    commit: 2cd48ca625cddcc1d377d2861fbddd54417c70cc
 ---
 
 ## Overview

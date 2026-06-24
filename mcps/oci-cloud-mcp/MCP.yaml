@@ -1,12 +1,12 @@
 id: oci-cloud-mcp
 name: Oracle OCI Cloud MCP Server
-description: Discovers and invokes OCI Python SDK operations with the permissions of a configured OCI CLI profile, enabling cloud inventory and administration across OCI services.
+description: Discovers and invokes non-mutating OCI Python SDK operations through a dedicated OCI profile whose backend policies deny resource changes.
 author: Oracle
 url: https://github.com/oracle/mcp/tree/main/src/oci-cloud-mcp-server
 category: development
 prerequisites:
   - Python and uv
-  - OCI configuration with a least-privilege profile
+  - OCI configuration with a dedicated profile whose backend policies allow inspection and deny mutations
 content:
   - name: UVX from immutable source
     prerequisites:

@@ -2,12 +2,6 @@
 
 Agent skill for using chdb's pandas-compatible DataStore API — a drop-in pandas replacement backed by ClickHouse.
 
-## Installation
-
-```bash
-npx skills add clickhouse/agent-skills
-```
-
 ## What's Included
 
 | File | Purpose |

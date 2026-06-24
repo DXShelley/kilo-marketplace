@@ -1,12 +1,16 @@
 ---
-name: "tensorflow-data-pipelines"
-description: "Create efficient data pipelines with tf.data"
+name: tensorflow-data-pipelines
+description: Create efficient data pipelines with tf.data
+allowed-tools:
+  - Bash
+  - Read
 metadata:
   category: data
   source:
-    repository: "https://github.com/thebushidocollective/han"
-    path: "plugins/specialized/tensorflow/skills/tensorflow-data-pipelines"
-    license_path: "LICENSE"
+    repository: 'https://github.com/thebushidocollective/han'
+    path: plugins/specialized/tensorflow/skills/tensorflow-data-pipelines
+    license_path: LICENSE
+    commit: 3fc9880ee2be4b1275359bed910dbd1674134448
 ---
 
 # TensorFlow Data Pipelines

@@ -4,11 +4,8 @@ Usage:
     python "<SKILL_PATH>/scripts/query_postgresql.py" "SELECT * FROM public.your_table"
     python "<SKILL_PATH>/scripts/query_postgresql.py" --file queries.sql --output results/
 
-Requires .env with: PG_HOST, PG_PORT (optional, default 5432),
-                    PG_DATABASE, PG_USER, PG_PASSWORD
-
-The .env file does not need to live inside the project directory - load_dotenv()
-walks upward from the current working directory and picks the closest .env it finds.
+Requires exported PG_HOST, PG_PORT (optional, default 5432), PG_DATABASE,
+PG_USER, and PG_PASSWORD. Pass --env-file explicitly when loading them from a file.
 
 Packages: psycopg2-binary, python-dotenv, pandas
 """
@@ -158,8 +155,7 @@ def enforce_limit(query: str, limit: int = MAX_ROWS) -> str:
 
 
 def get_connection() -> psycopg2.extensions.connection:
-    """Create a PostgreSQL connection from .env credentials."""
-    load_dotenv()
+    """Create a PostgreSQL connection from exported credentials."""
     host = os.getenv("PG_HOST")
     port = os.getenv("PG_PORT", "5432")
     database = os.getenv("PG_DATABASE")
@@ -211,7 +207,14 @@ def main() -> None:
     group.add_argument("query", nargs="?", help="SQL query string")
     group.add_argument("--file", "-f", help="Path to one .sql query file")
     parser.add_argument("--output", "-o", default=".", help="Output directory for CSV")
+    parser.add_argument("--env-file", help="Explicit path to a dotenv file")
     args = parser.parse_args()
+
+    if args.env_file:
+        env_path = os.path.abspath(os.path.expanduser(args.env_file))
+        if not os.path.isfile(env_path):
+            parser.error(f"--env-file is not a file: {env_path}")
+        load_dotenv(dotenv_path=env_path, override=False)
 
     query = args.query
     if args.file:

@@ -1,12 +1,21 @@
 ---
-name: "aidp-object-storage"
-description: "Read and write OCI Object Storage natively from an AIDP notebook using the `oci://` URI scheme. Use when the user mentions OCI Object Storage, \"oci://\", external volumes, external tables backed by Object Storage, CSV/Parquet/JSON/Delta files in a bucket, or wants to land data in OCI buckets. Auth is implicit via the workspace's IAM identity — no keys in the notebook."
+description: >-
+  Read and write OCI Object Storage natively from an AIDP notebook using the
+  `oci://` URI scheme. Use when the user mentions OCI Object Storage, "oci://",
+  external volumes, external tables backed by Object Storage,
+  CSV/Parquet/JSON/Delta files in a bucket, or wants to land data in OCI
+  buckets. Auth is implicit via the workspace's IAM identity — no keys in the
+  notebook.
+allowed-tools: 'Read, Write, Edit, Bash'
 metadata:
   category: data
   source:
-    repository: "https://github.com/oracle-samples/oracle-aidp-samples"
-    path: "ai/claude-code-plugins/oracle-ai-data-platform-workbench-spark-connectors/skills/aidp-object-storage"
-    license_path: "LICENSE.txt"
+    repository: 'https://github.com/oracle-samples/oracle-aidp-samples'
+    path: >-
+      ai/claude-code-plugins/oracle-ai-data-platform-workbench-spark-connectors/skills/aidp-object-storage
+    license_path: LICENSE.txt
+    commit: 6dba86bf4d92b6874bdb929b675b29137d673a71
+name: aidp-object-storage
 ---
 
 # `aidp-object-storage` — OCI Object Storage native (`oci://`)
@@ -20,9 +29,9 @@ Read and write Object Storage data directly from Spark. The AIDP cluster's IAM i
 - Mentioned: "oci://", "Object Storage bucket", "external volume", "external table".
 
 ## When NOT to use
-- For **Iceberg** architecture and table design, defer to a licensed Iceberg specialist or the official Iceberg documentation; this skill only covers native OCI object paths.
-- For **AWS S3** security and bucket configuration, use [`securing-s3-buckets`](../securing-s3-buckets/SKILL.md).
-- For **Azure ADLS Gen2**, use [`azure-storage`](../azure-storage/SKILL.md).
+- For **Iceberg** tables on OCI Object Storage → use [`aidp-iceberg`](../aidp-iceberg/SKILL.md).
+- For **AWS S3** → use [`aidp-aws-s3`](../aidp-aws-s3/SKILL.md).
+- For **Azure ADLS Gen2** → use [`aidp-azure-adls`](../aidp-azure-adls/SKILL.md).
 
 ## URI form
 ```

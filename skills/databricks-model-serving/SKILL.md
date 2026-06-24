@@ -1,12 +1,27 @@
 ---
-name: "databricks-model-serving"
-description: "Databricks Model Serving endpoint lifecycle and operations. Use for endpoint CRUD, traffic routing, zero-downtime version swaps, OpenAPI schemas, logs, metrics, permissions, AI Gateway rate limits, Foundation Model endpoint discovery, Databricks App integration, and off-platform streaming. Not for model training, MLflow autologging or evaluation, Unity Catalog registration, custom PyFunc authoring, or agent authoring."
+name: databricks-model-serving
+description: >-
+  Databricks Model Serving endpoint lifecycle and ops. Use when asked to: CRUD
+  serving endpoints (CLI or MLflow Deployments client); configure traffic
+  routing for A/B / canary deploys and zero-downtime version swaps; retrieve
+  OpenAPI schemas; inspect logs, metrics, or permissions; manage AI Gateway rate
+  limits; discover Foundation Model API endpoints at runtime; integrate
+  endpoints into Databricks Apps; or stream from off-platform clients (Vercel AI
+  SDK v6, standalone Node.js). NOT for: training, MLflow autologging, UC
+  registration, custom PyFunc/ResponsesAgent authoring (databricks-ml-training);
+  Knowledge Assistants/Supervisor Agents (databricks-agent-bricks); MLflow
+  evaluation (databricks-mlflow-evaluation).
+compatibility: Requires databricks CLI (>= v0.294.0)
 metadata:
+  version: 0.4.0
+  upstream:
+    parent: databricks-core
   category: data
   source:
-    repository: "https://github.com/databricks/databricks-agent-skills"
-    path: "skills/databricks-model-serving"
-    license_path: "LICENSE"
+    repository: 'https://github.com/databricks/databricks-agent-skills'
+    path: skills/databricks-model-serving
+    license_path: LICENSE
+    commit: 3985599b8efaf0bb155be7e60847a3975bf45331
 ---
 
 # Model Serving Endpoints
@@ -219,11 +234,11 @@ env:
     valueFrom: serving-endpoint
 ```
 
-Then wire the endpoint into the app through its serving plugin or a custom route, using the generated app's manifest and plugin interfaces as the source of truth.
+Then wire the endpoint into your app via the `serving()` plugin or a custom route in `onPluginsReady`. For the full app integration pattern, use the **`databricks-apps`** skill and read the [Model Serving Guide](../databricks-apps/references/appkit/model-serving.md).
 
-### Develop and deploy new models
+### Develop & deploy new models
 
-This skill is operations-focused and manages existing endpoints. Training, MLflow tracking, Unity Catalog registration, custom PyFunc authoring, and agent implementation are outside its bundled guidance; use current Databricks and MLflow documentation for that development flow.
+This skill is ops-focused (manage existing endpoints). For the dev-side flow — training, MLflow tracking, UC registration, custom PyFunc authoring, and hand-rolled `ResponsesAgent` code — see **[databricks-ml-training](../databricks-ml-training/SKILL.md)** (experimental).
 
 ## Foundation Model API endpoints
 
@@ -243,7 +258,7 @@ databricks serving-endpoints list \
 
 ## Off-platform streaming
 
-For apps deployed **outside** Databricks Apps (Vercel, AWS, standalone Node.js) hitting Databricks AI Gateway with Vercel AI SDK v6, see [references/off-platform-streaming.md](references/off-platform-streaming.md). For AppKit-based apps, use the serving plugin exposed by the generated app template instead.
+For apps deployed **outside** Databricks Apps (Vercel, AWS, standalone Node.js) hitting Databricks AI Gateway with Vercel AI SDK v6, see [references/off-platform-streaming.md](references/off-platform-streaming.md). For AppKit-based apps, use the `databricks-apps` skill's built-in serving plugin instead.
 
 ## Troubleshooting
 

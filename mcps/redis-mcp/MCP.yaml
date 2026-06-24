@@ -6,7 +6,7 @@ url: https://github.com/redis/mcp-redis
 category: data
 prerequisites:
   - Python and uv
-  - Redis deployment and ACL credentials
+  - Redis deployment and dedicated ACL credentials that deny all write commands
 content:
   - name: UVX
     prerequisites:

@@ -201,7 +201,7 @@ def execute_with_security(
 
     # Step 8: Full execution flow
     # Route to Coding Agent for non-Snowflake requests
-    if route_decision == "coding_agent":
+    if route_decision == "__CODING_AGENT__":
         return {
             "status": "routed_to_coding_agent",
             "message": "Request routed to coding agent for local handling",

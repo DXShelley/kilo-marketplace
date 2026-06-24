@@ -1,12 +1,19 @@
 ---
-name: "fastapi-itechmeat"
-description: "FastAPI Python framework. Covers REST APIs, validation, dependencies, security. Use when building Python web APIs with FastAPI, configuring Pydantic models, implementing dependency injection, or setting up OAuth2/JWT authentication. Keywords: FastAPI, Pydantic, async, OAuth2, JWT, REST API."
+name: fastapi-itechmeat
+description: >-
+  FastAPI Python framework. Covers REST APIs, validation, dependencies,
+  security. Use when building Python web APIs with FastAPI, configuring Pydantic
+  models, implementing dependency injection, or setting up OAuth2/JWT
+  authentication. Keywords: FastAPI, Pydantic, async, OAuth2, JWT, REST API.
 metadata:
-  category: data
+  version: 0.136.3
+  release_date: '2026-05-23'
+  category: development
   source:
-    repository: "https://github.com/itechmeat/llm-code"
-    path: "skills/fastapi"
-    license_path: "LICENSE"
+    repository: 'https://github.com/itechmeat/llm-code'
+    path: skills/fastapi
+    license_path: LICENSE
+    commit: 0ebb36c887c350d9d52c389503386bb781112ad8
 ---
 
 # FastAPI

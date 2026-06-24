@@ -1,12 +1,17 @@
 ---
-name: "sql-server-table-reconciliation"
-description: "Use when: comparing SQL Server tables across instances, data migration validation, ETL verification, row mismatch detection, schema drift, reconciliation report, production vs staging comparison. Uses mssql-python driver with Apache Arrow for fast columnar data transfer and comparison."
+name: sql-server-table-reconciliation
+description: >-
+  Use when: comparing SQL Server tables across instances, data migration
+  validation, ETL verification, row mismatch detection, schema drift,
+  reconciliation report, production vs staging comparison. Uses mssql-python
+  driver with Apache Arrow for fast columnar data transfer and comparison.
 metadata:
   category: data
   source:
-    repository: "https://github.com/github/awesome-copilot"
-    path: "skills/sql-server-table-reconciliation"
-    license_path: "LICENSE"
+    repository: 'https://github.com/github/awesome-copilot'
+    path: skills/sql-server-table-reconciliation
+    license_path: LICENSE
+    commit: bbb9295b63adb2db01f5e30bc32e454ab5f68382
 ---
 
 # SQL Server Table Reconciliation
@@ -57,9 +62,8 @@ python scripts/reconcile.py \
 
 | Argument | Description |
 |----------|-------------|
-| `--primary-key` | Comma-separated PK column(s). Omit to auto-detect. Identifiers are strictly parsed and SQL Server-quoted. |
-| `--columns` | Comma-separated columns to compare. Omit to compare all non-PK columns. Identifiers are strictly parsed and SQL Server-quoted. |
-| `--insecure-trust-server-certificate` | Explicitly disable TLS certificate validation for a trusted development server. Validation is enabled by default. |
+| `--primary-key` | Comma-separated PK column(s). Omit to auto-detect. |
+| `--columns` | Comma-separated columns to compare. Omit to compare all non-PK columns. |
 
 ### Example invocations
 

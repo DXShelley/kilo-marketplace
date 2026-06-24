@@ -398,5 +398,4 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now db2-backup.timer
 systemctl list-timers | grep db2-backup
 ```
-
 ---

@@ -1,12 +1,18 @@
 ---
-name: "databricks-core"
-description: "Databricks CLI operations and the parent/entry-point skill for all Databricks work: authentication, profile selection, data exploration, bundles, and Genie natural-language data Q&A. Load this first for any Databricks task (CLI, auth, profiles, exploring catalogs/tables), then load the matching product skill. Contains up-to-date guidelines for Databricks-related CLI tasks."
+name: databricks-core
+description: >-
+  Databricks CLI operations and the parent/entry-point skill for all Databricks
+  work: authentication, profile selection, data exploration, bundles, and Genie
+  natural-language data Q&A. Load this first for any Databricks task (CLI, auth,
+  profiles, exploring catalogs/tables), then load the matching product skill.
+  Contains up-to-date guidelines for Databricks-related CLI tasks.
 metadata:
   category: data
   source:
-    repository: "https://github.com/databricks/databricks-agent-skills"
-    path: "skills/databricks-core"
-    license_path: "LICENSE"
+    repository: 'https://github.com/databricks/databricks-agent-skills'
+    path: skills/databricks-core
+    license_path: LICENSE
+    commit: 3985599b8efaf0bb155be7e60847a3975bf45331
 ---
 
 # Databricks
@@ -27,7 +33,7 @@ For specific products, use dedicated skills:
 1. **CLI installed**: Run `databricks --version` to check.
    - **If the CLI is missing or outdated (< v0.292.0): STOP. Do not proceed or work around a missing CLI.**
    - **Read the [CLI Installation](databricks-cli-install.md) reference file and follow the instructions to guide the user through installation.**
-   - Note: In sandboxed environments (Cursor IDE, containers), install commands write outside the workspace and may be blocked. Present the install command to the user and ask them to run it in their own terminal.
+   - Note: In sandboxed or containerized environments, install commands write outside the workspace and may be blocked. Present the install command to the user and ask them to run it in their own terminal.
    - **Exception:** If CLI installation is blocked (sandboxed containers, restricted environments), ask the user whether to fall back to direct REST API calls using `DATABRICKS_HOST` and `DATABRICKS_TOKEN` environment variables if present in the shell. See the [Databricks REST API docs](https://docs.databricks.com/api/workspace/introduction).
 
 2. **Authenticated**: `databricks auth profiles`
@@ -42,7 +48,7 @@ For specific products, use dedicated skills:
 3. Let user choose (even if only one exists)
 4. Offer to create new profile if needed
 
-## Claude Code - IMPORTANT
+## Agent Shell Behavior
 
 Each Bash command runs in a **separate shell session**.
 

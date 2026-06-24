@@ -1,12 +1,20 @@
 ---
-name: "gcp-event-driven-architecture-review"
-description: "Review GCP Pub/Sub, Eventarc, Cloud Tasks, Cloud Scheduler, and Workflows designs — dead-letter topics, message ordering, idempotency, fan-out blast radius, schema registry, and retry storm risk."
+name: gcp-event-driven-architecture-review
+description: >-
+  Review GCP Pub/Sub, Eventarc, Cloud Tasks, Cloud Scheduler, and Workflows
+  designs — dead-letter topics, message ordering, idempotency, fan-out blast
+  radius, schema registry, and retry storm risk.
+allowed-tools: Read Grep Glob
 metadata:
-  category: data
+  author: 'github: Raishin'
+  version: 0.1.0
+  updated: '2026-05-09'
+  category: development
   source:
-    repository: "https://github.com/Raishin/vanguard-frontier-agentic"
-    path: "skills/gcp/gcp-event-driven-architecture-review"
-    license_path: "LICENSE"
+    repository: 'https://github.com/Raishin/vanguard-frontier-agentic'
+    path: skills/gcp/gcp-event-driven-architecture-review
+    license_path: LICENSE
+    commit: 6e4bb3f7660bd29ae6bfce4db5e58e916f264c27
 ---
 
 # GCP Event-Driven Architecture Review

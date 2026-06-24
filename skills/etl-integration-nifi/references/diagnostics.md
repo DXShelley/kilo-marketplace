@@ -209,13 +209,13 @@ Data provenance provides deep insight into flow behavior:
 ./bin/nifi.sh status
 
 # System diagnostics via REST API
-curl -k https://localhost:8443/nifi-api/system-diagnostics
+curl --cacert "$NIFI_CA_CERT" https://localhost:8443/nifi-api/system-diagnostics
 
 # Cluster status
-curl -k https://localhost:8443/nifi-api/controller/cluster
+curl --cacert "$NIFI_CA_CERT" https://localhost:8443/nifi-api/controller/cluster
 
 # All connections with queue sizes (recursive)
-curl -k https://localhost:8443/nifi-api/flow/process-groups/root/status?recursive=true
+curl --cacert "$NIFI_CA_CERT" https://localhost:8443/nifi-api/flow/process-groups/root/status?recursive=true
 
 # ZooKeeper health (1.x clusters)
 echo ruok | nc zookeeper-host 2181

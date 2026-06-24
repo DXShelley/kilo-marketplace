@@ -1,19 +1,22 @@
 ---
-name: "redshift"
-description: "This skill should be used for read-only Amazon Redshift exploration and business analysis via the AWS Data API."
+name: redshift
+description: >-
+  This skill should be used for read-only Amazon Redshift exploration and
+  business analysis via the AWS Data API.
 metadata:
   category: data
   source:
-    repository: "https://github.com/onsen-ai/redshift-skill"
-    path: "."
-    license_path: "LICENSE"
+    repository: 'https://github.com/onsen-ai/redshift-skill'
+    path: .
+    license_path: LICENSE
+    commit: 976709a314efc919e61745c6783ecbfac1851e5d
 ---
 
 # Redshift Skill
 
 Use this skill for read-only Redshift exploration and business analysis via the AWS Data API. It applies to both provisioned Redshift clusters and Redshift Serverless.
 
-All scripts in the canonical skill are expected under `${CLAUDE_SKILL_DIR}/scripts/` and require Python 3 plus the AWS CLI.
+This workflow requires Python 3 and the AWS CLI.
 
 ## Python Command
 

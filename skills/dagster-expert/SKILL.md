@@ -1,12 +1,16 @@
 ---
-name: "dagster-expert"
-description: "This skill should be used for Dagster project work involving assets, components, integrations, or the dg CLI; it requires consulting the bundled command and API references before proposing implementation details."
+name: dagster-expert
+description: >-
+  This skill should be used for Dagster project work involving assets,
+  components, integrations, or the dg CLI; it requires consulting the bundled
+  command and API references before proposing implementation details.
 metadata:
   category: data
   source:
-    repository: "https://github.com/dagster-io/skills"
-    path: "skills/dagster-expert/skills/dagster-expert"
-    license_path: "LICENSE"
+    repository: 'https://github.com/dagster-io/skills'
+    path: skills/dagster-expert/skills/dagster-expert
+    license_path: LICENSE
+    commit: fa3d023d6700767d3950f94ebe8ea73b5abbd015
 ---
 
 ## Core Dagster Concepts

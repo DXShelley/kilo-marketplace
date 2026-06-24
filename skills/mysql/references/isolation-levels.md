@@ -39,7 +39,6 @@ Converts all plain SELECTs to `SELECT ... FOR SHARE` **if autocommit is disabled
 
 ## READ UNCOMMITTED — Never Use
 Dirty reads with no valid production use case.
-
 ## Decision Guide
 | Scenario | Recommendation |
 |---|---|

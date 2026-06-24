@@ -15,10 +15,10 @@ The reload errored out at a specific line. Almost always an SQL-syntax intrusion
 
 ## Finding Type 2: Synthetic Key Detected
 
-Qlik created a `$Syn` synthetic key table because two or more tables share more than one field name. Script-level fix flow:
+Qlik created a `$Syn` synthetic key table because two or more tables share more than one field name. The conceptual treatment (what synthetic keys are, why Qlik creates one, the three prevention mechanisms, common triggers, the QUALIFY failure modes) is in `qlik-data-modeling` → `references/anti-patterns.md` #1 and #4. Script-level fix flow:
 
 1. Identify which tables share the unintended field name(s) causing the association.
-2. Check if `QUALIFY` is applied to already-prefixed fields, which causes double-prefixes.
+2. Check if `QUALIFY` is applied to already-prefixed fields (causes double-prefix; see anti-patterns.md #4).
 3. Check if a non-key field appears in multiple tables (`source_system`, `load_date`).
 4. Check if `NullAsValue` on a key field is creating phantom associations.
 5. If the field should be dropped, add `DROP FIELD` before storing QVDs.
@@ -62,7 +62,7 @@ Incremental loads missing rows, double-loading rows, or not picking up changes.
 ## Cross-References
 
 - SQL-construct rewrites: `sql-constructs.md` (sibling reference file)
-- Synthetic key diagnosis: inspect shared field names and apply the script-level fixes above
+- Synthetic key diagnosis: `qlik-data-modeling` → `references/anti-patterns.md`
 - Diagnostic queries: `diagnostic-patterns.md` (sibling reference file — post-load validation templates)
 - Incremental load patterns: `incremental-load-patterns.md` (sibling reference file)
 - Null handling: `null-handling.md` (sibling reference file)

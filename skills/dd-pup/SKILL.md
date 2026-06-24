@@ -1,12 +1,18 @@
 ---
-name: "dd-pup"
-description: "Datadog CLI (Rust). OAuth2 auth with token refresh."
+name: dd-pup
+description: Datadog CLI (Rust). OAuth2 auth with token refresh.
 metadata:
-  category: data
+  version: 1.0.1
+  author: datadog-labs
+  repository: 'https://github.com/datadog-labs/agent-skills'
+  tags: 'datadog,cli,dd-pup,pup'
+  alwaysApply: 'false'
+  category: observability
   source:
-    repository: "https://github.com/datadog-labs/agent-skills"
-    path: "dd-pup"
-    license_path: "LICENSE"
+    repository: 'https://github.com/datadog-labs/agent-skills'
+    path: dd-pup
+    license_path: LICENSE
+    commit: 9dbf79d0dccc53ac040fc151009d2179363bf34f
 ---
 
 # pup (Datadog CLI)

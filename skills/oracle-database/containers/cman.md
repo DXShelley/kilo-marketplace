@@ -8,14 +8,14 @@
 
 - **Registry path:** `container-registry.oracle.com/database/cman`
 - **OCR short description:** Oracle Connection Manager
-- **Latest pull command shown on OCR:** `docker pull container-registry.oracle.com/database/cman:latest`
+- **Image selection:** Resolve an exact reviewed digest for `container-registry.oracle.com/database/cman` from Oracle Container Registry and pull `container-registry.oracle.com/database/cman@sha256:<reviewed-digest>`. Do not use a moving tag.
 - **License note on OCR:** OCR presents this as a standard Oracle repository. The detail page prompts you to sign in with an Oracle account to accept the repository license agreement before downloading the image.
 
 ## What Oracle Documents Here
 
 - The OCR readme positions this image as Oracle Connection Manager in Linux containers for proxying and managing client database connections.
 - The page says you can use the container with Oracle RAC or a single-instance Oracle Database, as long as the SCAN name or database hostname is resolvable from the container.
-- The OCR readme examples currently use `container-registry.oracle.com/database/client-cman:latest`, while the repository pull-command section is published under `container-registry.oracle.com/database/cman:latest`.
+- Confirm whether the required image is `client-cman` or `cman`, then pin the selected Oracle Container Registry image by digest.
 
 ## Oracle Version Notes (19c vs 26ai)
 

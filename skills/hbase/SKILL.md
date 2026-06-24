@@ -1,12 +1,13 @@
 ---
-name: "hbase"
-description: "Apache HBase wide-column store on Hadoop. Use for big data."
+name: hbase
+description: Apache HBase wide-column store on Hadoop. Use for big data.
 metadata:
   category: data
   source:
-    repository: "https://github.com/G1Joshi/Agent-Skills"
-    path: "skills/databases/hbase"
-    license_path: "LICENSE"
+    repository: 'https://github.com/G1Joshi/Agent-Skills'
+    path: skills/databases/hbase
+    license_path: LICENSE
+    commit: 2c0eacc6ce39edc2d69a1f55e64984f385bc14f8
 ---
 
 # Apache HBase

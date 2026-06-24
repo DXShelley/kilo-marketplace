@@ -1,12 +1,17 @@
 ---
-name: "secrets-vault-manager"
-description: "Use when the user asks to set up secret management infrastructure, integrate HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key Vault, GCP Secret Manager), implement secret rotation, or audit secret access patterns."
+name: secrets-vault-manager
+description: >-
+  Use when the user asks to set up secret management infrastructure, integrate
+  HashiCorp Vault, configure cloud secret stores (AWS Secrets Manager, Azure Key
+  Vault, GCP Secret Manager), implement secret rotation, or audit secret access
+  patterns.
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/alirezarezvani/claude-skills"
-    path: "engineering/skills/secrets-vault-manager"
-    license_path: "LICENSE"
+    repository: 'https://github.com/alirezarezvani/claude-skills'
+    path: engineering/skills/secrets-vault-manager
+    license_path: LICENSE
+    commit: 4a3c05b69e64f4925f7fc65c88890f614f79caf0
 ---
 
 # Secrets Vault Manager

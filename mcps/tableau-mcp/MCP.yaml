@@ -3,7 +3,7 @@ name: Tableau MCP (Official)
 description: Queries Tableau data and explores workbooks, views, projects, and published data sources using a Personal Access Token limited by the token owner's site permissions.
 author: Tableau
 url: https://github.com/tableau/tableau-mcp
-category: business
+category: data
 prerequisites:
   - Node.js 22.7.5 or newer
   - Tableau Server or Tableau Cloud Personal Access Token

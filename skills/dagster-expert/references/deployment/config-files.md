@@ -53,7 +53,7 @@ Project metadata and deployment routing. Key deployment-related fields:
 root_module = "my_project"              # REQUIRED
 code_location_name = "my-project"       # defaults to directory name
 agent_queue = "special-queue"           # routes to specific agent
-image = "my-registry/my-image:latest"   # pre-built image (skips build)
+image = "my-registry/my-image@sha256:<reviewed-digest>"  # immutable pre-built image
 ```
 
 If using `dg.toml`, these go under `[project]` instead.

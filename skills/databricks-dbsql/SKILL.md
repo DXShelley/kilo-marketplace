@@ -1,12 +1,23 @@
 ---
-name: "databricks-dbsql"
-description: "Databricks SQL (DBSQL) advanced features and SQL warehouse capabilities. This skill MUST be invoked when the user mentions: \"DBSQL\", \"Databricks SQL\", \"SQL warehouse\", \"SQL scripting\", \"stored procedure\", \"CALL procedure\", \"materialized view\", \"CREATE MATERIALIZED VIEW\", \"pipe syntax\", \"|>\", \"geospatial\", \"H3\", \"ST_\", \"spatial SQL\", \"collation\", \"COLLATE\", \"ai_query\", \"ai_classify\", \"ai_extract\", \"ai_gen\", \"AI function\", \"http_request\", \"remote_query\", \"read_files\", \"Lakehouse Federation\", \"recursive CTE\", \"WITH RECURSIVE\", \"multi-statement transaction\", \"temp table\", \"temporary view\", \"pipe operator\". SHOULD also invoke when the user asks about SQL best practices, data modeling patterns, or advanced SQL features on Databricks."
+name: databricks-dbsql
+description: >-
+  Databricks SQL (DBSQL) advanced features and SQL warehouse capabilities. This
+  skill MUST be invoked when the user mentions: "DBSQL", "Databricks SQL", "SQL
+  warehouse", "SQL scripting", "stored procedure", "CALL procedure",
+  "materialized view", "CREATE MATERIALIZED VIEW", "pipe syntax", "|>",
+  "geospatial", "H3", "ST_", "spatial SQL", "collation", "COLLATE", "ai_query",
+  "ai_classify", "ai_extract", "ai_gen", "AI function", "http_request",
+  "remote_query", "read_files", "Lakehouse Federation", "recursive CTE", "WITH
+  RECURSIVE", "multi-statement transaction", "temp table", "temporary view",
+  "pipe operator". SHOULD also invoke when the user asks about SQL best
+  practices, data modeling patterns, or advanced SQL features on Databricks.
 metadata:
   category: data
   source:
-    repository: "https://github.com/databricks-solutions/ai-dev-kit"
-    path: "databricks-skills/databricks-dbsql"
-    license_path: "LICENSE.md"
+    repository: 'https://github.com/databricks-solutions/ai-dev-kit'
+    path: databricks-skills/databricks-dbsql
+    license_path: LICENSE.md
+    commit: 1c43c215042804a17fdfd8878a97f3617c8807be
 ---
 
 # Databricks SQL (DBSQL) - Advanced Features

@@ -1,12 +1,35 @@
 ---
-name: "snowpipe-bcdr"
-description: "Use when designing or operating Snowpipe disaster recovery on Azure ADLS Gen2 — choosing between dual-pipe, RA-GRS, active-active, or Failover Group patterns, and running failover/failback/catchup. Triggers: snowpipe BCDR, snowpipe disaster recovery, snowpipe failover, dual pipe, active-active pipe, RA-GRS snowpipe, GZRS snowpipe, snowpipe catchup, pipe failback, snowpipe high availability, failover group snowpipe, snowpipe RPO RTO."
+name: snowpipe-bcdr
+description: >-
+  Use when designing or operating Snowpipe disaster recovery on Azure ADLS Gen2
+  — choosing between dual-pipe, RA-GRS, active-active, or Failover Group
+  patterns, and running failover/failback/catchup. Triggers: snowpipe BCDR,
+  snowpipe disaster recovery, snowpipe failover, dual pipe, active-active pipe,
+  RA-GRS snowpipe, GZRS snowpipe, snowpipe catchup, pipe failback, snowpipe high
+  availability, failover group snowpipe, snowpipe RPO RTO.
 metadata:
+  upstream:
+    title: Snowpipe BCDR on Azure
+    summary: >-
+      Snowpipe disaster recovery patterns for Azure ADLS Gen2 with failover,
+      failback, and catchup procedures.
+    tools:
+      - snowflake_sql_execute
+      - Read
+      - Write
+    prompt: >-
+      Help me design and implement a Snowpipe BCDR pattern on Azure ADLS Gen2
+      with failover and catchup.
+    language: en
+    status: Published
+    author: Snowflake Solutions Team
+    type: snowflake
   category: data
   source:
-    repository: "https://github.com/Snowflake-Labs/coco-skills"
-    path: "skills/snowpipe-bcdr"
-    license_path: "skills/snowpipe-bcdr/LICENSE"
+    repository: 'https://github.com/Snowflake-Labs/coco-skills'
+    path: skills/snowpipe-bcdr
+    license_path: skills/snowpipe-bcdr/LICENSE
+    commit: d62f6ff052b7efca106432727f493a7ae62b8cf3
 ---
 
 # Snowpipe BCDR on Azure

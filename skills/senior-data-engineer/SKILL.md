@@ -1,24 +1,24 @@
 ---
-name: "senior-data-engineer"
-description: "This skill should be used for cross-system data engineering architecture and end-to-end pipeline design spanning multiple tools, including ingestion, transformation, orchestration, quality, and operations. It should defer isolated SQL, Spark, Airflow, dbt, Kafka, database, and vendor-specific tasks to narrower skills."
+name: senior-data-engineer
+description: >-
+  Data engineering skill for building scalable data pipelines, ETL/ELT systems,
+  and data infrastructure. Expertise in Python, SQL, Spark, Airflow, dbt, Kafka,
+  and modern data stack. Includes data modeling, pipeline orchestration, data
+  quality, and DataOps. Use when designing data architectures, building data
+  pipelines, optimizing data workflows, implementing data governance, or
+  troubleshooting data issues.
 metadata:
   category: data
   source:
-    repository: "https://github.com/alirezarezvani/claude-skills"
-    path: "engineering-team/skills/senior-data-engineer"
-    license_path: "LICENSE"
+    repository: 'https://github.com/alirezarezvani/claude-skills'
+    path: engineering-team/skills/senior-data-engineer
+    license_path: LICENSE
+    commit: 4a3c05b69e64f4925f7fc65c88890f614f79caf0
 ---
 
 # Senior Data Engineer
 
-Production-grade data engineering guidance for designing scalable, reliable systems across multiple components.
-
-## Scope and Composition
-
-- Activate for end-to-end architecture, cross-system pipeline design, platform tradeoffs, or incidents spanning multiple data components.
-- Do not activate for a standalone query, isolated code change, single-product configuration, or a generic request that happens to mention data.
-- Defer focused Spark, Airflow, dbt, Kafka, database, cloud, governance, and data-quality tasks to the corresponding specialist skill.
-- Compose this skill as the system-level coordinator when two or more specialist domains must share contracts, reliability goals, deployment sequencing, or operational ownership.
+Production-grade data engineering skill for building scalable, reliable data systems.
 
 ## Table of Contents
 

@@ -1,12 +1,15 @@
 ---
-name: "oleander-iceberg-catalog"
-description: "Patterns for reading and writing oleander Iceberg catalog tables in Spark jobs, including naming conventions, write modes, and catalog hierarchy."
+name: oleander-iceberg-catalog
+description: >-
+  Patterns for reading and writing oleander Iceberg catalog tables in Spark
+  jobs, including naming conventions, write modes, and catalog hierarchy.
 metadata:
   category: data
   source:
-    repository: "https://github.com/oleanderhq/skills"
-    path: "skills/oleander-iceberg-catalog"
-    license_path: "LICENSE"
+    repository: 'https://github.com/oleanderhq/skills'
+    path: skills/oleander-iceberg-catalog
+    license_path: LICENSE
+    commit: e67bc57b5bdb98f68c29d034a0cc1bb71c973e61
 ---
 
 # oleander Iceberg Catalog

@@ -1,12 +1,26 @@
 ---
-name: "azure-key-vault"
-description: "Guidance for Azure Key Vault — securely storing and managing secrets, keys, and certificates with RBAC, network isolation, managed identity access, soft delete / purge protection, and rotation. Covers when to use standard Key Vault vs Managed HSM (FIPS 140-3 Level 3), one-vault-per-app blast radius principle, and Key Vault references in App Service / Functions. WHEN: Azure Key Vault, store secrets, manage certificates, encryption keys, secret rotation, Key Vault RBAC, purge protection, soft delete, private endpoint Key Vault, managed identity access secrets, Managed HSM, Key Vault references, BYOK CMK. DO NOT USE for certificate authority design (use pki-design), entra app credentials only (use entra-id), or PaaS networking topology (use azure-network-security-design)."
+name: azure-key-vault
+description: >-
+  Guidance for Azure Key Vault — securely storing and managing secrets, keys,
+  and certificates with RBAC, network isolation, managed identity access, soft
+  delete / purge protection, and rotation. Covers when to use standard Key Vault
+  vs Managed HSM (FIPS 140-3 Level 3), one-vault-per-app blast radius principle,
+  and Key Vault references in App Service / Functions. WHEN: Azure Key Vault,
+  store secrets, manage certificates, encryption keys, secret rotation, Key
+  Vault RBAC, purge protection, soft delete, private endpoint Key Vault, managed
+  identity access secrets, Managed HSM, Key Vault references, BYOK CMK. DO NOT
+  USE for certificate authority design (use pki-design), entra app credentials
+  only (use entra-id), or PaaS networking topology (use
+  azure-network-security-design).
 metadata:
-  category: data
+  author: Microsoft
+  version: 0.1.0
+  category: development
   source:
-    repository: "https://github.com/vinayaklatthe/microsoft-security-skills"
-    path: "skills/azure-key-vault"
-    license_path: "LICENSE"
+    repository: 'https://github.com/vinayaklatthe/microsoft-security-skills'
+    path: skills/azure-key-vault
+    license_path: LICENSE
+    commit: 15f16df4ae50261328da8b82f3f0964cac0899ae
 ---
 
 # Azure Key Vault

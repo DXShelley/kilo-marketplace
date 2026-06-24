@@ -304,9 +304,9 @@ while (true) {
 ```json
 {
   "dependencies": {
-    "@confluentinc/kafka-javascript": "latest",
-    "@confluentinc/schemaregistry": "latest",
-    "protobufjs": "latest"
+    "@confluentinc/kafka-javascript": "1.9.1",
+    "@confluentinc/schemaregistry": "1.9.1",
+    "protobufjs": "8.6.5"
   }
 }
 ```

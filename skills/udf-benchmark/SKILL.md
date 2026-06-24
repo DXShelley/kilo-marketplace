@@ -1,12 +1,21 @@
 ---
-name: "udf-benchmark"
-description: "Assists with benchmarking and profiling the performance of an Apache Spark UDF on the GPU. This is step 3 of 3 in the UDF conversion workflow (udf-gen-test -> udf-convert-to-* -> udf-benchmark). Use this skill when you have a CPU UDF and a RapidsUDF or SQL implementation, and need to benchmark the performance of the CPU UDF against the GPU implementation."
+name: udf-benchmark
+description: >-
+  Assists with benchmarking and profiling the performance of an Apache Spark UDF
+  on the GPU. This is step 3 of 3 in the UDF conversion workflow (udf-gen-test
+  -> udf-convert-to-* -> udf-benchmark). Use this skill when you have a CPU UDF
+  and a RapidsUDF or SQL implementation, and need to benchmark the performance
+  of the CPU UDF against the GPU implementation.
 metadata:
+  spdx-file-copyright-text: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+  upstream:
+    model: inherit
   category: data
   source:
-    repository: "https://github.com/NVIDIA/cudf-spark"
-    path: "skills/udf-benchmark"
-    license_path: "LICENSE"
+    repository: 'https://github.com/NVIDIA/cudf-spark'
+    path: skills/udf-benchmark
+    license_path: LICENSE
+    commit: a707353465abe170e486d91304944c98f64fd938
 ---
 
 # UDF Benchmark

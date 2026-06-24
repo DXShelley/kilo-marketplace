@@ -24,14 +24,49 @@ if [[ -z "$APP_ID" || "$APP_ID" == -* || "$APP_ID" == *$'\n'* ]]; then
     exit 1
 fi
 
+STATE_DIR_ABS="$(realpath -m -- "$STATE_DIR")"
+STATE_PATH="$(realpath -m -- "${STATE_DIR_ABS}/${APP_ID}")"
+if [[ "$STATE_DIR_ABS" == "/" || "$STATE_DIR_ABS" == "$HOME" ||
+      "$STATE_PATH" == "/" || "$STATE_PATH" == "$HOME" ||
+      "$STATE_PATH" != "${STATE_DIR_ABS}/"* ]]; then
+    echo "Refusing unsafe state path: ${STATE_PATH}" >&2
+    exit 1
+fi
+
 # ── Parse arguments ──────────────────────────────────────────────────────────
 USE_CLOUD=false
 if [[ "${1:-}" == "--cloud" ]]; then
     USE_CLOUD=true
 fi
 
+# ── Discover exact internal topics ───────────────────────────────────────────
+INTERNAL_TOPICS=()
+if $USE_CLOUD; then
+    while IFS= read -r topic; do
+        INTERNAL_TOPICS+=("$topic")
+    done < <(
+        confluent kafka topic list --output json 2>/dev/null |
+        jq -r '.[].name // empty' 2>/dev/null |
+        grep -F -- "${APP_ID}-" || true
+    )
+else
+    while IFS= read -r topic; do
+        INTERNAL_TOPICS+=("$topic")
+    done < <(
+        kafka-topics --list --bootstrap-server "$BOOTSTRAP_SERVER" 2>/dev/null |
+        grep -F -- "${APP_ID}-" || true
+    )
+fi
+
+for topic in "${INTERNAL_TOPICS[@]}"; do
+    [[ "$topic" == "${APP_ID}-"* ]] || {
+        echo "Refusing unexpected internal topic: $topic" >&2
+        exit 1
+    }
+done
+
 # ── Confirmation ─────────────────────────────────────────────────────────────
-echo "This will delete ALL topics and state for application: ${APP_ID}"
+echo "This will delete ALL listed topics and local state for application: ${APP_ID}"
 echo ""
 echo "Topics to delete:"
 for topic in "${INPUT_TOPICS[@]}" "${OUTPUT_TOPICS[@]}"; do
@@ -40,10 +75,13 @@ done
 for topic in "${INPUT_TOPICS[@]}"; do
     echo "  - ${APP_ID}-${topic}-dlq"
 done
-echo "  - Internal topics matching: ${APP_ID}-*"
+for topic in "${INTERNAL_TOPICS[@]}"; do
+    echo "  - $topic"
+done
+echo "Local state to delete: ${STATE_PATH}"
 echo ""
-read -p "Continue? (y/N) " confirm
-[[ "$confirm" == "y" ]] || exit 0
+read -r -p "Type DELETE ${APP_ID} to continue: " confirm
+[[ "$confirm" == "DELETE ${APP_ID}" ]] || exit 0
 
 # ── Delete topics ────────────────────────────────────────────────────────────
 delete_topic() {
@@ -69,27 +107,21 @@ done
 
 echo ""
 echo "=== Deleting internal topics (changelog, repartition) ==="
-if $USE_CLOUD; then
-    confluent kafka topic list --output json 2>/dev/null | \
-      jq -r '.[].name // empty' 2>/dev/null | \
-      grep -F -- "${APP_ID}-" | \
-      while read -r topic; do
-        [[ "$topic" == "${APP_ID}-"* ]] && delete_topic "$topic"
-      done || echo "  No internal topics found."
+if [[ ${#INTERNAL_TOPICS[@]} -eq 0 ]]; then
+    echo "  No internal topics found."
 else
-    kafka-topics --list --bootstrap-server "$BOOTSTRAP_SERVER" 2>/dev/null | \
-      while read -r topic; do
-        [[ "$topic" == "${APP_ID}-"* ]] && delete_topic "$topic"
-      done || echo "  No internal topics found."
+    for topic in "${INTERNAL_TOPICS[@]}"; do
+        delete_topic "$topic"
+    done
 fi
 
 echo ""
 echo "=== Cleaning local state ==="
-if [[ -d "${STATE_DIR}/${APP_ID}" ]]; then
-    rm -rf "${STATE_DIR}/${APP_ID}"
-    echo "  Deleted: ${STATE_DIR}/${APP_ID}"
+if [[ -d "$STATE_PATH" ]]; then
+    rm -rf -- "$STATE_PATH"
+    echo "  Deleted: $STATE_PATH"
 else
-    echo "  No local state found at ${STATE_DIR}/${APP_ID}"
+    echo "  No local state found at $STATE_PATH"
 fi
 
 echo ""

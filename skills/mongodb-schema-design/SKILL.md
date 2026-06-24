@@ -1,12 +1,22 @@
 ---
-name: "mongodb-schema-design"
-description: "MongoDB schema design patterns and anti-patterns. Use when designing data models, reviewing schemas, migrating from SQL, or troubleshooting performance issues caused by schema problems. Triggers on \"design schema\", \"embed vs reference\", \"MongoDB data model\", \"schema review\", \"unbounded arrays\", \"one-to-many\", \"tree structure\", \"16MB limit\", \"schema validation\", \"JSON Schema\", \"time series\", \"schema migration\", \"polymorphic\", \"TTL\", \"data lifecycle\", \"archive\", \"index explosion\", \"unnecessary indexes\", \"approximation pattern\", \"document versioning\"."
+name: mongodb-schema-design
+description: >-
+  MongoDB schema design patterns and anti-patterns. Use when designing data
+  models, reviewing schemas, migrating from SQL, or troubleshooting performance
+  issues caused by schema problems. Triggers on "design schema", "embed vs
+  reference", "MongoDB data model", "schema review", "unbounded arrays",
+  "one-to-many", "tree structure", "16MB limit", "schema validation", "JSON
+  Schema", "time series", "schema migration", "polymorphic", "TTL", "data
+  lifecycle", "archive", "index explosion", "unnecessary indexes",
+  "approximation pattern", "document versioning".
 metadata:
+  version: 1.0.0
   category: data
   source:
-    repository: "https://github.com/mongodb/agent-skills"
-    path: "skills/mongodb-schema-design"
-    license_path: "LICENSE"
+    repository: 'https://github.com/mongodb/agent-skills'
+    path: skills/mongodb-schema-design
+    license_path: LICENSE
+    commit: 9ea7387c7a1638604542c6efd52e5efc6a7fc393
 ---
 
 # MongoDB Schema Design

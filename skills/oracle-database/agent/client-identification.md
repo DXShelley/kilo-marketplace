@@ -12,7 +12,7 @@ The primary package for identifying who is running what.
 -- Set at the start of every agent session
 BEGIN
   DBMS_APPLICATION_INFO.SET_MODULE(
-    module_name => 'claude-agent',   -- max 48 chars; identifies the agent system
+    module_name => 'kilo-agent',   -- max 48 chars; identifies the agent system
     action_name => 'session-start'   -- max 32 chars; identifies the current task
   );
   DBMS_APPLICATION_INFO.SET_CLIENT_INFO(
@@ -96,7 +96,7 @@ SELECT sid,
        status,
        last_call_et AS seconds_since_last_call
 FROM   v$session
-WHERE  module = 'claude-agent'
+WHERE  module = 'kilo-agent'
 ORDER  BY last_call_et;
 ```
 
@@ -112,7 +112,7 @@ SELECT sample_time,
        action,
        client_id
 FROM   v$active_session_history
-WHERE  module = 'claude-agent'
+WHERE  module = 'kilo-agent'
   AND  sample_time >= SYSDATE - 1/24  -- last hour
 ORDER  BY sample_time DESC;
 ```
@@ -129,7 +129,7 @@ SELECT sql_text,
        module,
        action
 FROM   v$sql
-WHERE  module = 'claude-agent'
+WHERE  module = 'kilo-agent'
 ORDER  BY elapsed_time DESC
 FETCH  FIRST 20 ROWS ONLY;
 ```
@@ -161,10 +161,10 @@ ORDER  BY event_timestamp DESC;
 ## Recommended Naming Convention
 
 ```
-MODULE:  '<agent-name>'                  e.g. 'claude-agent', 'my-chatbot'
+MODULE:  '<agent-name>'                  e.g. 'kilo-agent', 'my-chatbot'
 ACTION:  '<current-task>'                e.g. 'rag-ingest', 'report-gen', 'schema-fix'
 CLIENT_INFO: 'key:value|key:value'       e.g. 'user:klrice|request-id:req-42'
-CLIENT_IDENTIFIER: '<agent>:<user>:<id>' e.g. 'claude-agent:klrice:session-42'
+CLIENT_IDENTIFIER: '<agent>:<user>:<id>' e.g. 'kilo-agent:klrice:session-42'
 ```
 
 Keep MODULE and ACTION consistent across sessions so AWR/ASH history is queryable by these values.
@@ -195,7 +195,7 @@ END;
 /
 
 -- Usage at session start
-EXEC init_agent_session('claude-agent', 'rag-ingest', 'klrice', 'req-1042');
+EXEC init_agent_session('kilo-agent', 'rag-ingest', 'klrice', 'req-1042');
 ```
 
 ## CLIENT_IDENTIFIER Truncation and Encoding
@@ -228,7 +228,7 @@ Recommended encoding scheme for `CLIENT_IDENTIFIER`:
 AGENT_TYPE:AGENT_ID:TASK_ID:STEP
 ```
 
-Truncated to 64 bytes, with the most important segment (AGENT_TYPE) placed first so it survives truncation. Example: `claude-agent:ra-ingest:task-042:step-3`.
+Truncated to 64 bytes, with the most important segment (AGENT_TYPE) placed first so it survives truncation. Example: `kilo-agent:rag-ingest:task-042:step-3`.
 
 ## Connection Pool Identification (UCP / DRCP)
 

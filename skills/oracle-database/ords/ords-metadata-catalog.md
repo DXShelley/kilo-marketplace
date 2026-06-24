@@ -282,9 +282,13 @@ END;
 ORDS standalone can serve Swagger UI static files from its `doc_root` directory:
 
 ```shell
-# Download Swagger UI distribution
-curl -L https://github.com/swagger-api/swagger-ui/archive/v5.x.x.tar.gz | tar xz
-cp -r swagger-ui-5.x.x/dist/* /opt/oracle/ords/config/ords/standalone/doc_root/swagger/
+# Download and verify the reviewed Swagger UI source revision
+curl -fL https://github.com/swagger-api/swagger-ui/archive/4e0d3f88de7db0395a80ef0541ff428f0926d484.tar.gz -o swagger-ui.tar.gz
+printf '%s  %s\n' 'ca41262ad814d6a7f08ba17c1b3fbd52e022982114754a1779cf49b2fa343872' 'swagger-ui.tar.gz' | sha256sum -c -
+tar -tzf swagger-ui.tar.gz
+mkdir -p swagger-ui-src
+tar -xzf swagger-ui.tar.gz --strip-components=1 -C swagger-ui-src
+cp -r swagger-ui-src/dist/* /opt/oracle/ords/config/ords/standalone/doc_root/swagger/
 ```
 
 Create a redirect page at the ORDS doc root:

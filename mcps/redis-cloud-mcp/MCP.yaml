@@ -3,7 +3,7 @@ name: Redis Cloud Administration MCP
 description: Manages Redis Cloud accounts, subscriptions, plans, payment methods, and provisioning tasks through the Redis Cloud API using account API-key credentials; this server does not access database data.
 author: Redis
 url: https://github.com/redis/mcp-redis-cloud
-category: data
+category: development
 prerequisites:
   - Node.js 22 or newer
   - Redis Cloud API key and secret

@@ -1,12 +1,17 @@
 ---
-name: "bigquery-ai-ml"
-description: "This skill should be used when implementing BigQuery AI and ML workflows with SQL functions such as AI.FORECAST, AI.DETECT_ANOMALIES, and AI.GENERATE or when integrating BigQuery with Vertex AI."
+name: bigquery-ai-ml
+description: >-
+  Leverages BigQuery's built-in machine learning and GenAI capabilities for
+  advanced data analytics. Use when you need to write SQL queries that perform
+  time-series forecasting, detect outliers, or leverage generative AI
+  capabilities in BigQuery.
 metadata:
   category: data
   source:
-    repository: "https://github.com/google/skills"
-    path: "skills/cloud/bigquery-ai-ml"
-    license_path: "LICENSE"
+    repository: 'https://github.com/google/skills'
+    path: skills/cloud/bigquery-ai-ml
+    license_path: LICENSE
+    commit: 28d90a333c4d900bcc76e498363e0c835dc69a5c
 ---
 
 # BigQuery AI & ML

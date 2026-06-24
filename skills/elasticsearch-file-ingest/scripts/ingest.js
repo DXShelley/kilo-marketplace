@@ -20,7 +20,7 @@ function showUsage() {
   console.log("  --stdin                  Read NDJSON/CSV from stdin");
   console.log("\nElasticsearch Connection (environment variables only):");
   console.log("  ELASTICSEARCH_API_KEY, ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD");
-  console.log("  ELASTICSEARCH_CLOUD_ID, ELASTICSEARCH_URL, ELASTICSEARCH_INSECURE");
+  console.log("  ELASTICSEARCH_CLOUD_ID, ELASTICSEARCH_URL, NODE_EXTRA_CA_CERTS");
   console.log("\nIndex Configuration:");
   console.log("  --mappings <file.json>   Mappings file");
   console.log("  --infer-mappings         Infer mappings/pipeline from file/stream");
@@ -60,7 +60,6 @@ function getDefaultClientConfig() {
   const url = process.env.ELASTICSEARCH_URL;
   const username = process.env.ELASTICSEARCH_USERNAME;
   const password = process.env.ELASTICSEARCH_PASSWORD;
-  const insecure = process.env.ELASTICSEARCH_INSECURE === "true";
 
   const config = {};
 
@@ -78,9 +77,6 @@ function getDefaultClientConfig() {
     config.auth = { username, password };
   }
 
-  if (insecure) {
-    config.tls = { rejectUnauthorized: false };
-  }
 
   config.headers = { "User-Agent": "elastic-agentic" };
 
@@ -303,7 +299,7 @@ function printConnectionHelp() {
   console.error("  2. Direct URL + API Key: ELASTICSEARCH_URL + ELASTICSEARCH_API_KEY");
   console.error("  3. Basic Auth: ELASTICSEARCH_URL + ELASTICSEARCH_USERNAME + ELASTICSEARCH_PASSWORD");
   console.error("");
-  console.error("For self-signed certs: set ELASTICSEARCH_INSECURE=true");
+  console.error("For private CAs: set NODE_EXTRA_CA_CERTS=/path/to/private-ca-bundle.pem");
   console.error("");
   console.error("For local development, see:");
   console.error("  https://www.elastic.co/guide/en/elasticsearch/reference/current/run-elasticsearch-locally.html");

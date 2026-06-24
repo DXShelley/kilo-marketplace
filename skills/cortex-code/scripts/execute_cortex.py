@@ -10,7 +10,6 @@ import os
 import subprocess
 import sys
 import argparse
-import tempfile
 import threading
 import queue
 import time
@@ -98,11 +97,15 @@ def execute_cortex_streaming(prompt: str, connection: Optional[str] = None,
     if approval_mode in ["auto", "envelope_only"] and envelope == "DEPLOY" and not deploy_confirmed:
         raise ValueError("DEPLOY envelope requires explicit confirmation")
 
-    # Cortex supports file input in batch mode. The private prompt file is
-    # created immediately before process launch so prompt text never appears in
-    # child process arguments. Do not use --input-format stream-json: that mode
-    # expects protocol JSON on stdin.
-    cmd = ["cortex", "--output-format", "stream-json"]
+    # Build command in print mode. The prompt is delivered with -p; do not add
+    # --input-format stream-json here. Cortex treats that flag as JSON stdin
+    # input mode, so combining it with -p and closed stdin can emit only the
+    # initial session event and exit before the prompt is processed.
+    cmd = [
+        "cortex",
+        "-p", prompt,
+        "--output-format", "stream-json"
+    ]
 
     # Add connection if specified
     if connection:
@@ -148,7 +151,7 @@ def execute_cortex_streaming(prompt: str, connection: Optional[str] = None,
         for tool in final_disallowed_tools:
             cmd.extend(["--disallowed-tools", tool])
 
-    debug_cmd = "cortex -f <private-prompt-file> --output-format stream-json"
+    debug_cmd = f"cortex -p \"...\" --output-format stream-json"
     if connection:
         debug_cmd += f" -c {connection}"
     if final_disallowed_tools:
@@ -173,23 +176,9 @@ def execute_cortex_streaming(prompt: str, connection: Optional[str] = None,
         except Exception:
             pass
 
-    prompt_fd, prompt_path = tempfile.mkstemp(prefix="cortex-prompt-", suffix=".txt", text=True)
-    try:
-        os.fchmod(prompt_fd, 0o600)
-        with os.fdopen(prompt_fd, "w", encoding="utf-8") as prompt_file:
-            prompt_file.write(prompt)
-    except Exception:
-        try:
-            os.close(prompt_fd)
-        except OSError:
-            pass
-        Path(prompt_path).unlink(missing_ok=True)
-        raise
-    cmd[1:1] = ["-f", prompt_path]
-
     try:
         # Start process. stdin=DEVNULL prevents accidental reads from the parent
-        # terminal; prompt delivery is handled exclusively by the private file.
+        # terminal; prompt delivery is handled exclusively by -p print mode.
         process = subprocess.Popen(
             cmd,
             stdout=subprocess.PIPE,
@@ -334,8 +323,6 @@ def execute_cortex_streaming(prompt: str, connection: Optional[str] = None,
             "final_result": None,
             "error": _redact_error_output(str(e))
         }
-    finally:
-        Path(prompt_path).unlink(missing_ok=True)
 
 
 def _resolve_output_path(output_file: str) -> Path:
@@ -355,10 +342,7 @@ def _resolve_output_path(output_file: str) -> Path:
 def main():
     """Main execution function."""
     parser = argparse.ArgumentParser(description="Execute Cortex Code headlessly")
-    parser.add_argument(
-        "--prompt-file",
-        help="Read the prompt from this file; omit to read it from stdin. Prompt text is never placed in process arguments.",
-    )
+    parser.add_argument("--prompt", required=True, help="Prompt to send to Cortex")
     parser.add_argument("--connection", "-c", help="Snowflake connection name")
     parser.add_argument("--disallowed-tools", nargs="+", help="Tools to explicitly block")
     parser.add_argument("--envelope", default="RW",
@@ -377,18 +361,9 @@ def main():
     parser.add_argument("--stream", action="store_true", help="Stream output (always true)")
     args = parser.parse_args()
 
-    if args.prompt_file:
-        prompt = Path(args.prompt_file).expanduser().read_text(encoding="utf-8")
-    elif not sys.stdin.isatty():
-        prompt = sys.stdin.read()
-    else:
-        parser.error("provide --prompt-file or pipe the prompt on stdin")
-    if not prompt.strip():
-        parser.error("prompt must not be empty")
-
     # Execute Cortex
     results = execute_cortex_streaming(
-        prompt,
+        args.prompt,
         connection=args.connection,
         disallowed_tools=args.disallowed_tools,
         envelope=args.envelope,

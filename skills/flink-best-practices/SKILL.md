@@ -1,12 +1,15 @@
 ---
-name: "flink-best-practices"
-description: "Apache Flink development best practices for DataStream API, state management, checkpointing, event time processing, and deployment"
+name: flink-best-practices
+description: >-
+  Apache Flink development best practices for DataStream API, state management,
+  checkpointing, event time processing, and deployment
 metadata:
   category: data
   source:
-    repository: "https://github.com/BigDataBoutique/skills"
-    path: "flink-best-practices"
-    license_path: "LICENSE"
+    repository: 'https://github.com/BigDataBoutique/skills'
+    path: flink-best-practices
+    license_path: LICENSE
+    commit: 1831ce77355a610d52b3545a96f9779476ed0681
 ---
 
 # Apache Flink Best Practices
@@ -494,7 +497,7 @@ kind: FlinkDeployment
 metadata:
   name: my-flink-job
 spec:
-  image: my-registry/my-flink-job:latest
+  image: ${FLINK_IMAGE_REF:?Set FLINK_IMAGE_REF to my-registry/my-flink-job@sha256:<reviewed-digest>}
   flinkVersion: v1_19
   flinkConfiguration:
     state.backend.type: rocksdb

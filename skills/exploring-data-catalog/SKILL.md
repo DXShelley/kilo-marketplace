@@ -1,12 +1,22 @@
 ---
-name: "exploring-data-catalog"
-description: "This skill should be used for read-only inventory and discovery across AWS Glue Data Catalog, S3 Tables, Redshift-federated catalogs, and remote Iceberg catalogs; it maps databases, tables, schemas, and locations without querying production data."
+name: exploring-data-catalog
+description: >-
+  Full inventory and audit of AWS Glue Data Catalog assets across S3 Tables,
+  Redshift-federated, and remote Iceberg catalogs. Triggers on: inventory the
+  catalog, audit databases, list all tables, catalog overview, data landscape,
+  enumerate catalogs, data inventory, search the catalog. Do NOT use for finding
+  specific data (use finding-data-lake-assets), running queries (use
+  querying-data-lake), or creating tables (use creating-data-lake-table).
 metadata:
+  upstream:
+    version: 2
+    argument-hint: '[search-term|catalog-name|database-name|s3://bucket-path|table-name]'
   category: data
   source:
-    repository: "https://github.com/aws/agent-toolkit-for-aws"
-    path: "plugins/aws-data-analytics/skills/exploring-data-catalog"
-    license_path: "LICENSE"
+    repository: 'https://github.com/aws/agent-toolkit-for-aws'
+    path: plugins/aws-data-analytics/skills/exploring-data-catalog
+    license_path: LICENSE
+    commit: cbdc61a29707dc97989d5d11a2b53ad584781e78
 ---
 
 Structured inventory and cataloging across your AWS data landscape: Glue Data Catalog with S3 Tables, Redshift-federated, and remote Iceberg catalogs.

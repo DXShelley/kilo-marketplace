@@ -1,12 +1,17 @@
 ---
-name: "pytorch-patterns"
-description: "PyTorch deep learning patterns and best practices for building robust, efficient, and reproducible training pipelines, model architectures, and data loading."
+name: pytorch-patterns
+description: >-
+  PyTorch deep learning patterns and best practices for building robust,
+  efficient, and reproducible training pipelines, model architectures, and data
+  loading.
 metadata:
+  origin: ECC
   category: data
   source:
-    repository: "https://github.com/affaan-m/ECC"
-    path: "skills/pytorch-patterns"
-    license_path: "LICENSE"
+    repository: 'https://github.com/affaan-m/ECC'
+    path: skills/pytorch-patterns
+    license_path: LICENSE
+    commit: 71d22d0a77b7e0684f4e51cba03749b788993cdb
 ---
 
 # PyTorch Development Patterns

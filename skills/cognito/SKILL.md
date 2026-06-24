@@ -1,12 +1,16 @@
 ---
-name: "cognito"
-description: "AWS Cognito user authentication and authorization service. Use when setting up user pools, configuring identity pools, implementing OAuth flows, managing user attributes, or integrating with social identity providers."
+name: cognito
+description: >-
+  AWS Cognito user authentication and authorization service. Use when setting up
+  user pools, configuring identity pools, implementing OAuth flows, managing
+  user attributes, or integrating with social identity providers.
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/itsmostafa/aws-agent-skills"
-    path: "skills/cognito"
-    license_path: "LICENSE"
+    repository: 'https://github.com/itsmostafa/aws-agent-skills'
+    path: skills/cognito
+    license_path: LICENSE
+    commit: 4ab904a69cda893b5c98f97966bf9a48311823e9
 ---
 
 # AWS Cognito
@@ -117,14 +121,20 @@ def get_secret_hash(username, client_id, client_secret):
     ).digest()
     return base64.b64encode(dig).decode()
 
+import os
+
+username = 'user@example.invalid'
+client_id = os.environ['COGNITO_CLIENT_ID']
+client_secret = os.environ['COGNITO_CLIENT_SECRET']
+
 response = cognito.sign_up(
-    ClientId='client-id',
-    SecretHash=get_secret_hash('user@example.com', 'client-id', 'client-secret'),
-    Username='user@example.com',
-    Password='SecurePassword123!',
+    ClientId=client_id,
+    SecretHash=get_secret_hash(username, client_id, client_secret),
+    Username=username,
+    Password=os.environ['COGNITO_INITIAL_PASSWORD'],
     UserAttributes=[
-        {'Name': 'email', 'Value': 'user@example.com'},
-        {'Name': 'name', 'Value': 'John Doe'}
+        {'Name': 'email', 'Value': username},
+        {'Name': 'name', 'Value': 'Example User'}
     ]
 )
 ```

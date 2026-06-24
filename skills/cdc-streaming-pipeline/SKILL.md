@@ -1,12 +1,23 @@
 ---
-name: "cdc-streaming-pipeline"
-description: "Build a real-time change-data-capture pipeline from a transactional database (Aurora DSQL, Aurora Postgres, RDS) to Redshift Serverless, S3, or any other sink, via Kinesis Data Streams (or MSK). Covers producer setup, consumer Lambda correctness, the append-only event log + reconstruction pattern, schema-drift handling with SUPER + JSON_PARSE, and the operational gotchas (Redshift Data API parameter caps, async statement polling, poison-record handling, retry-and-bisect). Use when the user asks for \"CDC to Redshift\", \"stream change data capture\", \"Aurora CDC\", \"DSQL CDC\", \"Postgres replication to S3\", or \"build a Lambda consumer for Kinesis CDC\". Aurora DSQL public-preview specifics are flagged; the rest is source-agnostic."
+name: cdc-streaming-pipeline
+description: >-
+  Build a real-time change-data-capture pipeline from a transactional database
+  (Aurora DSQL, Aurora Postgres, RDS) to Redshift Serverless, S3, or any other
+  sink, via Kinesis Data Streams (or MSK). Covers producer setup, consumer
+  Lambda correctness, the append-only event log + reconstruction pattern,
+  schema-drift handling with SUPER + JSON_PARSE, and the operational gotchas
+  (Redshift Data API parameter caps, async statement polling, poison-record
+  handling, retry-and-bisect). Use when the user asks for "CDC to Redshift",
+  "stream change data capture", "Aurora CDC", "DSQL CDC", "Postgres replication
+  to S3", or "build a Lambda consumer for Kinesis CDC". Aurora DSQL
+  public-preview specifics are flagged; the rest is source-agnostic.
 metadata:
   category: data
   source:
-    repository: "https://github.com/jaingxyz/aws-data-skills"
-    path: "skills/cdc-streaming-pipeline"
-    license_path: "LICENSE"
+    repository: 'https://github.com/jaingxyz/aws-data-skills'
+    path: skills/cdc-streaming-pipeline
+    license_path: LICENSE
+    commit: 57fdbc37f1883d5abd320f0a9b0ef04a0a5c5930
 ---
 
 # CDC streaming pipeline (Kinesis -> Redshift Serverless / S3)

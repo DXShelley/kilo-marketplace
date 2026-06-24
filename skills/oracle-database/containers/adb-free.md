@@ -8,7 +8,7 @@
 
 - **Registry path:** `container-registry.oracle.com/database/adb-free`
 - **OCR short description:** Oracle Autonomous Database Free
-- **Latest pull command shown on OCR:** `docker pull container-registry.oracle.com/database/adb-free:latest`
+- **Image selection:** Resolve an exact reviewed digest for `container-registry.oracle.com/database/adb-free` from Oracle Container Registry and pull `container-registry.oracle.com/database/adb-free@sha256:<reviewed-digest>`. Do not use a moving tag.
 - **License note on OCR:** OCR states that the software in this repository is licensed under the Oracle Free Use Terms and Conditions provided in the container image.
 
 ## What Oracle Documents Here

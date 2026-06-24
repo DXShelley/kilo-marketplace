@@ -1,12 +1,17 @@
 ---
-name: "bootstrapping-agent"
-description: "Wires up an Airbyte connector for use in a PydanticAI or Claude SDK agent. Generates auth config, connector initialization, and tool_utils-decorated tool function. Use when adding a connector to an agent or setting up a new agent with a connector."
+name: bootstrapping-agent
+description: >-
+  Wires up an Airbyte connector for use in a PydanticAI or Claude SDK agent.
+  Generates auth config, connector initialization, and tool_utils-decorated tool
+  function. Use when adding a connector to an agent or setting up a new agent
+  with a connector.
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/airbytehq/airbyte-agent-sdk"
-    path: ".codex/skills/bootstrapping-agent"
-    license_path: "LICENSE"
+    repository: 'https://github.com/airbytehq/airbyte-agent-sdk'
+    path: .codex/skills/bootstrapping-agent
+    license_path: LICENSE
+    commit: f20dbf71efa4f63cf57e2209049fd53c4c0f0614
 ---
 
 # Bootstrapping an Agent with an Airbyte Connector
@@ -68,7 +73,7 @@ async def stripe_execute(...):
 
 `tool_utils` automatically translates retryable errors to the framework's retry signal (`ModelRetry` for pydantic-ai). The example above continues to work unchanged — translation happens inside `tool_utils` with no extra decorator needed.
 
-For verification without credentials, mock the connector's network calls in the user's test suite and assert the generated tool schema plus retry translation.
+Reference demo: `connector-sdk/examples/demo_agent.py` (mocked, no credentials needed: `--mock`).
 
 ## Verify the Setup
 
@@ -109,6 +114,8 @@ AIRBYTE_CLIENT_SECRET=your_client_secret
 AIRBYTE_WORKSPACE_NAME=your_workspace_name
 ```
 
-## API Discovery
+## References
 
-This package does not bundle a sibling SDK reference. Inspect the installed connector class and the current `airbyte-agent-sdk` documentation for exact signatures. The stable workflow is: construct `AirbyteAuthConfig`, instantiate a typed connector, call `check()`, inspect `list_entities()` and `entity_schema()` when available, and expose `execute(entity, action, params)` through the host framework's tool decorator.
+- [SDK API reference](../airbyte-sdk-reference/sdk-api.md) — full API signatures and options
+- [PydanticAI patterns](../airbyte-sdk-reference/pydantic-ai.md) — complete runnable examples
+- [Claude SDK patterns](../airbyte-sdk-reference/claude-sdk.md) — Anthropic Python SDK examples

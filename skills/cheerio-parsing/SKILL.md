@@ -1,12 +1,16 @@
 ---
-name: "cheerio-parsing"
-description: "Expert guidance for HTML/XML parsing using Cheerio in Node.js with best practices for DOM traversal, data extraction, and efficient scraping pipelines."
+name: cheerio-parsing
+description: >-
+  Expert guidance for HTML/XML parsing using Cheerio in Node.js with best
+  practices for DOM traversal, data extraction, and efficient scraping
+  pipelines.
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/Mindrally/skills"
-    path: "cheerio-parsing"
-    license_path: "LICENSE"
+    repository: 'https://github.com/Mindrally/skills'
+    path: cheerio-parsing
+    license_path: LICENSE
+    commit: 05a71308897983093248d719a2ffa1bca61d0768
 ---
 
 # Cheerio HTML Parsing

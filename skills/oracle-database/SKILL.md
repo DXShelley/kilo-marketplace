@@ -1,12 +1,22 @@
 ---
-name: "oracle-database"
-description: "Oracle Database guidance for SQL, PL/SQL, SQLcl, ORDS, administration, app development, performance, security, migrations, and agent-safe database workflows. Use when the user asks to write, edit, rewrite, review, format, debug, tune, or explain SQL; create or refactor PL/SQL; use SQLcl, Liquibase, ORDS, JDBC, node-oracledb, Python, Java, .NET, or database frameworks; troubleshoot queries, sessions, locks, waits, indexes, optimizer plans, AWR, ASH, migrations, schemas, users, roles, privileges, backup, recovery, Data Guard, RAC, multitenant, containers, monitoring, auditing, encryption, VPD, or safe agent database operations."
+name: oracle-database
+description: >-
+  Oracle Database guidance for SQL, PL/SQL, SQLcl, ORDS, administration, app
+  development, performance, security, migrations, and agent-safe database
+  workflows. Use when the user asks to write, edit, rewrite, review, format,
+  debug, tune, or explain SQL; create or refactor PL/SQL; use SQLcl, Liquibase,
+  ORDS, JDBC, node-oracledb, Python, Java, .NET, or database frameworks;
+  troubleshoot queries, sessions, locks, waits, indexes, optimizer plans, AWR,
+  ASH, migrations, schemas, users, roles, privileges, backup, recovery, Data
+  Guard, RAC, multitenant, containers, monitoring, auditing, encryption, VPD, or
+  safe agent database operations.
 metadata:
   category: data
   source:
-    repository: "https://github.com/oracle/skills"
-    path: "db"
-    license_path: "LICENSE.txt"
+    repository: 'https://github.com/oracle/skills'
+    path: db
+    license_path: LICENSE.txt
+    commit: 69af8ce3d655b4c2d92882cd64d94b39736924a7
 ---
 
 # Oracle Database Skills

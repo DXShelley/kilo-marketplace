@@ -2,7 +2,7 @@
 
 ## Overview
 
-The SQLcl MCP Server is a built-in capability of Oracle SQLcl (**25.2 or later**) that exposes Oracle Database functionality to AI assistants via the **Model Context Protocol (MCP)**. SQLcl acts as the MCP server — it holds the database connection and handles authentication, while AI clients (Claude Desktop, Claude Code, VS Code with Cline, etc.) drive the interaction through well-defined MCP tool calls.
+The SQLcl MCP Server is a built-in capability of Oracle SQLcl (**25.2 or later**) that exposes Oracle Database functionality to AI assistants via the **Model Context Protocol (MCP)**. SQLcl acts as the MCP server — it holds the database connection and handles authentication, while compatible MCP clients drive the interaction through well-defined MCP tool calls.
 
 Communication uses **`stdio` only**. The AI client spawns SQLcl as a child process and communicates via stdin/stdout. There is no HTTP, SSE, or network port.
 
@@ -10,7 +10,7 @@ Communication uses **`stdio` only**. The AI client spawns SQLcl as a child proce
 
 ## Prerequisites
 
-- **SQLcl 25.2 or later** (MCP was not present in 24.3 or earlier) — download: https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip
+- **SQLcl 25.2 or later** (MCP was not present in 24.3 or earlier). Prefer Homebrew or WinGet; for manual installation, select an exact release and verify a separately authenticated SHA-256 before extraction.
 - **JRE 17 or 21**
 
 Verify your version:
@@ -32,13 +32,7 @@ Upgrade on Windows (PowerShell):
 winget upgrade Oracle.SQLcl
 ```
 
-Manual install from zip (macOS/Linux):
-
-```shell
-curl -O https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip
-unzip sqlcl-latest.zip -d ~/sqlcl
-export PATH="$HOME/sqlcl/sqlcl/bin:$PATH"
-```
+Manual install from zip (macOS/Linux): download an exact version from Oracle's official downloads page, obtain its SHA-256 through a separately authenticated channel, verify it, inspect the archive with `unzip -l`, and only then extract it to a user-owned directory. If an independently verifiable SHA-256 is unavailable, use Homebrew or WinGet instead.
 
 Find the absolute path to `sql` (needed for MCP config):
 
@@ -112,9 +106,9 @@ sql -R 1 -mcp
 
 ## Step 3: Configure Your AI Client
 
-### Claude Desktop
+### Generic MCP Client Config
 
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Add a `sqlcl` MCP server entry to your client's MCP configuration:
 
 ```json
 {
@@ -149,17 +143,11 @@ Use the absolute path to `sql` — find it with:
 which sql
 ```
 
-Restart Claude Desktop after editing the config.
+Restart your MCP client after editing the config.
 
-### Claude Code
+### Project-Level MCP Config
 
-Add the server using the `claude mcp add` command:
-
-```shell
-claude mcp add sqlcl /path/to/sql -- -mcp
-```
-
-Or manually create/edit `.mcp.json` in your project directory:
+Create or edit `.mcp.json` in your project directory:
 
 ```json
 {
@@ -172,11 +160,7 @@ Or manually create/edit `.mcp.json` in your project directory:
 }
 ```
 
-Verify the server is registered:
-
-```shell
-claude mcp list
-```
+Verify the server is registered with your MCP client.
 
 ### VS Code with Cline
 
@@ -404,7 +388,7 @@ This provides a full audit trail of AI-driven SQL execution, including which AI 
 
 SQLcl populates Oracle session metadata for MCP connections:
 
-- `V$SESSION.MODULE` — set to the MCP client name (e.g., `Claude Desktop`)
+- `V$SESSION.MODULE` — set to the MCP client name
 - `V$SESSION.ACTION` — set to the LLM model name
 
 This allows DBAs to identify and monitor AI-driven sessions in real time.

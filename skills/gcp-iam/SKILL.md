@@ -1,12 +1,25 @@
 ---
-name: "gcp-iam"
-description: "Manages identity and access control for Google Cloud resources using IAM policies and roles."
+name: gcp-iam
+description: >-
+  Manages identity and access control for Google Cloud resources using IAM
+  policies and roles.
 metadata:
-  category: data
+  upstream:
+    cluster: cloud-gcp
+    tags:
+      - gcp
+      - iam
+      - access-control
+    authorization_required: false
+    scope: general
+    model_hint: claude-sonnet
+    embedding_hint: gcp iam access management policies roles permissions google cloud security
+  category: development
   source:
-    repository: "https://github.com/alphaonedev/openclaw-graph"
-    path: "skills/cloud-gcp/gcp-iam"
-    license_path: "LICENSE"
+    repository: 'https://github.com/alphaonedev/openclaw-graph'
+    path: skills/cloud-gcp/gcp-iam
+    license_path: LICENSE
+    commit: 74b6037eb3320f51167ff1a72dd5f5e22f0f30e7
 ---
 
 # gcp-iam

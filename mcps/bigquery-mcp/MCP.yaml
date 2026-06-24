@@ -1,12 +1,12 @@
 id: bigquery-mcp
 name: BigQuery Remote MCP
-description: Queries and manages BigQuery resources through Google's hosted MCP endpoint using Google OAuth credentials and BigQuery IAM permissions.
+description: Queries BigQuery through Google's hosted MCP endpoint using a dedicated Google identity with backend-enforced read-only IAM roles.
 author: Google Cloud
 url: https://docs.cloud.google.com/bigquery/docs/use-bigquery-mcp
 category: data
 prerequisites:
   - Google Cloud project with the BigQuery API enabled
-  - Google identity with the required BigQuery IAM roles
+  - Dedicated Google identity limited to BigQuery Metadata Viewer and Data Viewer roles
 content:
   - name: Google hosted remote server
     content: |

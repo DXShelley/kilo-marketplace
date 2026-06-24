@@ -1,12 +1,17 @@
 ---
-name: "elasticsearch-file-ingest"
-description: "Ingest and transform data files (CSV/JSON/Parquet/Arrow IPC) into Elasticsearch with stream processing and custom transforms. Use when loading files or batch importing data — not for reindexing, general ingest pipeline design, or bulk API patterns."
+name: elasticsearch-file-ingest
+description: >-
+  Ingest and transform data files (CSV/JSON/Parquet/Arrow IPC) into
+  Elasticsearch with stream processing and custom transforms. Use when loading
+  files or batch importing data — not for reindexing, general ingest pipeline
+  design, or bulk API patterns.
 metadata:
   category: data
   source:
-    repository: "https://github.com/elastic/agent-skills"
-    path: "skills/elasticsearch/elasticsearch-file-ingest"
-    license_path: "LICENSE"
+    repository: 'https://github.com/elastic/agent-skills'
+    path: skills/elasticsearch/elasticsearch-file-ingest
+    license_path: LICENSE
+    commit: e0d6b02194d4ec74cf9e5975290e950fc5ba549f
 ---
 
 # Elasticsearch File Ingest
@@ -73,10 +78,12 @@ For local development and testing, see
 to spin up Elasticsearch and Kibana. After setup, export the connection variables (URL and API key or credentials) as
 shown in Option 2 or Option 3 above.
 
-#### Optional: Skip TLS verification (development only)
+#### Private CA certificates
+
+Keep TLS verification enabled. For a development cluster signed by a private CA, point Node.js at the reviewed CA bundle:
 
 ```bash
-export ELASTICSEARCH_INSECURE="true"
+export NODE_EXTRA_CA_CERTS="/path/to/private-ca-bundle.pem"
 ```
 
 ## Test Connection

@@ -52,10 +52,9 @@ sudo useradd -u 1101 -g db2fadm1 -m -d /home/db2fenc1 -s /bin/bash db2fenc1
 sudo groupadd -g 1102 dasadm1
 sudo useradd -u 1102 -g dasadm1 -m -d /home/dasusr1 -s /bin/bash dasusr1
 
-# Set passwords through masked interactive prompts. Do not place passwords in
-# shell arguments, scripts, history, or process-substitution commands.
-sudo passwd db2inst1
-sudo passwd db2fenc1
+# Set passwords
+echo 'db2inst1:StrongP@ss!2024' | sudo chpasswd
+echo 'db2fenc1:FencedP@ss!2024' | sudo chpasswd
 ```
 
 ### Installation Methods
@@ -152,9 +151,8 @@ db2stop force
 # Check instance status
 db2pd -
 
-# Attach to instance (for remote admin); omit USING so DB2 prompts securely.
-db2 attach to db2inst1 user db2inst1
-# Enter the credential only at the masked prompt.
+# Attach to instance (for remote admin)
+db2 attach to db2inst1 user db2inst1 using 'StrongP@ss!2024'
 ```
 
 ### Instance Profile and Environment
@@ -394,5 +392,4 @@ SELECT SCHEMANAME, OWNER FROM SYSCAT.SCHEMATA WHERE SCHEMANAME NOT LIKE 'SYS%';
 
 CONNECT RESET;
 ```
-
 ---

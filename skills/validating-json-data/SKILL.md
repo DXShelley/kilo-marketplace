@@ -1,12 +1,20 @@
 ---
-name: "validating-json-data"
-description: "Validates JSON data against JSON Schema using the z-schema library. Use when the user needs to validate JSON, check data against a schema, handle validation errors, use custom format validators, work with JSON Schema drafts 04 through 2020-12, set up z-schema in a project, compile schemas with cross-references, resolve remote $ref, configure validation options, or inspect error details. Covers sync/async modes, safe error handling, schema pre-compilation, remote references, TypeScript types, and browser/UMD usage."
+name: validating-json-data
+description: >-
+  Validates JSON data against JSON Schema using the z-schema library. Use when
+  the user needs to validate JSON, check data against a schema, handle
+  validation errors, use custom format validators, work with JSON Schema drafts
+  04 through 2020-12, set up z-schema in a project, compile schemas with
+  cross-references, resolve remote $ref, configure validation options, or
+  inspect error details. Covers sync/async modes, safe error handling, schema
+  pre-compilation, remote references, TypeScript types, and browser/UMD usage.
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/zaggino/z-schema"
-    path: "skills/validating-json-data"
-    license_path: "LICENSE"
+    repository: 'https://github.com/zaggino/z-schema'
+    path: skills/validating-json-data
+    license_path: LICENSE
+    commit: 221f6d9d15a7adc117c2872ea657ab3a6c0aeedf
 ---
 
 # Validating JSON Data with z-schema
@@ -148,7 +156,7 @@ validator.validate(data, schema, { includeErrors: ['INVALID_TYPE'] });
 validator.validate(data, schema, { excludeErrors: ['MIN_LENGTH', 'MAX_LENGTH'] });
 ```
 
-Treat `detail.code` and `detail.keyword` from the installed package as authoritative; common codes include type, required-property, range, length, pattern, and combinator failures.
+For the full error code list, see [references/error-codes.md](references/error-codes.md).
 
 ## Schema pre-compilation
 
@@ -272,7 +280,7 @@ const validator = ZSchema.create({ version: 'draft-07' });
 
 Valid values: `'draft-04'`, `'draft-06'`, `'draft-07'`, `'draft2019-09'`, `'draft2020-12'` (default), `'none'`.
 
-Choose the draft declared by the schema's `$schema` value when possible; otherwise set the validator version explicitly and test unsupported keywords.
+For a feature comparison across drafts, see [references/draft-comparison.md](references/draft-comparison.md).
 
 ## Common options
 
@@ -286,7 +294,7 @@ Choose the draft declared by the schema's `$schema` value when possible; otherwi
 | `formatAssertions`     | `null`  | `null`=always assert, `true`=respect vocabulary, `false`=annotation-only |
 | `reportPathAsArray`    | `false` | Report error paths as arrays instead of JSON Pointer strings             |
 
-The table lists the options covered by this skill; inspect the installed package types for any version-specific options.
+For the full options reference, see [references/options.md](references/options.md).
 
 ## Validating sub-schemas
 
@@ -328,6 +336,12 @@ import type {
 
 import { ValidateError } from 'z-schema';
 ```
+
+## Reference files
+
+- [references/error-codes.md](references/error-codes.md) — Full error code list with descriptions and examples
+- [references/options.md](references/options.md) — Complete options reference with defaults
+- [references/draft-comparison.md](references/draft-comparison.md) — Feature comparison across JSON Schema drafts
 
 ## Important conventions
 

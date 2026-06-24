@@ -8,19 +8,25 @@ prerequisites:
   - New Relic account with the MCP server enabled
   - New Relic user API key with an organization-scoped MCP read permission
 content:
-  - name: Remote API Key
+  - name: US Remote API Key
     content: |
       {
         "type": "streamable-http",
-        "url": "{{NEW_RELIC_MCP_URL}}",
+        "url": "https://mcp.newrelic.com/mcp/",
+        "headers": {
+          "Api-Key": "{{NEW_RELIC_API_KEY}}"
+        }
+      }
+  - name: EU Remote API Key
+    content: |
+      {
+        "type": "streamable-http",
+        "url": "https://mcp.eu.newrelic.com/mcp/",
         "headers": {
           "Api-Key": "{{NEW_RELIC_API_KEY}}"
         }
       }
 parameters:
-  - name: New Relic MCP Endpoint
-    key: NEW_RELIC_MCP_URL
-    placeholder: https://mcp.newrelic.com/mcp/
   - name: New Relic User API Key
     key: NEW_RELIC_API_KEY
     placeholder: NRAK-your-user-api-key

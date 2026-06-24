@@ -1,12 +1,18 @@
 ---
-name: "soda-cli"
-description: "How to use the Soda CLI for data quality management — authentication, datasources, datasets, contracts, monitors, results, secrets, permissions, and CI/CD integration. Use when working with Soda, data quality, or the sodacli command."
+name: soda-cli
+description: >-
+  How to use the Soda CLI for data quality management — authentication,
+  datasources, datasets, contracts, monitors, results, secrets, permissions, and
+  CI/CD integration. Use when working with Soda, data quality, or the sodacli
+  command.
+allowed-tools: 'Read, Bash(sodacli *), Bash(cat *), Glob, Grep'
 metadata:
   category: data
   source:
-    repository: "https://github.com/sodadata/soda-cli"
-    path: "skills/soda-cli"
-    license_path: "LICENSE"
+    repository: 'https://github.com/sodadata/soda-cli'
+    path: skills/soda-cli
+    license_path: LICENSE
+    commit: e90d8bee789369989bbef5774536f6e1b94e93ba
 ---
 
 # Soda CLI Guide
@@ -51,29 +57,19 @@ When calling `sodacli` from an agent, **always pass `--output json`** to get str
 ## Authentication
 
 ```bash
-# Interactive login uses masked prompts for the API key ID and secret.
-# Do not pass --api-key-secret on a command line; process listings and shell
-# history can expose it.
-sodacli auth login --host cloud.soda.io
+# Non-interactive (for agents and CI/CD)
+sodacli auth login --host cloud.soda.io --api-key-id <id> --api-key-secret <secret>
 
 # Check connection
 sodacli auth status
 
-# Named profile (credentials are still entered through masked prompts)
-sodacli auth login --profile prod --host cloud.soda.io
+# Named profiles
+sodacli auth login --profile prod --host cloud.soda.io --api-key-id <id> --api-key-secret <secret>
 sodacli auth switch prod
 sodacli dataset list --profile prod    # any command accepts --profile
 ```
 
-Credentials are stored in `~/.soda/credentials`; keep that file mode `0600`. For CI/CD, inject a pre-provisioned credentials file from the CI secret store rather than passing the API secret as an argument:
-
-```bash
-install -d -m 0700 "$HOME/.soda"
-install -m 0600 "$SODA_CREDENTIALS_FILE" "$HOME/.soda/credentials"
-sodacli auth status --output json
-```
-
-Generate API keys at https://docs.soda.io/reference/generate-api-keys and rotate any key exposed through history, logs, or a process list.
+Credentials stored in `~/.soda/credentials`. Generate API keys at https://docs.soda.io/reference/generate-api-keys
 
 ## Core Workflows
 
@@ -141,7 +137,7 @@ connection:
   database: ANALYTICS
   schema: PUBLIC
   user: soda_user
-  password: ${secret.DB_PASSWORD}  # Create through Soda's masked secret prompt
+  password: secret
   role: SODA_ROLE
   warehouse: COMPUTE_WH
 ```
@@ -273,32 +269,17 @@ sodacli job logs <scan-id> --follow    # stream live
 # List secrets
 sodacli secret list --output json
 
-# Create/update through the masked interactive prompt. Never use --value for a
-# secret because command arguments and shell history can expose it.
-sodacli secret create --name DB_PASSWORD --output json
-sodacli secret update <SECRET_ID> --output json
+# Create — value is encrypted client-side (AES-256-GCM + RSA-OAEP) before sending
+sodacli secret create --name DB_PASSWORD                       # masked interactive prompt
+sodacli secret create --name DB_PASSWORD --value "s3cret"      # via flag
+echo "s3cret" | sodacli secret create --name DB_PASSWORD       # via stdin pipe
 
-# For controlled automation, use a mode-0600 temporary input file populated by
-# the CI secret provider. The secret is read from stdin, not an argument.
-umask 077
-SECRET_INPUT=$(mktemp)
-trap 'rm -f "$SECRET_INPUT"' EXIT
-install -m 0600 "$CI_SECRET_FILE" "$SECRET_INPUT"
-sodacli secret create --name DB_PASSWORD --output json < "$SECRET_INPUT"
-rm -f "$SECRET_INPUT"
-trap - EXIT
+# Update value
+sodacli secret update <id>                                     # masked prompt
+sodacli secret update <id> --value "new-value"                 # via flag
 
-# DESTRUCTIVE: inspect the exact target and verify the source credential can be
-# recreated or restored. Secret deletion may be permanent.
-SECRET_ID="<SECRET_ID>"
-# Review the list and verify the selected ID/name without retrieving a value.
-sodacli secret list --output json
-read -r -p "Type DELETE SODA SECRET ${SECRET_ID}: " CONFIRMATION
-if [ "$CONFIRMATION" = "DELETE SODA SECRET ${SECRET_ID}" ]; then
-  sodacli secret delete "$SECRET_ID" --output json
-else
-  printf '%s\n' "Aborted; target confirmation did not match."
-fi
+# Delete
+sodacli secret delete <id>
 
 # Reference in datasource configs: ${secret.DB_PASSWORD}
 ```
@@ -347,11 +328,11 @@ sodacli dataset diagnostics <dataset-id> --collect-results --collect-failed-rows
 ## CI/CD Pattern
 
 ```bash
-# Option 1: Cloud mode. The CI secret store provides a temporary credentials
-# file; do not put the API key secret in command arguments.
-install -d -m 0700 "$HOME/.soda"
-install -m 0600 "$SODA_CREDENTIALS_FILE" "$HOME/.soda/credentials"
-sodacli auth status --no-interactive --output json
+# Option 1: Cloud mode (needs auth)
+sodacli auth login --host cloud.soda.io \
+  --api-key-id "$SODA_API_KEY_ID" \
+  --api-key-secret "$SODA_API_KEY_SECRET" \
+  --no-interactive
 sodacli contract lint contracts/*.yml                                        # validate syntax first
 sodacli contract verify contracts/orders.yml --no-interactive --output json   # verify via cloud Runner
 

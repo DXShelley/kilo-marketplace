@@ -1,12 +1,16 @@
 ---
-name: "io-connectors"
-description: "Guides development and usage of I/O connectors in Apache Beam. Use when working with I/O connectors, creating new connectors, or debugging data source/sink issues."
+name: io-connectors
+description: >-
+  Guides development and usage of I/O connectors in Apache Beam. Use when
+  working with I/O connectors, creating new connectors, or debugging data
+  source/sink issues.
 metadata:
   category: data
   source:
-    repository: "https://github.com/apache/beam"
-    path: ".agent/skills/io-connectors"
-    license_path: "LICENSE"
+    repository: 'https://github.com/apache/beam'
+    path: .agent/skills/io-connectors
+    license_path: LICENSE
+    commit: 0802263e48e842bfbe437ed9b8ec72c2311c0d76
 ---
 
 # I/O Connectors in Apache Beam
@@ -184,4 +188,4 @@ Key components:
 2. **Sink** - Writes data
 3. **Read/Write transforms** - User-facing API
 
-For a new connector, start with the source, sink, and read/write-transform structure above, then consult the current Apache Beam I/O connector development guide for the SDK and runner being targeted.
+For more detailed information on developing new I/O connectors see the [Developing new I/O connectors SKILL](../developing-new-io-connectors/SKILL.md).

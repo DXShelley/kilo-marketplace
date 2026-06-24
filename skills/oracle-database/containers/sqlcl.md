@@ -8,7 +8,7 @@
 
 - **Registry path:** `container-registry.oracle.com/database/sqlcl`
 - **OCR short description:** Oracle SQL Command Line (SQLcl)
-- **Latest pull command shown on OCR:** `docker pull container-registry.oracle.com/database/sqlcl:latest`
+- **Image selection:** Resolve an exact reviewed digest for `container-registry.oracle.com/database/sqlcl` from Oracle Container Registry and pull `container-registry.oracle.com/database/sqlcl@sha256:<reviewed-digest>`. Do not use a moving tag.
 - **License note on OCR:** OCR states that the software in this repository is licensed under the Oracle Free Use Terms and Conditions provided in the container image.
 
 ## What Oracle Documents Here

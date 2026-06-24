@@ -1,12 +1,20 @@
 ---
-name: "gcloud"
-description: "This skill should be used when constructing or validating Google Cloud CLI commands, authentication, configuration, resource operations, or troubleshooting; it requires checking command help or official documentation rather than guessing flags."
+name: gcloud
+description: >-
+  Interacts with Google Cloud services using the gcloud CLI safely and
+  efficiently. Covers command validation, data reduction, safety guardrails with
+  a denylist, and workflows for discovery and investigation. You MUST read this
+  skill before invoking any gcloud command. Use when managing cloud resources,
+  querying configurations, or troubleshooting issues via gcloud. Don't use when
+  writing or debugging Google Cloud client library code or raw REST/gRPC API
+  interactions.
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/google/skills"
-    path: "skills/cloud/gcloud"
-    license_path: "LICENSE"
+    repository: 'https://github.com/google/skills'
+    path: skills/cloud/gcloud
+    license_path: LICENSE
+    commit: 28d90a333c4d900bcc76e498363e0c835dc69a5c
 ---
 
 # gcloud CLI Skill for AI Agents

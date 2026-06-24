@@ -67,7 +67,6 @@ WHERE CAST(data->>'$.price' AS UNSIGNED) <= 1200
 ```sql
 WHERE data->>'$.status' COLLATE utf8mb4_0900_as_cs = 'Active'
 ```
-
 ## Common Pitfalls
 - **Heavy update cost**: `JSON_SET`/`JSON_REPLACE` can touch large portions of a JSON document and generate significant redo/undo work on large blobs.
 - **No partial indexes**: You can only index extracted scalar paths via generated columns.

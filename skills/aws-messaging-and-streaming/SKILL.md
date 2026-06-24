@@ -1,12 +1,20 @@
 ---
-name: "aws-messaging-and-streaming"
-description: "This skill should be used when selecting or configuring AWS messaging and streaming services such as SQS, SNS, EventBridge, Kinesis, Amazon MQ, or MSK, including service choice, delivery semantics, integration patterns, and production configuration."
+name: aws-messaging-and-streaming
+description: >
+  Guides use of AWS messaging and streaming services. Covers Amazon SQS, Amazon
+  SNS, Amazon EventBridge, Amazon MQ, Amazon Kinesis Data Streams, Amazon Data
+  Firehose, Amazon Managed Service for Apache Flink, and Amazon Managed
+  Streaming for Apache Kafka (MSK). Use when implementing messaging and
+  streaming patterns.
 metadata:
-  category: data
+  upstream:
+    version: 1
+  category: development
   source:
-    repository: "https://github.com/aws/agent-toolkit-for-aws"
-    path: "plugins/aws-core/skills/aws-messaging-and-streaming"
-    license_path: "LICENSE"
+    repository: 'https://github.com/aws/agent-toolkit-for-aws'
+    path: plugins/aws-core/skills/aws-messaging-and-streaming
+    license_path: LICENSE
+    commit: cbdc61a29707dc97989d5d11a2b53ad584781e78
 ---
 
 # AWS Messaging & Streaming Services

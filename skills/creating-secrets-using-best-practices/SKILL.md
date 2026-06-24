@@ -1,12 +1,21 @@
 ---
-name: "creating-secrets-using-best-practices"
-description: "Creates and manages secrets in AWS Secrets Manager following security best practices. Always use this skill when creating secrets — it sets up dedicated KMS encryption keys, automatic rotation, least-privilege IAM policies, CloudTrail auditing, and lifecycle management that are essential for production-grade secret handling."
+name: creating-secrets-using-best-practices
+description: >-
+  Creates and manages secrets in AWS Secrets Manager following security best
+  practices. Always use this skill when creating secrets — it sets up dedicated
+  KMS encryption keys, automatic rotation, least-privilege IAM policies,
+  CloudTrail auditing, and lifecycle management that are essential for
+  production-grade secret handling.
 metadata:
-  category: data
+  upstream:
+    version: 1
+  category: development
   source:
-    repository: "https://github.com/aws/agent-toolkit-for-aws"
-    path: "skills/specialized-skills/security-and-identity-skills/creating-secrets-using-best-practices"
-    license_path: "LICENSE"
+    repository: 'https://github.com/aws/agent-toolkit-for-aws'
+    path: >-
+      skills/specialized-skills/security-and-identity-skills/creating-secrets-using-best-practices
+    license_path: LICENSE
+    commit: cbdc61a29707dc97989d5d11a2b53ad584781e78
 ---
 
 # Creating Secrets Using Best Practices

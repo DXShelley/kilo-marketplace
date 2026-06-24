@@ -1,12 +1,16 @@
 ---
-name: "elasticsearch-esql"
-description: "Execute ES|QL (Elasticsearch Query Language) queries, use when the user wants to query Elasticsearch data, analyze logs, aggregate metrics, explore data, or create charts and dashboards from ES|QL results."
+name: elasticsearch-esql
+description: >-
+  Execute ES|QL (Elasticsearch Query Language) queries, use when the user wants
+  to query Elasticsearch data, analyze logs, aggregate metrics, explore data, or
+  create charts and dashboards from ES|QL results.
 metadata:
-  category: data
+  category: observability
   source:
-    repository: "https://github.com/elastic/agent-skills"
-    path: "skills/elasticsearch/elasticsearch-esql"
-    license_path: "LICENSE"
+    repository: 'https://github.com/elastic/agent-skills'
+    path: skills/elasticsearch/elasticsearch-esql
+    license_path: LICENSE
+    commit: e0d6b02194d4ec74cf9e5975290e950fc5ba549f
 ---
 
 # Elasticsearch ES|QL

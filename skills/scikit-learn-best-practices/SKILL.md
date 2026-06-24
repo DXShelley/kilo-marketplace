@@ -1,12 +1,15 @@
 ---
-name: "scikit-learn-best-practices"
-description: "Best practices for scikit-learn machine learning, model development, evaluation, and deployment in Python"
+name: scikit-learn-best-practices
+description: >-
+  Best practices for scikit-learn machine learning, model development,
+  evaluation, and deployment in Python
 metadata:
   category: data
   source:
-    repository: "https://github.com/mindrally/skills"
-    path: "scikit-learn-best-practices"
-    license_path: "LICENSE"
+    repository: 'https://github.com/mindrally/skills'
+    path: scikit-learn-best-practices
+    license_path: LICENSE
+    commit: 05a71308897983093248d719a2ffa1bca61d0768
 ---
 
 # Scikit-learn Best Practices

@@ -1,12 +1,19 @@
 ---
-name: "newrelic-cli-skills"
-description: "Monitor, query, and manage New Relic observability data via the newrelic CLI. Covers NRQL queries, APM performance triage, deployment markers, alert policy and condition management, notification channel setup, infrastructure monitoring, and agent diagnostics. Use when user asks about application performance, error rates, slow transactions, deployment tracking, alert configuration, or New Relic setup."
+name: newrelic-cli-skills
+description: >-
+  Monitor, query, and manage New Relic observability data via the newrelic CLI.
+  Covers NRQL queries, APM performance triage, deployment markers, alert policy
+  and condition management, notification channel setup, infrastructure
+  monitoring, and agent diagnostics. Use when user asks about application
+  performance, error rates, slow transactions, deployment tracking, alert
+  configuration, or New Relic setup.
 metadata:
-  category: data
+  category: observability
   source:
-    repository: "https://github.com/vince-winkintel/newrelic-cli-skills"
-    path: "."
-    license_path: "LICENSE"
+    repository: 'https://github.com/vince-winkintel/newrelic-cli-skills'
+    path: .
+    license_path: LICENSE
+    commit: d8c541ba8f7afb289569473999a2f03feba728c7
 ---
 
 # New Relic CLI Skills

@@ -2,13 +2,13 @@
 
 Install or update the Databricks CLI on macOS, Windows, or Linux using verified package-manager or versioned release artifacts. Includes checksum verification, user-directory installation for non-sudo environments, and common failure recovery.
 
-## Sandboxed / IDE environments (Cursor, containers)
+## Sandboxed agent / container environments
 
 CLI install commands often write to system directories outside the workspace (e.g. `/opt/homebrew/`, `/usr/local/bin/`) which are blocked in sandboxed environments.
 
 **Agent behavior**: Do not attempt to run install commands directly. Present the appropriate command to the user and ask them to run it in their own terminal. After they confirm, verify with `databricks -v`.
 
-For Linux/macOS containers or Cursor: prefer the **Linux manual install to user directory** method (`~/.local/bin`) — it requires no sudo and no writes outside the workspace.
+For Linux/macOS containers or sandboxed agent environments: prefer the **Linux manual install to user directory** method (`~/.local/bin`) — it requires no sudo and no writes outside the workspace.
 
 ## Preconditions (always do first)
 1. Determine OS and shell:
@@ -78,7 +78,7 @@ Steps:
 Notes:
 - The download files are `.tar.gz` archives (not `.zip`) with naming pattern: `databricks_cli_<version>_linux_<arch>.tar.gz`
 - Common architectures: `amd64` (x86_64), `arm64` (aarch64)
-- This method works in containerized environments and sandboxed IDEs (e.g. Cursor) without sudo access
+- This method works in containerized and sandboxed agent environments without sudo access
 
 ### Windows (preferred: WinGet)
 Run in Command Prompt (then restart the terminal session):
@@ -106,10 +106,8 @@ Verify in the same environment:
 Use this when package managers or curl install are not possible.
 
 Steps:
-1. Get the latest release download URL:
-   - Visit https://github.com/databricks/cli/releases/latest
-   - OR use GitHub API: `curl -s https://api.github.com/repos/databricks/cli/releases/latest | grep browser_download_url`
-2. Download the appropriate file for your OS and architecture:
+1. Select an explicit reviewed version from https://github.com/databricks/cli/releases and record that version before downloading anything. Do not resolve a moving `latest` URL.
+2. Download the appropriate versioned file for your OS and architecture:
    - Linux: `databricks_cli_<version>_linux_<arch>.tar.gz` (use tar -xzf)
    - macOS: `databricks_cli_<version>_darwin_<arch>.zip` (use unzip)
    - Windows: `databricks_cli_<version>_windows_<arch>.zip` (use native extraction)

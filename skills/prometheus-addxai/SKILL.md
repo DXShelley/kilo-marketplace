@@ -1,12 +1,17 @@
 ---
-name: "prometheus-addxai"
-description: "Query Prometheus monitoring metrics and alert rules. Use when the user needs to check CPU/memory/disk utilization, service health, audit alert rules, analyze capacity trends, or mentions Prometheus, PromQL, metrics monitoring, or targets."
+name: prometheus-addxai
+description: >-
+  Query Prometheus monitoring metrics and alert rules. Use when the user needs
+  to check CPU/memory/disk utilization, service health, audit alert rules,
+  analyze capacity trends, or mentions Prometheus, PromQL, metrics monitoring,
+  or targets.
 metadata:
-  category: data
+  category: observability
   source:
-    repository: "https://github.com/addxai/enterprise-harness-engineering"
-    path: "skills/prometheus"
-    license_path: "LICENSE"
+    repository: 'https://github.com/addxai/enterprise-harness-engineering'
+    path: skills/prometheus
+    license_path: LICENSE
+    commit: 0905dae0477eb500d9a46101e6ab27e9bfc96608
 ---
 
 # prometheus

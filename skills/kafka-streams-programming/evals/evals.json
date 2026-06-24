@@ -41,12 +41,12 @@
     },
     {
       "id": 2,
-      "prompt": "I need to build a Kafka Streams app that counts orders per customer in 5-minute windows. Using Avro and Confluent Cloud. Here are my credentials: bootstrap=pkc-abc.us-east1.gcp.confluent.cloud:9092, cluster key=ABCKEY, cluster secret=ABCsecret123, SR url=https://psrc-xyz.us-east-2.aws.confluent.cloud, SR key=SRKEY1, SR secret=SRsecret456",
+      "prompt": "I need to build a Kafka Streams app that counts orders per customer in 5-minute windows using Avro and Confluent Cloud. Read the bootstrap server, cluster key/secret, Schema Registry URL, and Schema Registry key/secret from environment variables; do not request or print them.",
       "expected_output": "A windowed aggregation project with .env file, CC SASL_SSL config, topic provisioning, window retention guidance",
       "files": [],
       "assertions": [
         "Asks about or confirms the target environment before generating code",
-        "Generates a .env file with the provided CC credentials",
+        "Uses environment-variable placeholders and does not write credentials to a tracked file",
         "Generates .env.example with placeholder values",
         "Configures SASL_SSL with sasl.jaas.config using env vars",
         "Uses TimeWindows.ofSizeWithNoGrace(Duration.ofMinutes(5)) or equivalent",

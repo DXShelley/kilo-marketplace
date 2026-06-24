@@ -1,12 +1,12 @@
 id: openapi-mcp
 name: OpenAPI MCP Server
-description: Converts a local or remote OpenAPI specification into callable MCP tools for API discovery and invocation, forwarding only the base URL and authentication headers explicitly configured by the user.
+description: Converts a reviewed local OpenAPI specification into callable MCP tools for API discovery and invocation. The target base URL must be explicitly trusted and must not resolve to loopback, link-local, or private networks unless that access is intentional.
 author: ivo-toby
 url: https://github.com/ivo-toby/mcp-openapi-server
 category: development
 prerequisites:
   - Node.js
-  - OpenAPI specification and target API credentials
+  - Reviewed local OpenAPI specification and least-privilege target API credentials
 content:
   - name: NPX (dynamic tool loading)
     prerequisites:
@@ -29,9 +29,9 @@ parameters:
   - name: API Base URL
     key: API_BASE_URL
     placeholder: https://api.example.com
-  - name: OpenAPI Specification Path or URL
+  - name: Local OpenAPI Specification Path
     key: OPENAPI_SPEC_PATH
-    placeholder: https://api.example.com/openapi.json
+    placeholder: /absolute/path/to/reviewed-openapi.json
   - name: API Headers
     key: API_HEADERS
     placeholder: Authorization:Bearer your-token

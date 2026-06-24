@@ -1,12 +1,17 @@
 ---
-name: "powerbi-mcp"
-description: "Safety and governance protocol for Power BI semantic model sessions via MCP. Use when working with DAX, TMDL, tabular models, Analysis Services, or Power BI Desktop. Enforces approval gates, tier-based action classification, and scope boundaries."
+name: powerbi-mcp
+description: >-
+  Safety and governance protocol for Power BI semantic model sessions via MCP.
+  Use when working with DAX, TMDL, tabular models, Analysis Services, or Power
+  BI Desktop. Enforces approval gates, tier-based action classification, and
+  scope boundaries.
 metadata:
   category: data
   source:
-    repository: "https://github.com/devsaikan/powerbi-mcp-skill"
-    path: "."
-    license_path: "LICENSE"
+    repository: 'https://github.com/devsaikan/powerbi-mcp-skill'
+    path: .
+    license_path: LICENSE
+    commit: c03cc91626513c8ccb58a813349301883ccc7f5c
 ---
 
 # Power BI MCP Safety and Execution Protocol

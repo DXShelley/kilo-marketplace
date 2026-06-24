@@ -1,12 +1,16 @@
 ---
-name: "knowledge-catalog-discovery"
-description: "Use these skills when you need to discover and explore data assets in the Knowledge Catalog. It allows you to search for entries, lookup specific metadata, and explore aspect types to understand your data platform's assets."
+name: knowledge-catalog-discovery
+description: >-
+  Use these skills when you need to discover and explore data assets in the
+  Knowledge Catalog. It allows you to search for entries, lookup specific
+  metadata, and explore aspect types to understand your data platform's assets.
 metadata:
   category: data
   source:
-    repository: "https://github.com/gemini-cli-extensions/knowledge-catalog"
-    path: "skills/knowledge-catalog-discovery"
-    license_path: "LICENSE"
+    repository: 'https://github.com/gemini-cli-extensions/knowledge-catalog'
+    path: skills/knowledge-catalog-discovery
+    license_path: LICENSE
+    commit: cf0cc18bd527188e7dd6e7933008fe9b3ced9940
 ---
 
 ## Usage

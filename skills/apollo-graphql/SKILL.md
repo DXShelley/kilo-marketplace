@@ -1,12 +1,15 @@
 ---
-name: "apollo-graphql"
-description: "Guidelines for developing GraphQL APIs and React applications using Apollo Client for state management, data fetching, and caching"
+name: apollo-graphql
+description: >-
+  Guidelines for developing GraphQL APIs and React applications using Apollo
+  Client for state management, data fetching, and caching
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/Mindrally/skills"
-    path: "apollo-graphql"
-    license_path: "LICENSE"
+    repository: 'https://github.com/Mindrally/skills'
+    path: apollo-graphql
+    license_path: LICENSE
+    commit: 05a71308897983093248d719a2ffa1bca61d0768
 ---
 
 # Apollo GraphQL Best Practices

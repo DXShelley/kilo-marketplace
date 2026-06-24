@@ -1,12 +1,26 @@
 ---
-name: "apache-arrow"
-description: "Expert guidance for Apache Arrow, the cross-language columnar memory format for analytics workloads. Helps developers use Arrow for high-performance data interchange between systems, zero-copy reads, and efficient columnar processing in Python (PyArrow) and JavaScript (Arrow JS)."
+name: apache-arrow
+description: >-
+  Expert guidance for Apache Arrow, the cross-language columnar memory format
+  for analytics workloads. Helps developers use Arrow for high-performance data
+  interchange between systems, zero-copy reads, and efficient columnar
+  processing in Python (PyArrow) and JavaScript (Arrow JS).
+compatibility: No special requirements
 metadata:
+  author: terminal-skills
+  version: 1.0.0
   category: data
+  tags:
+    - data-format
+    - columnar
+    - interop
+    - python
+    - javascript
   source:
-    repository: "https://github.com/TerminalSkills/skills"
-    path: "skills/apache-arrow"
-    license_path: "LICENSE"
+    repository: 'https://github.com/TerminalSkills/skills'
+    path: skills/apache-arrow
+    license_path: LICENSE
+    commit: 77fa0150aa0921f892420d3ec2a9204e3124b71e
 ---
 
 # Apache Arrow — Columnar Data Format

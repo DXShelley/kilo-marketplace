@@ -1,12 +1,19 @@
 ---
-name: "tableau-dashboard-creator"
-description: "Guides data analysts through a multi-step Tableau dashboard creation workflow - brand setup, data exploration, dashboard planning, interactive HTML mock creation, Tableau implementation spec, and experimental TWB workbook generation. Use when the user wants to create a Tableau dashboard, build a dashboard mock, plan KPIs and charts, or generate a Tableau implementation document."
+name: tableau-dashboard-creator
+description: >-
+  Guides data analysts through a multi-step Tableau dashboard creation workflow
+  - brand setup, data exploration, dashboard planning, interactive HTML mock
+  creation, Tableau implementation spec, and experimental TWB workbook
+  generation. Use when the user wants to create a Tableau dashboard, build a
+  dashboard mock, plan KPIs and charts, or generate a Tableau implementation
+  document.
 metadata:
   category: data
   source:
-    repository: "https://github.com/laviDrori0702/tableau-dashboard-creator-skill"
-    path: "skill/tableau-dashboard-creator"
-    license_path: "LICENSE"
+    repository: 'https://github.com/laviDrori0702/tableau-dashboard-creator-skill'
+    path: skill/tableau-dashboard-creator
+    license_path: LICENSE
+    commit: 620c4ef53c8557346532ebf9984f18300fed2e79
 ---
 
 # Tableau Dashboard Creator

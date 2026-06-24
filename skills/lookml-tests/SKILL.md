@@ -1,12 +1,15 @@
 ---
-name: "lookml-tests"
-description: "Standards and best practices for writing LookML tests to ensure data integrity, accuracy, and logic validation."
+name: lookml-tests
+description: >-
+  Standards and best practices for writing LookML tests to ensure data
+  integrity, accuracy, and logic validation.
 metadata:
   category: data
   source:
-    repository: "https://github.com/looker-open-source/looker-skills"
-    path: "skills/lookml-tests"
-    license_path: "LICENSE"
+    repository: 'https://github.com/looker-open-source/looker-skills'
+    path: skills/lookml-tests
+    license_path: LICENSE
+    commit: c530d1b7efee1db49851a04563ce946adfd191a8
 ---
 
 # LookML Testing Standards

@@ -151,50 +151,37 @@ state_metadata.show()
 
 ### Lost Checkpoint
 
-Stop the query and determine whether a complete, consistent checkpoint backup exists. Do not delete or overwrite the original path during diagnosis.
-
 ```python
-# Preferred recovery: restore the entire checkpoint (metadata, offsets, commits,
-# sources, and state) from a backup captured while the query was stopped.
-restored_checkpoint = "/checkpoints/stream-restored-20260101"
-dbutils.fs.cp(
-    "/checkpoints/backups/stream-20260101",
-    restored_checkpoint,
-    recurse=True,
-)
+# Steps to recover:
+# 1. Delete checkpoint folder
+dbutils.fs.rm("/checkpoints/stream", recurse=True)
 
-# Restart the unchanged query with restored_checkpoint as checkpointLocation.
-# Validate source continuity and target counts before returning it to service.
+# 2. Restart stream with startingOffsets=earliest
+df.writeStream \
+    .format("delta") \
+    .option("checkpointLocation", "/checkpoints/stream") \
+    .option("startingOffsets", "earliest") \
+    .start()
+
+# 3. Stream reprocesses from beginning
+# 4. Delta sink handles deduplication (if idempotent writes configured)
 ```
-
-If no valid backup exists, this is a new query, not a continuation. Select replay boundaries based on source retention and the last reconciled target key/offset. `startingOffsets` is a source option on `readStream` and is used only when the new checkpoint has no saved offsets.
-
-```python
-replay_source = (spark.readStream
-    .format("kafka")
-    .option("kafka.bootstrap.servers", kafka_bootstrap_servers)
-    .option("subscribe", "events")
-    .option("startingOffsets", "earliest")  # Or explicit reviewed offsets.
-    .load())
-
-replayed = transform_events(replay_source)
-
-query = (replayed.writeStream
-    .foreachBatch(upsert_idempotently)  # MERGE/deduplicate by stable event key.
-    .option("checkpointLocation", "/checkpoints/stream-replay-20260101")
-    .start())
-```
-
-Replay into an idempotent sink or a shadow target. A new checkpoint gives the stream a new query identity, so a Delta append sink does not automatically deduplicate data already written by the old query. Reconcile counts, keys, and offsets before an explicitly approved cutover.
 
 ### Corrupted Checkpoint
 
-Stop the stream and preserve the complete checkpoint path for forensic analysis. Never delete only `state/`, `offsets/`, or `commits/`; those components form one recovery unit and partial removal can cause incorrect state or duplicate output.
+```python
+# Same as lost checkpoint:
+# 1. Delete checkpoint folder
+# 2. Restart with startingOffsets=earliest
+# 3. Or restore from backup if available
 
-1. Restore a known-good, complete checkpoint to a new path and restart the unchanged query there.
-2. If no backup is usable, retain the corrupt path, start with a new unique checkpoint, and replay from reviewed source offsets into an idempotent or shadow sink as shown above.
-3. Confirm the source still retains the required range, validate stateful results and target reconciliation, and document data gaps that cannot be replayed.
-4. Remove the old/corrupt checkpoint only after recovery is complete and its exact path and retention requirement have been explicitly confirmed.
+# Backup checkpoint before major changes
+dbutils.fs.cp(
+    "/checkpoints/stream",
+    "/checkpoints/stream_backup_20240101",
+    recurse=True
+)
+```
 
 ### Crash During Batch
 
@@ -261,7 +248,7 @@ else:
 | Issue | Cause | Solution |
 |-------|-------|----------|
 | **State growing too large** | Long watermark duration or high cardinality keys | Reduce watermark duration; reduce key cardinality |
-| **Checkpoint corruption** | File system issues or manual deletion | Stop and preserve it; restore the complete checkpoint, or use a new checkpoint with reviewed, idempotent replay |
+| **Checkpoint corruption** | File system issues or manual deletion | Delete checkpoint and restart; restore from backup |
 | **Slow state operations** | Partition imbalance | Check partition balance; ensure keys are evenly distributed |
 | **Can't find commit file** | Normal if job crashed | Spark will reprocess on restart |
 | **Offsets out of sync** | Offsets without matching commits | Indicates unprocessed batch; will reprocess |
@@ -287,30 +274,28 @@ checkpoint = get_checkpoint_path("orders", "prod")
 ### Backup Strategy
 
 ```python
-# Stop the stream and await termination before a filesystem-level checkpoint copy.
-# Alternatively use a storage snapshot mechanism that guarantees a consistent view.
-def backup_stopped_checkpoint(checkpoint_path, backup_suffix):
+# Backup checkpoint before major changes
+def backup_checkpoint(checkpoint_path, backup_suffix):
     backup_path = f"{checkpoint_path}_backup_{backup_suffix}"
     dbutils.fs.cp(checkpoint_path, backup_path, recurse=True)
     return backup_path
 
-query.stop()
-query.awaitTermination()
-backup_stopped_checkpoint("/checkpoints/stream", "20260101")
-# Restart only after verifying the backup contains metadata, offsets, commits,
-# sources, and state (for a stateful query).
+# Before code changes or migrations
+backup_checkpoint("/checkpoints/stream", "20240101")
 ```
 
 ### Migration
 
 ```python
-# Migrate only while the query is stopped, or from a consistent storage snapshot.
-def migrate_stopped_checkpoint(old_path, new_path):
+# Migrate checkpoint to new location
+def migrate_checkpoint(old_path, new_path):
+    # Copy checkpoint folder
     dbutils.fs.cp(old_path, new_path, recurse=True)
 
-    # Verify the complete directory structure and permissions before restart.
-    # Keep old_path unchanged for rollback; never merge two checkpoint trees.
-    return new_path
+    # Update code to use new path
+    # Old checkpoint remains for rollback
+
+    # Restart stream with new checkpoint location
 ```
 
 ## Production Checklist

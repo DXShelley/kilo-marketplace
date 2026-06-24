@@ -1,12 +1,16 @@
 ---
-name: "beam-concepts"
-description: "Explains core Apache Beam programming model concepts including PCollections, PTransforms, Pipelines, and Runners. Use when learning Beam fundamentals or explaining pipeline concepts."
+name: beam-concepts
+description: >-
+  Explains core Apache Beam programming model concepts including PCollections,
+  PTransforms, Pipelines, and Runners. Use when learning Beam fundamentals or
+  explaining pipeline concepts.
 metadata:
   category: data
   source:
-    repository: "https://github.com/apache/beam"
-    path: ".agent/skills/beam-concepts"
-    license_path: "LICENSE"
+    repository: 'https://github.com/apache/beam'
+    path: .agent/skills/beam-concepts
+    license_path: LICENSE
+    commit: 0802263e48e842bfbe437ed9b8ec72c2311c0d76
 ---
 
 # Apache Beam Core Concepts

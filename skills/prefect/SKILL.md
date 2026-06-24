@@ -1,12 +1,29 @@
 ---
-name: "prefect"
-description: "Prefect is a modern workflow orchestration framework for Python data pipelines. Learn to define flows and tasks with decorators, handle retries and scheduling, create deployments, and monitor via the Prefect UI."
+name: prefect
+description: >
+  Prefect is a modern workflow orchestration framework for Python data
+  pipelines.
+
+  Learn to define flows and tasks with decorators, handle retries and
+  scheduling,
+
+  create deployments, and monitor via the Prefect UI.
+compatibility: 'macos, linux, windows'
 metadata:
+  author: terminal-skills
+  version: 1.0.0
   category: data
+  tags:
+    - prefect
+    - workflow-orchestration
+    - python
+    - data-pipeline
+    - scheduling
   source:
-    repository: "https://github.com/TerminalSkills/skills"
-    path: "skills/prefect"
-    license_path: "LICENSE"
+    repository: 'https://github.com/TerminalSkills/skills'
+    path: skills/prefect
+    license_path: LICENSE
+    commit: 77fa0150aa0921f892420d3ec2a9204e3124b71e
 ---
 
 # Prefect

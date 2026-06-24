@@ -2,7 +2,7 @@
 name: "newrelic-cli-deployments"
 description: "This subskill should be used when recording, listing, or automating New Relic APM deployment markers and correlating releases with performance changes. Use the parent newrelic-cli-skills skill for setup and routing."
 metadata:
-  category: data
+  category: observability
   source:
     repository: "https://github.com/vince-winkintel/newrelic-cli-skills"
     path: "deployments"

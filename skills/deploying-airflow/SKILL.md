@@ -1,12 +1,16 @@
 ---
-name: "deploying-airflow"
-description: "Deploy Airflow DAGs and projects. Use when the user wants to deploy code, push DAGs, set up CI/CD, deploy to production, or asks about deployment strategies for Airflow."
+name: deploying-airflow
+description: >-
+  Deploy Airflow DAGs and projects. Use when the user wants to deploy code, push
+  DAGs, set up CI/CD, deploy to production, or asks about deployment strategies
+  for Airflow.
 metadata:
   category: data
   source:
-    repository: "https://github.com/astronomer/agents"
-    path: "skills/deploying-airflow"
-    license_path: "LICENSE"
+    repository: 'https://github.com/astronomer/agents'
+    path: skills/deploying-airflow
+    license_path: LICENSE
+    commit: e4ebf9a7ad3f8dbf3fcfda9c245a65eb1415967b
 ---
 
 # Deploying Airflow
@@ -131,7 +135,7 @@ For a simpler setup with LocalExecutor (no Celery/Redis), create a `docker-compo
 
 ```yaml
 x-airflow-common: &airflow-common
-  image: apache/airflow:3  # Use the latest Airflow 3.x release
+  image: ${AIRFLOW_IMAGE_REF:?Set AIRFLOW_IMAGE_REF to apache/airflow@sha256:<reviewed-digest>}
   environment: &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow

@@ -24,16 +24,6 @@ This skill closes that gap. It gives agents the ability to authenticate against 
 
 ---
 
-## Installation
-
-```bash
-npx skills add Action-Co/skills
-```
-
-From the installer, select the Tableau skills you want to add to your agent.
-
----
-
 ## Tasks that Require a Human In The Loop (HITL)
 
 The skill is designed so that agents do all the work. However, initial setup requires human action to authenticate to your Tableau site and enforce your permissions as a user.

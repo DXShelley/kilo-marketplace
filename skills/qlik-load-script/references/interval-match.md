@@ -44,7 +44,7 @@ The help.qlik.com IntervalMatch page documents three behaviours explicitly:
 
 ## 2. The Synthetic Key — Why It Appears, How to Resolve It
 
-`IntervalMatch` produces an output table whose key columns are **every field** from the interval `LOAD` plus the matchfield. The matchfield already exists in the original fact table. In the N-key form, the keyfields exist in the fact table too. Result: the output table shares **two or more field names** with the fact table, which by Qlik's one-key rule is a synthetic key — Qlik creates a `$Syn` table with solid connector lines linking them.
+`IntervalMatch` produces an output table whose key columns are **every field** from the interval `LOAD` plus the matchfield. The matchfield already exists in the original fact table. In the N-key form, the keyfields exist in the fact table too. Result: the output table shares **two or more field names** with the fact table, which by Qlik's one-key rule is a synthetic key — Qlik creates a `$Syn` table with solid connector lines linking them. (Synthetic-key concepts live in `qlik-data-modeling` Section 2 and `references/anti-patterns.md` #1.)
 
 The standard resolution is `LEFT JOIN` the IntervalMatch output back into the fact table, then `DROP` the now-empty IntervalMatch table:
 

@@ -1,19 +1,32 @@
 ---
-name: "qlik-load-script"
-description: "Script syntax reference, QVD optimization, incremental load patterns (insert-only, insert/update, insert/update/delete, dual-timestamp for SCD2), JOIN/KEEP prefixes, ApplyMap patterns, CROSSTABLE, master calendar generation, variable definitions, error handling, logging patterns, null handling patterns, diagnostic and validation patterns, subroutine integration, and platform gotchas (SET vs LET, dollar-sign expansion timing, SET variable comma limitation). Load when writing, reviewing, or debugging Qlik load scripts, QVD operations, STORE/LOAD syntax, preceding LOAD, NullAsValue, script organization, JOIN, KEEP, ApplyMap, CROSSTABLE, AutoNumber, composite keys, or data quality defensive coding."
+name: qlik-load-script
+description: >-
+  Script syntax reference, QVD optimization, incremental load patterns
+  (insert-only, insert/update, insert/update/delete, dual-timestamp for SCD2),
+  JOIN/KEEP prefixes, ApplyMap patterns, CROSSTABLE, master calendar generation,
+  variable definitions, error handling, logging patterns, null handling
+  patterns, diagnostic and validation patterns, subroutine integration, and
+  platform gotchas (SET vs LET, dollar-sign expansion timing, SET variable comma
+  limitation). Load when writing, reviewing, or debugging Qlik load scripts, QVD
+  operations, STORE/LOAD syntax, preceding LOAD, NullAsValue, script
+  organization, JOIN, KEEP, ApplyMap, CROSSTABLE, AutoNumber, composite keys, or
+  data quality defensive coding.
 metadata:
+  upstream:
+    user-invocable: false
   category: data
   source:
-    repository: "https://github.com/Pupfish-LLC/qlik-toolkit"
-    path: "skills/qlik-load-script"
-    license_path: "LICENSE"
+    repository: 'https://github.com/Pupfish-LLC/qlik-toolkit'
+    path: skills/qlik-load-script
+    license_path: LICENSE
+    commit: 2060bc2f278b73751f55ad9f8d569c45c1b2a5ff
 ---
 
 # Qlik Load Script
 
 Qlik script resembles SQL but is a fundamentally different language. It runs inside the Qlik associative engine, not a relational database. The most critical rule: **Qlik script is NOT SQL.** The single most predictable failure mode for AI-generated scripts is SQL syntax inside LOAD statements. Before writing any LOAD statement, internalize Section 1 below. Before writing any variable function, internalize Section 3.
 
-This skill covers script mechanics, QVD operations, incremental loads, null handling, error handling, diagnostics, variable patterns, master calendar, and subroutine integration. It includes only the script-level naming, model-shape, expression, and performance guidance needed to make load scripts safe and correct.
+This skill covers script mechanics, QVD operations, incremental loads, null handling, error handling, diagnostics, variable patterns, master calendar, and subroutine integration. It does NOT cover naming conventions (see `qlik-naming-conventions`), data model design (see `qlik-data-modeling`), expression syntax (see `qlik-expressions`), or optimization strategies (see `qlik-performance`).
 
 ## 1. Script Generation Constraints (CRITICAL)
 
@@ -46,7 +59,7 @@ These SQL constructs do NOT exist in Qlik LOAD statements. Using them causes rel
 
 ### QUALIFY/UNQUALIFY
 
-`QUALIFY` prefixes field names with their table name to prevent unintended associations. Aliasing fields with `AS` in the LOAD is equally valid and usually clearer. `QUALIFY` is a stateful toggle that persists across tabs until reset. Failure modes include double-prefixes when combined with manual prefixing, missing `UNQUALIFY` producing data islands, and persistent state contaminating later tabs. Syntax detail with worked examples is in `references/sql-constructs.md` Section 2.3.
+`QUALIFY` prefixes field names with their table name to prevent unintended associations. Aliasing fields with `AS` in the LOAD is equally valid and usually clearer. `QUALIFY` is a stateful toggle that persists across tabs until reset. Failure modes (double-prefix when combined with manual prefixing, missing UNQUALIFY producing data islands, persistent state contaminating later tabs) and the "pick one prefixing discipline" rule live in `qlik-data-modeling` → `references/anti-patterns.md` #4. Syntax detail with worked examples in `references/sql-constructs.md` Section 2.3.
 
 ## 2. SET vs LET
 
@@ -56,13 +69,13 @@ These SQL constructs do NOT exist in Qlik LOAD statements. Using them causes rel
 
 **Critical script gotcha:** `SET` does not evaluate function calls on its right side. `SET HidePrefix=Chr(37);` assigns the literal string `Chr(37)`, not `%`. Use `LET HidePrefix=Chr(37);` (evaluates to `%`) or `SET HidePrefix='%';` (literal). Applies to all function calls on the right of SET (`Chr()`, `Num()`, `Date()`, `Today()`, `Time()`, etc.).
 
-Apply this decision rule consistently before generating or reviewing variable assignments.
+See `qlik-expressions/references/variable-rules.md` Section 1 for the full decision criteria, LET evaluation semantics, the dynamic-UI rule, and worked examples.
 
 ## 3. Dollar-Sign Expansion
 
 Inside `$()`, commas are parameter delimiters, not expression argument separators. Passing a comma-containing expression (`ApplyMap`, `IF`, `PurgeChar`, `Concat`) as an argument to a variable function breaks the call — the engine splits at the inner commas. The rule: only pass simple field references or literals to variable functions; write comma-containing logic inline with a comment.
 
-The comma trap most often appears with nested `ApplyMap`, `IF`, `PurgeChar`, and `Concat` calls; keep those expressions inline instead of passing them through variable-function arguments.
+See `qlik-expressions/references/variable-rules.md` Section 2 for full coverage — the comma-trap mechanism, the list of commonly triggering functions, the wrong/right worked example, and the rare `Chr(44)` workaround.
 
 **Script-context null variable expansion:** If a `LET` assignment evaluates to null, the variable is empty. `IF $(emptyVar) >= 0 THEN` becomes `IF >= 0 THEN` -- a syntax error. Guard at assignment time with a default: `LET vX = Alt(NoOfRows('MaybeGone'), -1);` or check before expansion: `IF '$(vX)' <> '' AND $(vX) >= 0 THEN`. This applies to any function that can return null (`NoOfRows` on dropped/nonexistent tables, `Peek` past end of table, `FieldValue` out of range, etc.).
 
@@ -121,7 +134,7 @@ Three strategies, each for a different null shape:
 
 For date arithmetic, the threat is non-NULL sentinels (sources substitute `1900-01-01` for "unknown"), not genuine NULLs — those propagate to NULL correctly. Guard against both: `IF(IsNull(d) OR d < MakeDate(1901,1,2) OR d > Today(), Null(), ...)`.
 
-Full treatment — `Null()` / `IsNull()` / `NullCount()` constructors, the `vCleanNull` variable function with comma-trap workarounds, the `NullAsValue` scope-management pattern, the key-field NULL phantom-association risk, date-arithmetic sentinel guards, and the layered defensive-coding strategy — is in `references/null-handling.md`.
+Full treatment — `Null()` / `IsNull()` / `NullCount()` constructors, the `vCleanNull` variable function with comma-trap workarounds, the `NullAsValue` scope-management pattern, the key-field NULL phantom-association risk, date-arithmetic sentinel guards, and the layered defensive-coding strategy — is in `references/null-handling.md`. For null handling in expressions (`Alt`, `Coalesce`, `RangeSum`, division guards), see `qlik-expressions` SKILL.md Section 9.
 
 ## 7. Data-Driven Patterns
 
@@ -166,7 +179,7 @@ LET vPipe = Peek('pipe', 0, '_PipeBuild');
 DROP TABLE [_PipeBuild];
 ```
 
-Consume on the UI side with dollar-sign expansion (`='$(vPipe)'`). The technique generalizes beyond Variable Input — anywhere a UI control or set-analysis clause needs a delimited string of distinct values, this is the pattern.
+Consume on the UI side with dollar-sign expansion (`='$(vPipe)'`). The technique generalizes beyond Variable Input — anywhere a UI control or set-analysis clause needs a delimited string of distinct values, this is the pattern. See `qlik-visualization` → `references/variable-input-control.md` for the full UI consumption walkthrough including value-label form and chart-side double-dollar dereferencing.
 
 ## 8. JOIN/KEEP Prefixes (Summary)
 
@@ -174,7 +187,7 @@ JOIN and KEEP combine two tables. **Critical difference from SQL:** Qlik joins o
 
 **The rule:** Before any JOIN, list the fields in both tables and alias every non-key field that shares a name. Never rely on Qlik to "figure out" the intended key.
 
-**JOIN vs KEEP:** JOIN merges into one table; KEEP filters both tables to matching rows but keeps them separate in the data model. **Row multiplication:** if the join key is not unique on both sides, rows multiply (1000-row fact × 3-per-key lookup = 3000 rows). **Decision:** JOIN for small lookups with unique keys; ApplyMap for large lookups or when a default value is needed (Section 9); the associative engine handles dimension-to-fact naturally.
+**JOIN vs KEEP:** JOIN merges into one table; KEEP filters both tables to matching rows but keeps them separate in the data model. **Row multiplication:** if the join key is not unique on both sides, rows multiply (1000-row fact × 3-per-key lookup = 3000 rows). **Decision:** JOIN for small lookups with unique keys; ApplyMap for large lookups or when a default value is needed (Section 9); the associative engine handles dimension-to-fact naturally. See `qlik-performance` for JOIN vs ApplyMap benchmarks.
 
 Full reference: `references/join-keep-patterns.md` (silent-collision worked example with WRONG/RIGHT side-by-side, LEFT/INNER JOIN syntax with RESIDENT, JOIN vs KEEP semantics, row multiplication, decision framework).
 
@@ -213,7 +226,7 @@ FROM ...;
 
 The Qlik script engine does not raise an error for the broken form. Both the input and output resolve to the same field name, and the ApplyMap result wins -- silently replacing the raw code values. Always give the ApplyMap output a distinct alias (typically the `.Name` or `.Label` suffix) so the original key field remains intact.
 
-**MAP...USING vs ApplyMap:** `MAP...USING` applies a mapping automatically to every subsequent LOAD of the named field. `ApplyMap` is explicit, per-expression. Prefer ApplyMap for clarity; use MAP...USING only for global, consistent field translations (e.g., country code to country name everywhere).
+**MAP...USING vs ApplyMap:** `MAP...USING` applies a mapping automatically to every subsequent LOAD of the named field. `ApplyMap` is explicit, per-expression. Prefer ApplyMap for clarity; use MAP...USING only for global, consistent field translations (e.g., country code to country name everywhere). See `qlik-performance` for ApplyMap optimization on large datasets.
 
 ## 10. QVD Operations (Summary)
 
@@ -225,7 +238,7 @@ Three things to internalize before writing QVD reads:
 
 `binary [app];` is a separate mechanism for copying a whole data model — must be the first statement, one per script, loads data and section access only.
 
-Full reference: `references/qvd-operations.md` (STORE, optimized vs standard rules with worked examples, NoConcatenate around QVD loads, multi-QVD concatenation, file-list patterns, partial reload prefixes, binary load).
+Full reference: `references/qvd-operations.md` (STORE, optimized vs standard rules with worked examples, NoConcatenate around QVD loads, multi-QVD concatenation, file-list patterns, partial reload prefixes, binary load). Decision framing — when to optimize, when to layer, when to split a generator/consumer architecture — is in `qlik-performance`.
 
 ## 11. Incremental Load Patterns (Summary)
 
@@ -295,7 +308,7 @@ Full reference: `references/error-handling.md` (TRACE semicolon trap, ScriptErro
 Two distinct outcomes when a new LOAD shares field names with an existing table:
 
 - **Full match (same names AND same field count) → silent auto-concatenation.** The new rows are appended into the existing table and the new table name is never registered: `NoOfRows('NewTable')` returns NULL and `DROP TABLE [NewTable]` fails. The same rule applies to `LOAD * INLINE` blocks with matching columns and to RESIDENT loads that mirror their source.
-- **Partial overlap (some shared names but different field count) → NOT auto-concatenated.** Qlik keeps the tables separate and emits a "tables ... cannot be concatenated implicitly" warning. The shared field names then create unintended associations: a single shared field links the tables (often surprising the developer), and two or more shared fields generate a `$Syn` synthetic key. Resolve this by aliasing overlapping non-key fields, explicitly concatenating compatible tables, or redesigning the model shape.
+- **Partial overlap (some shared names but different field count) → NOT auto-concatenated.** Qlik keeps the tables separate and emits a "tables ... cannot be concatenated implicitly" warning. The shared field names then create unintended associations: a single shared field links the tables (often surprising the developer), and two or more shared fields generate a `$Syn` synthetic key. See `qlik-data-modeling` `references/anti-patterns.md` #5 (Multiple Shared Fields Between Two Tables) for the synthetic-key resolution that flows from this count-rule mismatch.
 
 The basic NoConcatenate pattern, the INLINE auto-concat trap, the explicit `CONCATENATE([TargetTable])` prefix (which forces concatenation even when field sets differ), and the QVD-specific application live in `references/sql-constructs.md` Section 2.1 and `references/qvd-operations.md` (NoConcatenate Around QVD Loads, Multi-QVD Concatenation).
 
@@ -375,7 +388,7 @@ Full reference: `references/subroutine-patterns.md` (Must_Include vs Include, CA
 
 ## 19. Synthetic Keys
 
-Synthetic keys appear when two or more tables share two or more field names. Script-level resolution mechanics: rename overlapping non-key fields with `AS` aliases at load time, `DROP FIELDS` for unwanted metadata fields before storing QVDs, or use QUALIFY/UNQUALIFY (Section 1) on un-prefixed wildcard loads.
+Synthetic key concepts (what they are, how Qlik detects them, prevention mechanisms, common triggers, worked fix examples) and the QUALIFY failure modes live in `qlik-data-modeling` → `references/anti-patterns.md` #1 and #4. Script-level resolution mechanics: rename overlapping non-key fields with `AS` aliases at load time, `DROP FIELDS` for unwanted metadata fields before storing QVDs, or use QUALIFY/UNQUALIFY (Section 1) on un-prefixed wildcard loads.
 
 ## 20. LIB CONNECT TO
 
@@ -427,7 +440,7 @@ ship_addr_line1, Customer.ShipAddress
 RENAME FIELDS USING [_RenameMap];
 ```
 
-Use a consistent layer/entity naming strategy so fields keep stable meanings across extraction, transform, model, and UI-facing loads.
+See `qlik-naming-conventions` for the naming strategy (what names to use at each layer).
 
 ## 23. Placeholder Logic for Blocked Dependencies
 

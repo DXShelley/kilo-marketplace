@@ -8,7 +8,7 @@
 
 - **Registry path:** `container-registry.oracle.com/database/gsm_ru`
 - **OCR short description:** Oracle Global Service Manager
-- **Latest pull command shown on OCR:** `docker pull container-registry.oracle.com/database/gsm_ru:latest-23`
+- **Image selection:** Resolve an exact reviewed digest for `container-registry.oracle.com/database/gsm_ru` from Oracle Container Registry and pull `container-registry.oracle.com/database/gsm_ru@sha256:<reviewed-digest>`. Do not use a moving tag.
 - **License note on OCR:** OCR states that you must accept the Oracle Container Registry Critical Patch Update (CPU) Repository Terms and Restrictions before downloading from this repository.
 
 ## What Oracle Documents Here

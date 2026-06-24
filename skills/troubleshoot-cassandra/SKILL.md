@@ -1,12 +1,27 @@
 ---
-name: "troubleshoot-cassandra"
-description: "Use when diagnosing issues with Apache Cassandra: gc death spiral, compaction death spiral, tombstone storm, disk space exhaustion, or hint overflow. Queries Netdata via MCP for node liveness (failure detector), native transport active, client request rate (read/write), client request latency (coordinator), applies the diagnostic tree from the Netdata operator playbook, and recommends remediation."
+name: troubleshoot-cassandra
+description: >-
+  Use when diagnosing issues with Apache Cassandra: gc death spiral, compaction
+  death spiral, tombstone storm, disk space exhaustion, or hint overflow.
+  Queries Netdata via MCP for node liveness (failure detector), native transport
+  active, client request rate (read/write), client request latency
+  (coordinator), applies the diagnostic tree from the Netdata operator playbook,
+  and recommends remediation.
 metadata:
-  category: data
+  upstream:
+    version: 0.1.0
+    author: Netdata
+    tags:
+      - netdata
+      - troubleshoot
+      - mcp
+      - cassandra
+  category: observability
   source:
-    repository: "https://github.com/netdata/skills"
-    path: "skills/troubleshoot-cassandra"
-    license_path: "LICENSE"
+    repository: 'https://github.com/netdata/skills'
+    path: skills/troubleshoot-cassandra
+    license_path: LICENSE
+    commit: ae650fc3766642f14e29892ab4fed607ac29d263
 ---
 
 # Troubleshoot Apache Cassandra

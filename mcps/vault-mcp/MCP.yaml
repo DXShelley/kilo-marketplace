@@ -1,12 +1,12 @@
 id: vault-mcp
 name: HashiCorp Vault MCP Server
-description: Reads and manages Vault KV secrets, mounts, and PKI resources using a Vault token whose policies define the exact accessible paths and operations.
+description: Reads Vault metadata and approved secret paths using a dedicated token whose Vault policies deny creates, updates, deletes, and administrative operations.
 author: HashiCorp
 url: https://github.com/hashicorp/vault-mcp-server
 category: development
 prerequisites:
   - Docker
-  - HashiCorp Vault token with least-privilege policies
+  - Dedicated HashiCorp Vault token with backend-enforced read-only policies for explicitly approved paths
 content:
   - name: Docker image 0.2.0
     prerequisites:

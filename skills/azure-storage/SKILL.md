@@ -1,12 +1,26 @@
 ---
-name: "azure-storage"
-description: "Azure Storage Services including Blob Storage, File Shares, Queue Storage, Table Storage, and Data Lake. Answers questions about storage access tiers (hot, cool, cold, archive), when to use each tier, and tier comparison. Provides object storage, SMB file shares, async messaging, NoSQL key-value, and big data analytics. Includes lifecycle management. USE FOR: blob storage, file shares, queue storage, table storage, data lake, upload files, download blobs, storage accounts, access tiers, storage tiers, hot cool cold archive, storage tier comparison, when to use storage tiers, lifecycle management, Azure Storage concepts. DO NOT USE FOR: SQL databases, Cosmos DB (use azure-prepare), messaging with Event Hubs or Service Bus (use azure-messaging)."
+name: azure-storage
+description: >-
+  Azure Storage Services including Blob Storage, File Shares, Queue Storage,
+  Table Storage, and Data Lake. Answers questions about storage access tiers
+  (hot, cool, cold, archive), when to use each tier, and tier comparison.
+  Provides object storage, SMB file shares, async messaging, NoSQL key-value,
+  and big data analytics. Includes lifecycle management. USE FOR: blob storage,
+  file shares, queue storage, table storage, data lake, upload files, download
+  blobs, storage accounts, access tiers, storage tiers, hot cool cold archive,
+  storage tier comparison, when to use storage tiers, lifecycle management,
+  Azure Storage concepts. DO NOT USE FOR: SQL databases, Cosmos DB (use
+  azure-prepare), messaging with Event Hubs or Service Bus (use
+  azure-messaging).
 metadata:
+  author: Microsoft
+  version: 1.1.2
   category: data
   source:
-    repository: "https://github.com/microsoft/azure-skills"
-    path: "skills/azure-storage"
-    license_path: "LICENSE"
+    repository: 'https://github.com/microsoft/azure-skills'
+    path: skills/azure-storage
+    license_path: LICENSE
+    commit: 2cd48ca625cddcc1d377d2861fbddd54417c70cc
 ---
 
 # Azure Storage Services

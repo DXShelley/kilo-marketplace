@@ -312,7 +312,7 @@ late_data_stats = spark.sql("""
 
 | Issue | Cause | Solution |
 |-------|-------|----------|
-| **State store explosion** | Watermark too long | Test a shorter business-approved watermark with a new checkpoint/shadow output; do not prune checkpoint files manually |
+| **State store explosion** | Watermark too long | Reduce watermark; archive old state |
 | **Late data dropped** | Watermark too short | Increase watermark; analyze latency patterns |
 | **State too large** | High cardinality keys or long watermark | Reduce key cardinality; decrease watermark duration |
 | **State partition skew** | Uneven key distribution | Ensure keys are evenly distributed; consider salting |
@@ -321,42 +321,23 @@ late_data_stats = spark.sql("""
 
 ## State Store Recovery
 
-The state store, offsets, commits, source metadata, and query metadata are one checkpoint recovery unit. Never delete the `state/` subfolder or copy selected checkpoint files: Spark cannot reconstruct correct historical state merely from the current watermark.
-
-### Lost or Corrupt State
-
-1. Stop the query and preserve the entire checkpoint path for diagnosis.
-2. Prefer restoring a complete, consistent checkpoint backup to a new path, then restart the unchanged query and validate stateful output.
-3. If no backup exists, create a new unique checkpoint and replay all source data required to rebuild state. Put replay boundaries such as Kafka `startingOffsets` on `readStream`; they do not belong on `writeStream` and are ignored when a checkpoint already contains offsets.
-4. Write replay output through stable-key `MERGE`/deduplication or into a shadow target. Reconcile keys, aggregates, windows, and source offsets before cutover because a new checkpoint has a new query identity.
-
 ```python
-replay_events = (spark.readStream
-    .format("kafka")
-    .option("kafka.bootstrap.servers", kafka_bootstrap_servers)
-    .option("subscribe", "events")
-    .option("startingOffsets", "earliest")  # Or explicit, reviewed offsets.
-    .load())
+# Scenario 1: State store corruption
+# Solution: Delete state folder, restart stream
+# State will rebuild from watermark
 
-rebuilt_stateful_result = build_stateful_result(replay_events)
+dbutils.fs.rm("/checkpoints/stream/state", recurse=True)
 
-query = (rebuilt_stateful_result.writeStream
-    .foreachBatch(upsert_idempotently)
-    .option("checkpointLocation", "/checkpoints/stream-rebuild-20260101")
-    .start())
-```
+# Restart stream - state rebuilds automatically
+# Note: May reprocess some data within watermark window
 
-Verify that source retention covers the chosen replay range. If it does not, restore from an authoritative archive or document the unrecoverable gap. Delete the old checkpoint only after recovery validation and explicit confirmation of its exact path.
+# Scenario 2: State store too large
+# Solution: Reduce watermark duration
+.withWatermark("event_time", "5 minutes")  # Reduced from 10 minutes
 
-### Oversized or Imbalanced State
-
-For planned changes, test in a new checkpoint/shadow output first; changing watermark or stateful logic can be incompatible with an existing checkpoint.
-
-```python
-# Reduce state only when the business late-data policy permits it.
-.withWatermark("event_time", "5 minutes")  # Example; validate late-data loss first.
-
-# For partition imbalance, choose evenly distributed keys or a reviewed salting scheme.
+# Scenario 3: State partition imbalance
+# Solution: Ensure keys are evenly distributed
+# Consider salting keys if needed
 ```
 
 ## Production Best Practices

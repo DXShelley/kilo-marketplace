@@ -13,8 +13,11 @@ This guide covers the full lifecycle: writing tests, managing test data, mocking
 ## Installing utPLSQL
 
 ```shell
-# Clone the repository
-git clone https://github.com/utPLSQL/utPLSQL.git
+# Fetch the reviewed source revision
+git init utPLSQL
+git -C utPLSQL remote add origin https://github.com/utPLSQL/utPLSQL.git
+git -C utPLSQL fetch --depth 1 origin 5852e44dfb8aad1d99c6db3140bf8967ca5c18e3
+git -C utPLSQL checkout --detach FETCH_HEAD
 cd utPLSQL
 
 # Install into the database
@@ -630,11 +633,11 @@ jobs:
       oracle:
         image: gvenzl/oracle-free:23-slim
         env:
-          ORACLE_PASSWORD: testpassword
+          ORACLE_PASSWORD: ${{ secrets.ORACLE_TEST_PASSWORD }}
         ports:
           - 1521:1521
         options: >-
-          --health-cmd "sqlplus -L sys/testpassword@//localhost:1521/FREEPDB1 AS SYSDBA < /dev/null"
+          --health-cmd "sqlplus -L sys/${{ secrets.ORACLE_TEST_PASSWORD }}@//localhost:1521/FREEPDB1 AS SYSDBA < /dev/null"
           --health-interval 30s
           --health-timeout 10s
           --health-retries 10
@@ -644,20 +647,20 @@ jobs:
 
       - name: Install utPLSQL
         run: |
-          sqlplus sys/testpassword@//localhost:1521/FREEPDB1 AS SYSDBA \
+          sqlplus sys/${{ secrets.ORACLE_TEST_PASSWORD }}@//localhost:1521/FREEPDB1 AS SYSDBA \
             @utPLSQL/install/install.sql
 
       - name: Apply schema migrations
         run: |
           liquibase \
             --url="jdbc:oracle:thin:@//localhost:1521/FREEPDB1" \
-            --username=sys --password=testpassword \
+            --username=sys --password="${{ secrets.ORACLE_TEST_PASSWORD }}" \
             --defaultSchemaName=APP_OWNER \
             update
 
       - name: Deploy test packages
         run: |
-          sqlplus app_owner/password@//localhost:1521/FREEPDB1 \
+          sqlplus app_owner/${{ secrets.ORACLE_APP_PASSWORD }}@//localhost:1521/FREEPDB1 \
             @tests/install_tests.sql
 
       - name: Run utPLSQL tests
@@ -696,9 +699,11 @@ jobs:
 The utPLSQL-cli Java client provides a convenient command-line interface that pulls results from the database without requiring SQL*Plus:
 
 ```shell
-# Install
-wget https://github.com/utPLSQL/utPLSQL-cli/releases/latest/download/utplsql-cli.zip
-unzip utplsql-cli.zip
+# Install the reviewed v3.2.0 artifact
+wget https://github.com/utPLSQL/utPLSQL-cli/releases/download/v3.2.0/utPLSQL-cli.zip
+printf '%s  %s\n' '717e157c4b4f35b057c94cd1a1f276abada6bb8fadd4a1f194d0f9c449a75bdb' 'utPLSQL-cli.zip' | sha256sum -c -
+unzip -l utPLSQL-cli.zip
+unzip utPLSQL-cli.zip
 
 # Run tests with JUnit output
 ./utplsql run app_owner/password@//host:1521/service \

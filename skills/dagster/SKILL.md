@@ -1,12 +1,28 @@
 ---
-name: "dagster"
-description: "Dagster is a data pipeline orchestrator built around the concept of software-defined assets. Learn to define assets, ops, jobs, schedules, sensors, and resources for building maintainable data platforms."
+name: dagster
+description: >
+  Dagster is a data pipeline orchestrator built around the concept of
+  software-defined assets.
+
+  Learn to define assets, ops, jobs, schedules, sensors, and resources for
+
+  building maintainable data platforms.
+compatibility: 'macos, linux, windows'
 metadata:
+  author: terminal-skills
+  version: 1.0.0
   category: data
+  tags:
+    - dagster
+    - data-pipeline
+    - orchestration
+    - assets
+    - python
   source:
-    repository: "https://github.com/TerminalSkills/skills"
-    path: "skills/dagster"
-    license_path: "LICENSE"
+    repository: 'https://github.com/TerminalSkills/skills'
+    path: skills/dagster
+    license_path: LICENSE
+    commit: 77fa0150aa0921f892420d3ec2a9204e3124b71e
 ---
 
 # Dagster

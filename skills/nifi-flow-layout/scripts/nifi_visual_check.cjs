@@ -42,7 +42,7 @@ function readPassphrase() {
   const origin = arg('origin') || new URL(url).origin;
   const viewport = { width: Number(arg('width', '1800')), height: Number(arg('height', '1200')) };
   const launch = { headless: !has('headed') };
-  const contextOptions = { ignoreHTTPSErrors: has('insecure'), viewport };
+  const contextOptions = { ignoreHTTPSErrors: true, viewport };
   const p12 = arg('p12');
   if (p12) {
     contextOptions.clientCertificates = [{ origin, pfx: fs.readFileSync(p12), passphrase: readPassphrase() }];

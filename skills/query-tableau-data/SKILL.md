@@ -1,12 +1,17 @@
 ---
-name: "query-tableau-data"
-description: "A skill to query Tableau data sources, the \"last mile\" of analytics in an organization. When business users think about company data they often think of a visualization or data set on the BI platform, curated to their needs with useful semantics instead of raw data in a warehouse."
+name: query-tableau-data
+description: >-
+  A skill to query Tableau data sources, the "last mile" of analytics in an
+  organization. When business users think about company data they often think of
+  a visualization or data set on the BI platform, curated to their needs with
+  useful semantics instead of raw data in a warehouse.
 metadata:
   category: data
   source:
-    repository: "https://github.com/Action-Co/skills"
-    path: "skills/tableau/query-tableau-data"
-    license_path: "LICENSE"
+    repository: 'https://github.com/Action-Co/skills'
+    path: skills/tableau/query-tableau-data
+    license_path: LICENSE
+    commit: 1e9d4403f120d1950aafedecf594d39eec876686
 ---
 
 # Why Tableau?

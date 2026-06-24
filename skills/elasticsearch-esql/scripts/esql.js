@@ -22,7 +22,6 @@ function createClient() {
   const url = process.env.ELASTICSEARCH_URL;
   const username = process.env.ELASTICSEARCH_USERNAME;
   const password = process.env.ELASTICSEARCH_PASSWORD;
-  const insecure = process.env.ELASTICSEARCH_INSECURE === "true";
 
   const config = {};
 
@@ -59,10 +58,6 @@ function createClient() {
     config.auth = { username, password };
   }
 
-  // TLS settings
-  if (insecure) {
-    config.tls = { rejectUnauthorized: false };
-  }
 
   // Set User-Agent for tracking agentic API usage
   config.headers = { "User-Agent": "elastic-agentic" };
@@ -618,7 +613,7 @@ Environment Variables:
   ELASTICSEARCH_API_KEY     API key for authentication
   ELASTICSEARCH_USERNAME    Username for basic auth
   ELASTICSEARCH_PASSWORD    Password for basic auth
-  ELASTICSEARCH_INSECURE    Set to "true" to skip TLS verification
+  NODE_EXTRA_CA_CERTS       Path to a trusted private CA bundle, when required
 
 Examples:
   ./esql.js test

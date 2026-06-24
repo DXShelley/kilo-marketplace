@@ -1,12 +1,29 @@
 ---
-name: "cassandra"
-description: "Apache Cassandra is a distributed NoSQL database designed for high availability and linear scalability. Learn CQL (Cassandra Query Language), data modeling with partition keys, replication strategies, and integration with Node.js using the DataStax driver."
+name: cassandra
+description: >
+  Apache Cassandra is a distributed NoSQL database designed for high
+  availability and linear scalability.
+
+  Learn CQL (Cassandra Query Language), data modeling with partition keys,
+  replication strategies,
+
+  and integration with Node.js using the DataStax driver.
+compatibility: 'macos, linux'
 metadata:
+  author: terminal-skills
+  version: 1.0.0
   category: data
+  tags:
+    - cassandra
+    - nosql
+    - distributed-database
+    - cql
+    - nodejs
   source:
-    repository: "https://github.com/TerminalSkills/skills"
-    path: "skills/cassandra"
-    license_path: "LICENSE"
+    repository: 'https://github.com/TerminalSkills/skills'
+    path: skills/cassandra
+    license_path: LICENSE
+    commit: 77fa0150aa0921f892420d3ec2a9204e3124b71e
 ---
 
 # Cassandra

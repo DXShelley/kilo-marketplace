@@ -2,7 +2,7 @@
 name: "newrelic-cli-apm"
 description: "This subskill should be used when triaging New Relic APM latency, throughput, database time, transaction errors, or performance regressions with the New Relic CLI and NRQL. Use the parent newrelic-cli-skills skill for setup and routing."
 metadata:
-  category: data
+  category: observability
   source:
     repository: "https://github.com/vince-winkintel/newrelic-cli-skills"
     path: "apm"

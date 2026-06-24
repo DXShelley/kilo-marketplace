@@ -261,9 +261,9 @@ databricks experimental aitools tools query \
   --profile my-workspace
 ```
 
-## Claude Code-Specific Tips
+## Agent Shell Tips
 
-Remember that each Bash command in Claude Code runs in a separate shell:
+Bash commands issued in separate agent tool calls may run in separate shells:
 
 ```bash
 # ✅ RECOMMENDED: Use --profile flag
@@ -373,7 +373,7 @@ Both commands support:
    databricks tables get --full-name catalog.schema.table --profile my-workspace
    ```
 
-5. **Profile usage** - Always specify `--profile` in Claude Code to avoid authentication issues
+5. **Profile usage** - Always specify `--profile` when commands run in separate shells to avoid authentication issues
 
 ## Related Commands
 

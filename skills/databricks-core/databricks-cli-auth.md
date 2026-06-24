@@ -13,9 +13,9 @@ Configure Databricks CLI workspace/profile selection and authentication. Covers 
 2. You need access to a Databricks workspace
 3. You need the workspace URL (e.g., `https://adb-1111111111111111.10.azuredatabricks.net`)
 
-## Claude Code Specific Behavior
+## Agent Shell Behavior
 
-**CRITICAL**: When working in Claude Code, each Bash command executes in a **separate shell session**. This has important implications for profile management:
+**CRITICAL**: When the agent runs Bash commands in separate tool calls, each command may execute in a **separate shell session**. This has important implications for profile management:
 
 ### Key Differences from Regular Terminal
 
@@ -34,7 +34,7 @@ Configure Databricks CLI workspace/profile selection and authentication. Covers 
    - The export and command run in the same shell session
    - ✅ **Result**: Works correctly
 
-### Quick Reference for Claude Code
+### Quick Reference for Isolated Agent Shells
 
 ```bash
 # ✅ RECOMMENDED: Use --profile flag
@@ -68,7 +68,7 @@ Error: default auth: cannot configure default credentials
    - Ask: "Which profile would you like to use for this command?"
    - Offer option to create a new profile if needed
    - Retry the command with `--profile <selected-profile-name>`
-   - **In Claude Code, always use the `--profile` flag** rather than setting environment variables
+   - **For agent-run commands, always use the `--profile` flag** rather than relying on persistent environment variables
 
 3. **If user wants a new profile or no profiles exist:**
    - Proceed to the OAuth Authentication Setup workflow below
@@ -177,11 +177,11 @@ staging     https://company-workspace.cloud.databricks.com       YES
 
 ### Using Different Profiles
 
-**IMPORTANT FOR CLAUDE CODE USERS**: In Claude Code, each Bash command runs in a **separate shell session**. This means environment variables set with `export` in one command do NOT persist to the next command. See the Claude Code-specific guidance below.
+**IMPORTANT FOR AGENT RUNS**: Commands may execute in separate shell sessions, so an export in one command may not persist to the next. See the agent-shell guidance below.
 
 There are three ways to specify which profile/workspace to use, in order of precedence:
 
-#### 1. CLI Flag (Highest Priority) - RECOMMENDED FOR CLAUDE CODE
+#### 1. CLI Flag (Highest Priority) - RECOMMENDED FOR AGENT RUNS
 
 Use the `--profile` flag with any command:
 
@@ -191,7 +191,7 @@ databricks clusters list --profile prod-azure
 databricks workspace list / --profile dev-aws
 ```
 
-**In Claude Code, this is the most reliable method** because it doesn't depend on persistent environment variables.
+**For agent-run commands, this is the most reliable method** because it doesn't depend on persistent environment variables.
 
 #### 2. Environment Variables
 
@@ -209,12 +209,12 @@ export DATABRICKS_HOST=https://company-workspace.cloud.databricks.com
 databricks jobs list  # Uses this host directly
 ```
 
-**CRITICAL - Claude Code Users:**
+**CRITICAL - Isolated Agent Shells:**
 
-Since each Bash command in Claude Code runs in a separate shell, you **CANNOT** do this:
+When each Bash command runs in a separate shell, you **CANNOT** do this:
 
 ```bash
-# ❌ DOES NOT WORK in Claude Code
+# ❌ DOES NOT WORK across separate agent commands
 export DATABRICKS_CONFIG_PROFILE=staging
 databricks jobs list  # ERROR: Will not use staging profile!
 ```
@@ -223,14 +223,14 @@ Instead, you **MUST** use one of these approaches:
 
 **Option 1: Use --profile flag (RECOMMENDED)**
 ```bash
-# ✅ WORKS in Claude Code
+# ✅ WORKS in isolated agent shells
 databricks jobs list --profile staging
 databricks clusters list --profile staging
 ```
 
 **Option 2: Chain commands with &&**
 ```bash
-# ✅ WORKS in Claude Code - export and command run in same shell
+# ✅ WORKS in isolated agent shells - export and command run in same shell
 export DATABRICKS_CONFIG_PROFILE=staging && databricks jobs list
 export DATABRICKS_CONFIG_PROFILE=staging && databricks clusters list
 ```
@@ -238,7 +238,7 @@ export DATABRICKS_CONFIG_PROFILE=staging && databricks clusters list
 **Traditional Terminal Session (for reference only)**:
 ```bash
 # This example shows how it works in a regular terminal session
-# DO NOT use this pattern in Claude Code
+# DO NOT use this pattern across separate agent commands
 # Set profile for entire terminal session
 export DATABRICKS_CONFIG_PROFILE=staging
 
@@ -318,7 +318,7 @@ databricks auth login --host https://dbc-2222222222222222.cloud.databricks.com -
 databricks auth login --host https://company-workspace.cloud.databricks.com --profile staging
 ```
 
-**In Claude Code, use --profile flag with each command (RECOMMENDED):**
+**For agent-run commands, use --profile with each command (RECOMMENDED):**
 ```bash
 # Use profiles explicitly in commands
 databricks jobs list --profile prod-azure
@@ -326,7 +326,7 @@ databricks jobs list --profile dev-aws
 databricks clusters list --profile staging
 ```
 
-**Alternatively in Claude Code, chain commands with &&:**
+**Alternatively, in an agent-run command, chain commands with &&:**
 ```bash
 # Set profile and run command in same shell
 export DATABRICKS_CONFIG_PROFILE=prod-azure && databricks jobs list
@@ -336,9 +336,9 @@ export DATABRICKS_CONFIG_PROFILE=prod-azure && databricks clusters list
 export DATABRICKS_CONFIG_PROFILE=dev-aws && databricks jobs list
 ```
 
-**Traditional Terminal Session (for reference only - NOT for Claude Code):**
+**Traditional Terminal Session (for reference only - NOT for isolated agent shells):**
 ```bash
-# This pattern works in regular terminals but NOT in Claude Code
+# This pattern works in regular terminals but NOT across separate agent commands
 export DATABRICKS_CONFIG_PROFILE=prod-azure
 databricks jobs list
 databricks clusters list
@@ -373,7 +373,7 @@ export DATABRICKS_HOST=https://custom-workspace.cloud.databricks.com
 databricks jobs list  # Uses custom-workspace.cloud.databricks.com
 ```
 
-**Claude Code version** (with chained commands):
+**Agent-shell version** (with chained commands):
 ```bash
 # Using environment variable with && chaining
 export DATABRICKS_CONFIG_PROFILE=staging && databricks jobs list

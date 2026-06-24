@@ -1,12 +1,16 @@
 ---
-name: "tensorflow-model-deployment"
-description: "Deploy and serve TensorFlow models"
+name: tensorflow-model-deployment
+description: Deploy and serve TensorFlow models
+allowed-tools:
+  - Bash
+  - Read
 metadata:
   category: data
   source:
-    repository: "https://github.com/thebushidocollective/han"
-    path: "plugins/specialized/tensorflow/skills/tensorflow-model-deployment"
-    license_path: "LICENSE"
+    repository: 'https://github.com/thebushidocollective/han'
+    path: plugins/specialized/tensorflow/skills/tensorflow-model-deployment
+    license_path: LICENSE
+    commit: 3fc9880ee2be4b1275359bed910dbd1674134448
 ---
 
 # TensorFlow Model Deployment
@@ -174,51 +178,19 @@ tflite_model = converter.convert()
 
 ### Debug Quantization
 
-Use TensorFlow's public quantization debugger API; do not import `tensorflow.lite.python` internals or set private converter fields. Pin and test a TensorFlow 2.x version that exposes `tf.lite.experimental.QuantizationDebugger`, because APIs in the `experimental` namespace can change between releases.
-
 ```python
-import numpy as np
-import tensorflow as tf
+from tensorflow.lite.python import convert
 
-# Use real, representative calibration samples in production.
-calibration_samples = [
-    np.random.random_sample((1, 224, 224, 3)).astype(np.float32)
-    for _ in range(100)
-]
-
-
-def representative_dataset():
-    for sample in calibration_samples:
-        yield [sample]
-
-
-converter = tf.lite.TFLiteConverter.from_saved_model("saved_model_dir")
+# Create debug model with numeric verification
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
-converter.representative_dataset = representative_dataset
+converter.representative_dataset = calibration_gen
 converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
 
-if not hasattr(tf.lite.experimental, "QuantizationDebugger"):
-    raise RuntimeError(
-        "This TensorFlow version does not provide the public QuantizationDebugger API"
-    )
-
-debugger = tf.lite.experimental.QuantizationDebugger(
-    converter=converter,
-    debug_dataset=representative_dataset,
-)
-debugger.run()
-
-# Export per-layer error metrics for review.
-with open("quantization_debug_metrics.csv", "w", encoding="utf-8") as metrics_file:
-    debugger.layer_statistics_dump(metrics_file)
-
-# Produce the deployable model without NumericVerify debug operations.
-quantized_model = debugger.get_nondebug_quantized_model()
-with open("model_int8.tflite", "wb") as model_file:
-    model_file.write(quantized_model)
+# Calibrate and quantize with verification
+converter._experimental_calibrate_only = True
+calibrated = converter.convert()
+debug_model = convert.mlir_quantize(calibrated, enable_numeric_verify=True)
 ```
-
-If the pinned version lacks this API, convert normally with public `TFLiteConverter`, run the float and quantized models through `tf.lite.Interpreter` on the same held-out samples, and compare per-output error and task metrics. Do not fall back to private MLIR conversion functions.
 
 ### Get Quantization Converter
 

@@ -143,7 +143,7 @@ spec:
       serviceAccountName: agent-sa
       containers:
       - name: agent
-        image: myregistry/agent:latest
+        image: ${AGENT_IMAGE_REF:?Set AGENT_IMAGE_REF to myregistry/agent@sha256:<reviewed-digest>}
         env:
         - name: SIDECAR_URL
           value: "http://localhost:5000"

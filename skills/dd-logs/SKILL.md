@@ -1,12 +1,19 @@
 ---
-name: "dd-logs"
-description: "Log management - search, archives, metrics, and cost control."
+name: dd-logs
+description: 'Log management - search, archives, metrics, and cost control.'
 metadata:
-  category: data
+  version: 1.0.1
+  author: datadog-labs
+  repository: 'https://github.com/datadog-labs/agent-skills'
+  tags: 'datadog,logs,logging,search,dd-logs'
+  globs: '**/datadog*.yaml,**/*log*'
+  alwaysApply: 'false'
+  category: observability
   source:
-    repository: "https://github.com/datadog-labs/agent-skills"
-    path: "dd-logs"
-    license_path: "LICENSE"
+    repository: 'https://github.com/datadog-labs/agent-skills'
+    path: dd-logs
+    license_path: LICENSE
+    commit: 9dbf79d0dccc53ac040fc151009d2179363bf34f
 ---
 
 # Datadog Logs

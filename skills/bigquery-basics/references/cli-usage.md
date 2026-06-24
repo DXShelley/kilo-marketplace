@@ -57,19 +57,10 @@ bq COMMAND [FLAGS] [ARGUMENTS]
   bq insert my_dataset.my_table data.json
   ```
 
-- **Delete a table (interactive confirmation):**
-
-  First verify the fully qualified target and create a recoverable snapshot in the same location. Confirm the snapshot exists and that its retention meets the recovery requirement before running the delete. Without `-f`, `bq` prompts for confirmation.
+- **Delete a table:**
 
   ```bash
-  bq show --format=prettyjson my_project:my_dataset.my_table
-  bq cp --snapshot --no_clobber \
-    my_project:my_dataset.my_table \
-    my_project:recovery_dataset.my_table_predelete_snapshot
-  bq show my_project:recovery_dataset.my_table_predelete_snapshot
-
-  # Read the prompt carefully and confirm only the exact reviewed target.
-  bq rm --table my_project:my_dataset.my_table
+  bq rm -f my_dataset.my_table
   ```
 
 ### Querying Data

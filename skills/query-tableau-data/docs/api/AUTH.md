@@ -100,7 +100,7 @@ You include the credentials token as the value of the `X-Tableau-Auth` header fo
 
 _Example Authenticated Request_:
 ```bash
-curl "https://{my-server}/api/{api-version}/sites/{site-id}/{method}" -X GET -H "X-Tableau-Auth:12ab34cd56ef78ab90cd12ef34ab56cd"
+curl "https://{my-server}/api/{api-version}/sites/{site-id}/{method}" -X GET -H "X-Tableau-Auth: ${TABLEAU_CREDENTIALS_TOKEN:?required}"
 ```
 
 When you are finished with a session, you call `Sign Out`. This invalidates the credentials token, which makes sure that no one else can use the credentials token to make calls to the REST API.

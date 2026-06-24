@@ -1,12 +1,21 @@
 ---
-name: "mlflow-onboarding"
-description: "Onboards users to MLflow by determining their use case (GenAI agents/apps or traditional ML/deep learning) and guiding them through relevant quickstart tutorials and initial integration. If an experiment ID is available, it should be supplied as input to help determine the use case. Use when the user asks to get started with MLflow, set up tracking, add observability, or integrate MLflow into their project. Triggers on \"get started with MLflow\", \"set up MLflow\", \"onboard to MLflow\", \"add MLflow to my project\", \"how do I use MLflow\"."
+name: mlflow-onboarding
+description: >-
+  Onboards users to MLflow by determining their use case (GenAI agents/apps or
+  traditional ML/deep learning) and guiding them through relevant quickstart
+  tutorials and initial integration. If an experiment ID is available, it should
+  be supplied as input to help determine the use case. Use when the user asks to
+  get started with MLflow, set up tracking, add observability, or integrate
+  MLflow into their project. Triggers on "get started with MLflow", "set up
+  MLflow", "onboard to MLflow", "add MLflow to my project", "how do I use
+  MLflow".
 metadata:
   category: data
   source:
-    repository: "https://github.com/mlflow/skills"
-    path: "mlflow-onboarding"
-    license_path: "LICENSE"
+    repository: 'https://github.com/mlflow/skills'
+    path: mlflow-onboarding
+    license_path: LICENSE
+    commit: 5f561418262bdcaa9e705bdf7facc72f17b181fc
 ---
 
 # MLflow Onboarding

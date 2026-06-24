@@ -1,12 +1,22 @@
 ---
-name: "purview-data-map"
-description: "Guidance for the Microsoft Purview Data Map - the foundation that scans and maps data sources across multicloud and on-premises estates to power cataloging and governance. Covers source registration, integration runtimes (managed vs self-hosted), scan rule sets, classifications, collections, and cost control. WHEN: Purview Data Map, scan data sources, register data source, data discovery, integration runtime, map enterprise data, multicloud data scanning, classification scan, collections, glossary."
+name: purview-data-map
+description: >-
+  Guidance for the Microsoft Purview Data Map - the foundation that scans and
+  maps data sources across multicloud and on-premises estates to power
+  cataloging and governance. Covers source registration, integration runtimes
+  (managed vs self-hosted), scan rule sets, classifications, collections, and
+  cost control. WHEN: Purview Data Map, scan data sources, register data source,
+  data discovery, integration runtime, map enterprise data, multicloud data
+  scanning, classification scan, collections, glossary.
 metadata:
+  author: Microsoft
+  version: 0.1.0
   category: data
   source:
-    repository: "https://github.com/vinayaklatthe/microsoft-security-skills"
-    path: "skills/purview-data-map"
-    license_path: "LICENSE"
+    repository: 'https://github.com/vinayaklatthe/microsoft-security-skills'
+    path: skills/purview-data-map
+    license_path: LICENSE
+    commit: 15f16df4ae50261328da8b82f3f0964cac0899ae
 ---
 
 # Microsoft Purview Data Map

@@ -1,12 +1,15 @@
 ---
-name: "delta-sharing"
-description: "Delta Sharing configuration, monitoring, and recipient management for secure cross-organization data sharing."
+name: delta-sharing
+description: >-
+  Delta Sharing configuration, monitoring, and recipient management for secure
+  cross-organization data sharing.
 metadata:
   category: data
   source:
-    repository: "https://github.com/vivekgana/databricks-platform-marketplace"
-    path: "plugins/databricks-engineering/skills/delta-sharing"
-    license_path: "LICENSE"
+    repository: 'https://github.com/vivekgana/databricks-platform-marketplace'
+    path: plugins/databricks-engineering/skills/delta-sharing
+    license_path: LICENSE
+    commit: 046bffd095fb32c0726ca8c8169802916fbad5dd
 ---
 
 # Delta Sharing Skill
@@ -83,9 +86,13 @@ recipient = w.recipients.create(
     authentication_type="TOKEN"
 )
 
-# Get activation URL for recipient
-activation_url = recipient.activation_url
-print(f"Share this URL with recipient: {activation_url}")
+# Store the activation URL without printing it to logs or chat
+from pathlib import Path
+activation_file = Path.home() / ".delta-sharing" / "acme_corp.activation-url"
+activation_file.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+activation_file.write_text(recipient.activation_url, encoding="utf-8")
+activation_file.chmod(0o600)
+print(f"Activation URL stored at: {activation_file}")
 
 # Grant access to share
 w.grants.update(
@@ -166,6 +173,8 @@ usage_df.show()
 
 **Separate Shares per Tenant:**
 ```python
+from pathlib import Path
+
 class MultiTenantSharingManager:
     """Manage multi-tenant data sharing."""
 
@@ -217,10 +226,15 @@ class MultiTenantSharingManager:
             }]
         )
 
+        activation_file = Path.home() / ".delta-sharing" / f"{tenant_name}.activation-url"
+        activation_file.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        activation_file.write_text(recipient.activation_url, encoding="utf-8")
+        activation_file.chmod(0o600)
+
         return {
             "share_name": share_name,
             "recipient": tenant_name,
-            "activation_url": recipient.activation_url,
+            "activation_file": str(activation_file),
             "tables": tables
         }
 ```

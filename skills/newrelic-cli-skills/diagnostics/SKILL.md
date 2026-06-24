@@ -2,7 +2,7 @@
 name: "newrelic-cli-diagnostics"
 description: "This subskill should be used when diagnosing New Relic agent configuration, API connectivity, profile authentication, or missing telemetry with the New Relic CLI. Use the parent newrelic-cli-skills skill for setup and routing."
 metadata:
-  category: data
+  category: observability
   source:
     repository: "https://github.com/vince-winkintel/newrelic-cli-skills"
     path: "diagnostics"

@@ -1,14 +1,30 @@
 ---
-name: "oraclecloud-data-handling"
-description: "This skill should be used when managing Oracle Cloud Infrastructure Object Storage buckets, uploads, pre-authenticated requests, multipart transfers, or object lifecycle rules."
+name: oraclecloud-data-handling
+description: >
+  Manage OCI Object Storage — buckets, uploads, PARs, and lifecycle policies.
+
+  Use when uploading objects, creating pre-authenticated requests, or
+  configuring lifecycle rules.
+
+  Trigger with "oci object storage", "oci bucket", "par url", "multipart
+  upload", "oci lifecycle".
+allowed-tools: 'Read, Write, Edit, Bash(pip:*), Grep'
+compatibility: Agent clients with shell and file-editing tools
 metadata:
+  upstream:
+    version: 1.0.0
+    author: Jeremy Longshore <jeremy@intentsolutions.io>
+    tags:
+      - saas
+      - oraclecloud
+      - oci
   category: data
   source:
-    repository: "https://github.com/jeremylongshore/claude-code-plugins-plus-skills"
-    path: "plugins/saas-packs/oraclecloud-pack/skills/oraclecloud-data-handling"
-    license_path: "LICENSE"
+    repository: 'https://github.com/jeremylongshore/claude-code-plugins-plus-skills'
+    path: plugins/saas-packs/oraclecloud-pack/skills/oraclecloud-data-handling
+    license_path: LICENSE
+    commit: 6e3a65f8c516f11e963382ec3a5ff9c72942f5fa
 ---
-
 # OCI Object Storage — Buckets, PARs & Lifecycle
 
 ## Overview

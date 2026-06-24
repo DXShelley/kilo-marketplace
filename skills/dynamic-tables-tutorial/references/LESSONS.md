@@ -11,10 +11,10 @@ This file contains all SQL code for the tutorial, organized by lesson. Execute e
 ### Step 1.1: Set Up the Environment
 
 ```sql
--- Switch to the admin role and learning database
-USE ROLE ACCOUNTADMIN;
+-- Use the dedicated least-privilege tutorial environment
+USE ROLE SNOWFLAKE_LEARNING_ROLE;
 USE DATABASE SNOWFLAKE_LEARNING_DB;
-USE WAREHOUSE COMPUTE_WH;
+USE WAREHOUSE SNOWFLAKE_LEARNING_WH;
 
 -- Create a user-specific schema to avoid conflicts with other learners
 SET user_schema = CURRENT_USER() || '_DYNAMIC_TABLES';

@@ -1,12 +1,18 @@
 ---
-name: "dbt-testing"
-description: "This skill should be used when designing dbt tests, configuring dbt_constraints, adding generic or singular tests, enforcing warehouse constraints, or troubleshooting dbt test failures."
+name: dbt-testing
+description: >-
+  dbt testing strategies using dbt_constraints for database-level enforcement,
+  generic tests, and singular tests. Use this skill when implementing data
+  quality checks, adding primary/foreign key constraints, creating custom tests,
+  or establishing comprehensive testing frameworks across bronze/silver/gold
+  layers.
 metadata:
   category: data
   source:
-    repository: "https://github.com/sfc-gh-dflippo/snowflake-dbt-demo"
-    path: ".claude/skills/dbt-testing"
-    license_path: "LICENSE"
+    repository: 'https://github.com/sfc-gh-dflippo/snowflake-dbt-demo'
+    path: .claude/skills/dbt-testing
+    license_path: LICENSE
+    commit: f9db05e235299610e53a0dd98982b89da590efd1
 ---
 
 # dbt Testing

@@ -1,19 +1,29 @@
 ---
-name: "authoring-dags"
-description: "Workflow and best practices for writing Apache Airflow DAGs. Use when the user wants to create a new DAG, write pipeline code, or asks about DAG patterns and conventions. Includes validation and a minimal test-debug-fix loop using af CLI commands."
+name: authoring-dags
+description: >-
+  Workflow and best practices for writing Apache Airflow DAGs. Use when the user
+  wants to create a new DAG, write pipeline code, or asks about DAG patterns and
+  conventions. For testing and debugging DAGs, see the testing-dags skill.
 metadata:
+  upstream:
+    hooks:
+      Stop:
+        - hooks:
+            - type: command
+              command: echo 'Remember to test your DAG with the testing-dags skill'
   category: data
   source:
-    repository: "https://github.com/astronomer/agents"
-    path: "skills/authoring-dags"
-    license_path: "LICENSE"
+    repository: 'https://github.com/astronomer/agents'
+    path: skills/authoring-dags
+    license_path: LICENSE
+    commit: e4ebf9a7ad3f8dbf3fcfda9c245a65eb1415967b
 ---
 
 # DAG Authoring Skill
 
 This skill guides you through creating and validating Airflow DAGs using best practices and `af` CLI commands.
 
-> For testing and debugging DAGs, use the Phase 5 test-debug-fix loop in this skill.
+> **For testing and debugging DAGs**, see the **testing-dags** skill which covers the full test -> debug -> fix -> retest workflow.
 
 ---
 
@@ -166,7 +176,9 @@ If you're running on Astro, you can also validate locally before deploying:
 
 ## Phase 5: Test
 
-Once validation passes, test the DAG with this workflow:
+> See the **testing-dags** skill for comprehensive testing guidance.
+
+Once validation passes, test the DAG using the workflow in the **testing-dags** skill:
 
 1. **Get user consent** -- Always ask before triggering
 2. **Trigger and wait** -- `af runs trigger-wait <dag_id> --timeout 300`
@@ -180,7 +192,7 @@ Once validation passes, test the DAG with this workflow:
 af runs trigger-wait <dag_id> --timeout 300
 ```
 
-Repeat this trigger -> diagnose -> fix -> retest loop until the DAG succeeds or the user chooses to stop.
+For the full test -> debug -> fix -> retest loop, see **testing-dags**.
 
 ---
 
@@ -190,7 +202,7 @@ If issues found:
 1. Fix the code
 2. Check for import errors: `af dags errors`
 3. Re-validate (Phase 4)
-4. Re-test using the Phase 5 workflow
+4. Re-test using the **testing-dags** skill workflow (Phase 5)
 
 ---
 
@@ -207,7 +219,7 @@ If issues found:
 | Validate | `af dags warnings` | Configuration warnings |
 | Validate | `af dags explore <dag_id>` | Full DAG inspection |
 
-> **Testing commands** -- Use `af runs trigger-wait`, `af runs diagnose`, `af tasks logs`, and related `af` commands from the table above.
+> **Testing commands** -- See the **testing-dags** skill for `af runs trigger-wait`, `af runs diagnose`, `af tasks logs`, etc.
 
 ---
 
@@ -221,6 +233,7 @@ For code patterns and anti-patterns, see **[reference/best-practices.md](referen
 
 ## Related Skills
 
+- **testing-dags**: For testing DAGs, debugging failures, and the test -> fix -> retest loop
+- **debugging-dags**: For troubleshooting failed DAGs
 - **deploying-airflow**: For deploying DAGs to production (Astro or open-source)
-
-Use the Phase 5 workflow in this skill for DAG testing and debugging.
+- **migrating-airflow-2-to-3**: For migrating DAGs to Airflow 3

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Routing logic to determine whether a request belongs in Cortex Code or the host coding agent.
+LLM-based routing logic to determine if request should go to Cortex Code or the host coding agent.
 Uses semantic understanding rather than simple keyword matching.
 """
 
@@ -27,7 +27,7 @@ SNOWFLAKE_INDICATORS = [
     "ml function", "classification", "forecasting"
 ]
 
-# Non-Snowflake indicators (keep in the host coding agent)
+# Non-Snowflake indicators (route to the host coding agent)
 SNOWFLAKE_CONTEXT_TERMS = ["snowflake", "warehouse", "cortex", "schema", "table", "database"]
 AMBIGUOUS_SNOWFLAKE_TERMS = ["stream", "task", "stage", "pipe"]
 PATH_TOKEN_PATTERN = re.compile(r'(?<![\w.-])(?:~/?|/|\./|\.\./|[A-Za-z0-9_.-]+/)[A-Za-z0-9_./$~:-]+|(?<![\w.-])(?:\.ssh|\.aws|\.snowflake|\.env(?:\.[\w-]+)?|credentials\.(?:json|ya?ml)|[A-Za-z0-9_.-]+_key\.(?:p8|pem))(?![\w.-])', re.IGNORECASE)
@@ -123,15 +123,15 @@ def analyze_with_llm_logic(prompt, capabilities):
     total_score = snowflake_score + coding_agent_score
     if total_score == 0:
         # No strong indicators, default to the host coding agent for safety.
-        # The generic route value keeps the package independent of the host agent.
-        return "coding_agent", 0.5
+        # Install scripts replace this placeholder with the host coding agent.
+        return "__CODING_AGENT__", 0.5
 
     confidence = max(snowflake_score, coding_agent_score) / total_score
 
     if snowflake_score > coding_agent_score:
         return "cortex", confidence
     else:
-        return "coding_agent", confidence
+        return "__CODING_AGENT__", confidence
 
 
 def check_credential_allowlist(
@@ -143,7 +143,7 @@ def check_credential_allowlist(
     Check if prompt contains credential file paths from the allowlist.
 
     This function runs before routing analysis to block prompts that reference
-    credential files, regardless of whether they would be routed to Cortex or the host agent.
+    credential files, regardless of whether they would be routed to Cortex or the host coding agent.
 
     Args:
         prompt: User prompt to check

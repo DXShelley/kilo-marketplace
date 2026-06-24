@@ -45,7 +45,7 @@ kind: Tenant
 metadata:
   name: datalake
 spec:
-  image: quay.io/minio/minio:latest
+  image: ${MINIO_IMAGE_REF:?Set MINIO_IMAGE_REF to quay.io/minio/minio@sha256:<reviewed-digest>}
   pools:
     - servers: 4
       volumesPerServer: 4

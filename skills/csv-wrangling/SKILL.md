@@ -1,12 +1,15 @@
 ---
-name: "csv-wrangling"
-description: "Standard workflow order, tool selection matrix, and composition patterns for qsv CSV data wrangling"
+name: csv-wrangling
+description: >-
+  Standard workflow order, tool selection matrix, and composition patterns for
+  qsv CSV data wrangling
 metadata:
   category: data
   source:
-    repository: "https://github.com/dathere/qsv"
-    path: ".claude/skills/skills/csv-wrangling"
-    license_path: "COPYING"
+    repository: 'https://github.com/dathere/qsv'
+    path: .claude/skills/skills/csv-wrangling
+    license_path: COPYING
+    commit: d7bcd2d9ac92ca2edcc6086a1132ea2beb6ab079
 ---
 
 # CSV Wrangling with qsv

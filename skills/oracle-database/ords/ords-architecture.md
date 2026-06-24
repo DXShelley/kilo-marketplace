@@ -223,7 +223,7 @@ https://<unique-id>.adb.<region>.oraclecloudapps.com/ords/
 ORDS can be deployed on OCI Compute VMs or as containers in OCI Container Instances / OKE (Kubernetes). Use Oracle's official ORDS container image from Oracle Container Registry:
 
 ```shell
-docker pull container-registry.oracle.com/database/ords:latest
+docker pull "${ORDS_IMAGE_REF:?Set ORDS_IMAGE_REF to container-registry.oracle.com/database/ords@sha256:<reviewed-digest>}"
 
 docker run -d \
   --name ords \
@@ -232,7 +232,7 @@ docker run -d \
   -e ORACLE_PORT=1521 \
   -e ORACLE_SERVICE=mypdb.example.com \
   -v /opt/ords/config:/opt/oracle/ords/config \
-  container-registry.oracle.com/database/ords:latest
+  "$ORDS_IMAGE_REF"
 ```
 
 ---

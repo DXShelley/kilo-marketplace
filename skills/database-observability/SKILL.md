@@ -1,12 +1,20 @@
 ---
-name: "database-observability"
-description: "This skill should be used when setting up or troubleshooting Grafana Cloud Database Observability for MySQL or PostgreSQL, including collectors, pg_stat_statements, query metrics, explain plans, and dashboards."
+name: database-observability
+description: >
+  Grafana Cloud Database Observability — query-level performance insights for
+  MySQL and PostgreSQL. Covers setup with Grafana Alloy, query samples, visual
+  explain plans, RED metrics, pg_stat_statements and Performance Schema
+  integration, and correlation with application traces. Use when monitoring
+  database performance, diagnosing slow queries, setting up database
+  observability for MySQL or PostgreSQL (self-managed, RDS, Aurora, Azure, Cloud
+  SQL), or correlating DB metrics with APM data.
 metadata:
-  category: data
+  category: observability
   source:
-    repository: "https://github.com/grafana/skills"
-    path: "skills/grafana-cloud/database-observability"
-    license_path: "LICENSE"
+    repository: 'https://github.com/grafana/skills'
+    path: skills/grafana-cloud/database-observability
+    license_path: LICENSE
+    commit: e8424d242290be2ae187a74b5fd854174f0c5411
 ---
 
 # Grafana Cloud Database Observability

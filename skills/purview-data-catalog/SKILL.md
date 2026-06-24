@@ -1,12 +1,21 @@
 ---
-name: "purview-data-catalog"
-description: "Guidance for the Microsoft Purview Unified Catalog (data catalog) — business-friendly discovery, governance domains, data products, glossary terms, and data quality on top of the Data Map. Covers governance domains, data products, and curation. WHEN: Purview data catalog, unified catalog, data products, governance domain, business glossary, data quality, data discovery for analysts, curate data assets, data stewardship."
+name: purview-data-catalog
+description: >-
+  Guidance for the Microsoft Purview Unified Catalog (data catalog) —
+  business-friendly discovery, governance domains, data products, glossary
+  terms, and data quality on top of the Data Map. Covers governance domains,
+  data products, and curation. WHEN: Purview data catalog, unified catalog, data
+  products, governance domain, business glossary, data quality, data discovery
+  for analysts, curate data assets, data stewardship.
 metadata:
+  author: Microsoft
+  version: 0.1.0
   category: data
   source:
-    repository: "https://github.com/vinayaklatthe/microsoft-security-skills"
-    path: "skills/purview-data-catalog"
-    license_path: "LICENSE"
+    repository: 'https://github.com/vinayaklatthe/microsoft-security-skills'
+    path: skills/purview-data-catalog
+    license_path: LICENSE
+    commit: 15f16df4ae50261328da8b82f3f0964cac0899ae
 ---
 
 # Microsoft Purview Unified Catalog

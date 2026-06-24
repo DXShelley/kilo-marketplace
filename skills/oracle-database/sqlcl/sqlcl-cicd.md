@@ -335,7 +335,9 @@ jobs:
 
       - name: Install SQLcl
         run: |
-          curl -sL https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip -o sqlcl.zip
+          curl -fsSL "${{ vars.SQLCL_DOWNLOAD_URL }}" -o sqlcl.zip
+          printf '%s  %s\n' "${{ vars.SQLCL_SHA256 }}" sqlcl.zip | sha256sum -c -
+          unzip -l sqlcl.zip
           unzip -q sqlcl.zip -d /opt
           echo "/opt/sqlcl/bin" >> $GITHUB_PATH
 
@@ -376,7 +378,9 @@ jobs:
 
       - name: Install SQLcl
         run: |
-          curl -sL https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip -o sqlcl.zip
+          curl -fsSL "${{ vars.SQLCL_DOWNLOAD_URL }}" -o sqlcl.zip
+          printf '%s  %s\n' "${{ vars.SQLCL_SHA256 }}" sqlcl.zip | sha256sum -c -
+          unzip -l sqlcl.zip
           unzip -q sqlcl.zip -d /opt
           echo "/opt/sqlcl/bin" >> $GITHUB_PATH
 
@@ -466,7 +470,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install SQLcl
         run: |
-          curl -sL https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip -o sqlcl.zip
+          curl -fsSL "${{ vars.SQLCL_DOWNLOAD_URL }}" -o sqlcl.zip
+          printf '%s  %s\n' "${{ vars.SQLCL_SHA256 }}" sqlcl.zip | sha256sum -c -
+          unzip -l sqlcl.zip
           unzip -q sqlcl.zip -d /opt
           echo "/opt/sqlcl/bin" >> $GITHUB_PATH
       - name: Configure wallet
@@ -504,7 +510,9 @@ stages:
 .sqlcl_setup: &sqlcl_setup
   before_script:
     - apt-get update -qq && apt-get install -y -qq unzip curl
-    - curl -sL https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip -o sqlcl.zip
+    - curl -fsSL "$SQLCL_DOWNLOAD_URL" -o sqlcl.zip
+    - printf '%s  %s\n' "$SQLCL_SHA256" sqlcl.zip | sha256sum -c -
+    - unzip -l sqlcl.zip
     - unzip -q sqlcl.zip -d /opt
     - export PATH="/opt/sqlcl/bin:$PATH"
     - mkdir -p /tmp/wallet

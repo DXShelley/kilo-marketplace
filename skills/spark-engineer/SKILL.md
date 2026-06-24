@@ -1,12 +1,30 @@
 ---
-name: "spark-engineer"
-description: "Use when writing Spark jobs, debugging performance issues, or configuring cluster settings for Apache Spark applications, distributed data processing pipelines, or big data workloads. Invoke to write DataFrame transformations, optimize Spark SQL queries, implement RDD pipelines, tune shuffle operations, configure executor memory, process .parquet files, handle data partitioning, or build structured streaming analytics."
+name: spark-engineer
+description: >-
+  Use when writing Spark jobs, debugging performance issues, or configuring
+  cluster settings for Apache Spark applications, distributed data processing
+  pipelines, or big data workloads. Invoke to write DataFrame transformations,
+  optimize Spark SQL queries, implement RDD pipelines, tune shuffle operations,
+  configure executor memory, process .parquet files, handle data partitioning,
+  or build structured streaming analytics.
 metadata:
+  author: 'https://github.com/Jeffallan'
+  version: 1.1.0
+  domain: data-ml
+  triggers: >-
+    Apache Spark, PySpark, Spark SQL, distributed computing, big data, DataFrame
+    API, RDD, Spark Streaming, structured streaming, data partitioning, Spark
+    performance, cluster computing, data processing pipeline
+  role: expert
+  scope: implementation
+  output-format: code
+  related-skills: 'python-pro, sql-pro, devops-engineer'
   category: data
   source:
-    repository: "https://github.com/Jeffallan/claude-skills"
-    path: "skills/spark-engineer"
-    license_path: "LICENSE"
+    repository: 'https://github.com/Jeffallan/claude-skills'
+    path: skills/spark-engineer
+    license_path: LICENSE
+    commit: e8be415bc94d8d6ebddc2fb50e5d03c6e27d4319
 ---
 
 # Spark Engineer

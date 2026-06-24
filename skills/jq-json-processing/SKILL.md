@@ -1,12 +1,20 @@
 ---
-name: "jq-json-processing"
-description: "jq JSON processing: query, filter, transform JSON. Use when parsing JSON files, filtering arrays/objects, transforming structures, or extracting fields from JSON."
+name: jq-json-processing
+description: >-
+  jq JSON processing: query, filter, transform JSON. Use when parsing JSON
+  files, filtering arrays/objects, transforming structures, or extracting fields
+  from JSON.
+allowed-tools: 'Bash(jq *), Bash(cat *), Read, Write, Edit, Grep, Glob'
 metadata:
+  upstream:
+    user-invocable: false
+    model: sonnet
   category: data
   source:
-    repository: "https://github.com/laurigates/claude-plugins"
-    path: "tools-plugin/skills/jq-json-processing"
-    license_path: "LICENSE"
+    repository: 'https://github.com/laurigates/claude-plugins'
+    path: tools-plugin/skills/jq-json-processing
+    license_path: LICENSE
+    commit: 6b5be230ee9a5a002b97094715f2ca877b08ad15
 ---
 
 # jq JSON Processing

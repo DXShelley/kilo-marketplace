@@ -53,4 +53,4 @@ If the join key is not unique in both tables, rows multiply. A 1000-row fact joi
 
 ## Decision framework
 
-JOIN for small lookups with unique keys. ApplyMap for large lookups or when you need a default value (see SKILL.md Section 9). Let the associative engine handle dimension-to-fact relationships naturally (no join needed).
+JOIN for small lookups with unique keys. ApplyMap for large lookups or when you need a default value (see SKILL.md Section 9). Let the associative engine handle dimension-to-fact relationships naturally (no join needed). See `qlik-performance` for JOIN vs ApplyMap benchmarks.

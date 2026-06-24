@@ -1,12 +1,18 @@
 ---
-name: "aws-cognito-admin"
-description: "Cognito user pool administration — look up users, confirm accounts, reset passwords, update custom attributes, disable/enable accounts, and describe pool configuration. Discovers user pools at runtime. Trigger on \"look up a user\", \"Cognito\", \"reset password\", \"disable an account\", \"fix subscription\", or /aws-cognito-admin."
+name: aws-cognito-admin
+description: >-
+  Cognito user pool administration — look up users, confirm accounts, reset
+  passwords, update custom attributes, disable/enable accounts, and describe
+  pool configuration. Discovers user pools at runtime. Trigger on "look up a
+  user", "Cognito", "reset password", "disable an account", "fix subscription",
+  or /aws-cognito-admin.
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/monahand1023/claude-code-skills"
-    path: "aws-cognito-admin"
-    license_path: "LICENSE"
+    repository: 'https://github.com/monahand1023/claude-code-skills'
+    path: aws-cognito-admin
+    license_path: LICENSE
+    commit: 9549ae50374a9755990ab924840dc4679ce4778b
 ---
 
 # AWS Cognito Admin

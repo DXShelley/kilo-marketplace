@@ -1,6 +1,6 @@
 # Default security policy for cortex-code skill
 # This file documents the secure defaults - do not modify directly
-# To customize, copy config.yaml.example to config.yaml in the skill directory
+# To customize, create config.yaml in the configured cortex-code skill directory
 
 security:
   # Approval mode: "prompt" | "auto" | "envelope_only"

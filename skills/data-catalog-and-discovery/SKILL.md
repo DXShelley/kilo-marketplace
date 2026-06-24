@@ -1,12 +1,16 @@
 ---
-name: "data-catalog-and-discovery"
-description: "Guides agents through data catalog, discovery, and metadata quality workflows. Use when publishing datasets, improving discoverability, curating lineage metadata, or making data products easier for other teams to find and trust."
+name: data-catalog-and-discovery
+description: >-
+  Guides agents through data catalog, discovery, and metadata quality workflows.
+  Use when publishing datasets, improving discoverability, curating lineage
+  metadata, or making data products easier for other teams to find and trust.
 metadata:
   category: data
   source:
-    repository: "https://github.com/vaquarkhan/data-engineering-agent-skills"
-    path: "skills/data-catalog-and-discovery"
-    license_path: "LICENSE"
+    repository: 'https://github.com/vaquarkhan/data-engineering-agent-skills'
+    path: skills/data-catalog-and-discovery
+    license_path: LICENSE
+    commit: 421ef57e8d42c464b29339193c18dd5bd2946bc2
 ---
 
 # Data Catalog And Discovery

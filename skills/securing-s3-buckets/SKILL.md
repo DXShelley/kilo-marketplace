@@ -1,12 +1,21 @@
 ---
-name: "securing-s3-buckets"
-description: "This skill should be used when securing or auditing Amazon S3 buckets, remediating findings, configuring encryption and access controls, or enabling security logging and monitoring."
+name: securing-s3-buckets
+description: >
+  Create and secure S3 buckets following AWS best practices for access control,
+  encryption, monitoring, and remediation of misconfigurations. Use when the
+  user wants to secure a new bucket, audit an existing bucket, fix a security
+  finding, configure encryption, or enable logging and monitoring. Do NOT use
+  for general S3 data operations, S3 Tables setup, or discovering existing data
+  assets.
 metadata:
-  category: data
+  upstream:
+    version: 1
+  category: development
   source:
-    repository: "https://github.com/aws/agent-toolkit-for-aws"
-    path: "skills/specialized-skills/storage-skills/securing-s3-buckets"
-    license_path: "LICENSE"
+    repository: 'https://github.com/aws/agent-toolkit-for-aws'
+    path: skills/specialized-skills/storage-skills/securing-s3-buckets
+    license_path: LICENSE
+    commit: cbdc61a29707dc97989d5d11a2b53ad584781e78
 ---
 
 ## Overview

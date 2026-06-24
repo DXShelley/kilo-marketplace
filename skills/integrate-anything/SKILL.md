@@ -1,12 +1,18 @@
 ---
-name: "integrate-anything"
-description: "This skill should be used only when an external-app action must be executed through the Membrane CLI and an authenticated Membrane connection, such as sending a message, creating a task, or syncing records. It should not be used for general API design, SDK integration, documentation lookup, or direct vendor API calls."
+name: integrate-anything
+description: >-
+  This skill should be used only when an external-app action must be executed
+  through the Membrane CLI and an authenticated Membrane connection, such as
+  sending a message, creating a task, or syncing records. It should not be used
+  for general API design, SDK integration, documentation lookup, or direct
+  vendor API calls.
 metadata:
-  category: data
+  category: productivity
   source:
-    repository: "https://github.com/membranehq/agent-skills"
-    path: "skills/integrate-anything"
-    license_path: "LICENSE"
+    repository: 'https://github.com/membranehq/agent-skills'
+    path: skills/integrate-anything
+    license_path: LICENSE
+    commit: 6f88cf4b6584373f2f94c7f51dc9e6618e5e46c7
 ---
 
 # Self-Integration
@@ -48,7 +54,7 @@ npx @membranehq/cli login complete <code>
 
 Credentials are stored at `~/.membrane/credentials.json`. All later commands pick them up automatically.
 
-If `npx` is awkward, install globally: `npm i -g @membranehq/cli@latest` and use plain `membrane …`. Add `--json` to any command for machine-readable output.
+If `npx` is awkward, install globally: `npm i -g @membranehq/cli@1.18.1` and use plain `membrane …`. Add `--json` to any command for machine-readable output.
 
 ## Step 1 — Get a connection
 

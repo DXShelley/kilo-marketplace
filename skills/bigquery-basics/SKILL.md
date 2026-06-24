@@ -1,12 +1,16 @@
 ---
-name: "bigquery-basics"
-description: "This skill should be used for core BigQuery setup and operations, including datasets, tables, SQL queries, bq and gcloud commands, client libraries, and resource management."
+name: bigquery-basics
+description: >-
+  Manages datasets, tables, and jobs in BigQuery. Use when you need to interact
+  with BigQuery, run SQL queries, manage BigQuery resources (datasets, tables,
+  views), or perform basic data ingestion and analysis.
 metadata:
   category: data
   source:
-    repository: "https://github.com/google/skills"
-    path: "skills/cloud/bigquery-basics"
-    license_path: "LICENSE"
+    repository: 'https://github.com/google/skills'
+    path: skills/cloud/bigquery-basics
+    license_path: LICENSE
+    commit: 28d90a333c4d900bcc76e498363e0c835dc69a5c
 ---
 
 # BigQuery Basics
@@ -76,7 +80,7 @@ intelligence capabilities.
   client libraries for Python, Java, Node.js, and Go.
 
 - [MCP Usage](references/mcp-usage.md): Using the BigQuery remote MCP server and
-  Gemini CLI extension.
+  related client integrations.
 
 - [Infrastructure as Code](references/iac-usage.md): Terraform examples for
   datasets, tables, and reservations.

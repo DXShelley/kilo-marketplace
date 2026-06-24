@@ -139,4 +139,4 @@ The delimiter must be a character that cannot appear in either source field. `|`
 ## See Also
 
 - `../SKILL.md` § 18 — overview entry point that links here
-- For brownfield platforms with shared subroutine libraries, document the contract (signatures, side effects, phantom fields) before relying on subroutines in new scripts
+- `../../qlik-platform-discovery/SKILL.md` — when working in a brownfield platform with a shared subroutine library, document the contract (signatures, side effects, phantom fields) in the platform context template before relying on subroutines in new scripts

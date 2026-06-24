@@ -1,12 +1,23 @@
 ---
-name: "databricks-spark-structured-streaming"
-description: "Comprehensive guide to Spark Structured Streaming for production workloads. Use when building streaming pipelines, working with Kafka ingestion, implementing Real-Time Mode (RTM), configuring triggers (processingTime, availableNow), handling stateful operations with watermarks, optimizing checkpoints, performing stream-stream or stream-static joins, writing to multiple sinks, or tuning streaming cost and performance."
+name: databricks-spark-structured-streaming
+description: >-
+  Comprehensive guide to Spark Structured Streaming for production workloads.
+  Use when building streaming pipelines, working with Kafka ingestion,
+  implementing Real-Time Mode (RTM), configuring triggers (processingTime,
+  availableNow), handling stateful operations with watermarks, optimizing
+  checkpoints, performing stream-stream or stream-static joins, writing to
+  multiple sinks, or tuning streaming cost and performance.
+compatibility: Requires databricks CLI (>= v1.0.0)
 metadata:
+  version: 0.1.0
+  upstream:
+    parent: databricks-core
   category: data
   source:
-    repository: "https://github.com/databricks/databricks-agent-skills"
-    path: "experimental/databricks-spark-structured-streaming"
-    license_path: "LICENSE"
+    repository: 'https://github.com/databricks/databricks-agent-skills'
+    path: experimental/databricks-spark-structured-streaming
+    license_path: LICENSE
+    commit: 3985599b8efaf0bb155be7e60847a3975bf45331
 ---
 
 # Spark Structured Streaming

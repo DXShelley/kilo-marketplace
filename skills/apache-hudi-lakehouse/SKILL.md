@@ -1,12 +1,16 @@
 ---
-name: "apache-hudi-lakehouse"
-description: "Guides agents through Apache Hudi lakehouse design. Use when managing incremental upserts, record-level mutations, timeline behavior, compaction, and Hudi-based lakehouse tables."
+name: apache-hudi-lakehouse
+description: >-
+  Guides agents through Apache Hudi lakehouse design. Use when managing
+  incremental upserts, record-level mutations, timeline behavior, compaction,
+  and Hudi-based lakehouse tables.
 metadata:
   category: data
   source:
-    repository: "https://github.com/vaquarkhan/data-engineering-agent-skills"
-    path: "skills/apache-hudi-lakehouse"
-    license_path: "LICENSE"
+    repository: 'https://github.com/vaquarkhan/data-engineering-agent-skills'
+    path: skills/apache-hudi-lakehouse
+    license_path: LICENSE
+    commit: 421ef57e8d42c464b29339193c18dd5bd2946bc2
 ---
 
 # Apache Hudi Lakehouse

@@ -1,12 +1,16 @@
 ---
-name: "lookml-model"
-description: "Use this skill when you need to create or modify a LookML Model file (.model.lkml). This includes defining connections, includes, and configuring model-level settings."
+name: lookml-model
+description: >-
+  Use this skill when you need to create or modify a LookML Model file
+  (.model.lkml). This includes defining connections, includes, and configuring
+  model-level settings.
 metadata:
   category: data
   source:
-    repository: "https://github.com/looker-open-source/looker-skills"
-    path: "skills/lookml-model"
-    license_path: "LICENSE"
+    repository: 'https://github.com/looker-open-source/looker-skills'
+    path: skills/lookml-model
+    license_path: LICENSE
+    commit: c530d1b7efee1db49851a04563ce946adfd191a8
 ---
 
 # Instructions

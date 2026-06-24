@@ -1,12 +1,20 @@
 ---
-name: "databricks-pipelines"
-description: "Develop Lakeflow Spark Declarative Pipelines (formerly Delta Live Tables) on Databricks. Use when building batch or streaming data pipelines with Python or SQL. Invoke BEFORE starting implementation."
+name: databricks-pipelines
+description: >-
+  Develop Lakeflow Spark Declarative Pipelines (formerly Delta Live Tables) on
+  Databricks. Use when building batch or streaming data pipelines with Python or
+  SQL. Invoke BEFORE starting implementation.
+compatibility: Requires databricks CLI (>= v1.0.0)
 metadata:
+  version: 0.3.0
+  upstream:
+    parent: databricks-core
   category: data
   source:
-    repository: "https://github.com/databricks/databricks-agent-skills"
-    path: "skills/databricks-pipelines"
-    license_path: "LICENSE"
+    repository: 'https://github.com/databricks/databricks-agent-skills'
+    path: skills/databricks-pipelines
+    license_path: LICENSE
+    commit: 3985599b8efaf0bb155be7e60847a3975bf45331
 ---
 
 # Lakeflow Spark Declarative Pipelines Development

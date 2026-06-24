@@ -673,8 +673,8 @@ Migration tools often require database credentials, which must be protected in C
   <!-- AVOID: Hardcoded credentials in changelog -->
   <databaseChangeLog
       xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-      username="hardcoded_user"
-      password="hardcoded_password">
+      username="<REQUIRED_USERNAME>"
+      password="<REQUIRED_SECRET>">
   ```
 
 - **Use environment variables or secret management systems:**

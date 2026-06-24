@@ -1,12 +1,23 @@
 ---
-name: "airflow"
-description: "Queries, manages, and troubleshoots Apache Airflow using the af CLI. Covers listing DAGs, triggering runs, reading task logs, diagnosing failures, debugging DAG import errors, checking connections, variables, pools, and monitoring health. Routes DAG authoring and deployment to bundled Airflow skills and handles operational debugging inline. Use when user mentions \"Airflow\", \"DAG\", \"DAG run\", \"task log\", \"import error\", \"parse error\", \"broken DAG\", or asks to \"trigger a pipeline\", \"debug import errors\", \"check Airflow health\", \"list connections\", \"retry a run\", or any Airflow operation. Do NOT use for warehouse/SQL analytics on Airflow metadata tables."
+name: airflow
+description: >-
+  Queries, manages, and troubleshoots Apache Airflow using the af CLI. Covers
+  listing DAGs, triggering runs, reading task logs, diagnosing failures,
+  debugging DAG import errors, checking connections, variables, pools, and
+  monitoring health. Also routes to sub-skills for writing DAGs, debugging,
+  deploying, and migrating Airflow 2 to 3. Use when user mentions "Airflow",
+  "DAG", "DAG run", "task log", "import error", "parse error", "broken DAG", or
+  asks to "trigger a pipeline", "debug import errors", "check Airflow health",
+  "list connections", "retry a run", or any Airflow operation. Do NOT use for
+  warehouse/SQL analytics on Airflow metadata tables — use analyzing-data
+  instead.
 metadata:
   category: data
   source:
-    repository: "https://github.com/astronomer/agents"
-    path: "skills/airflow"
-    license_path: "LICENSE"
+    repository: 'https://github.com/astronomer/agents'
+    path: skills/airflow
+    license_path: LICENSE
+    commit: e4ebf9a7ad3f8dbf3fcfda9c245a65eb1415967b
 ---
 
 # Airflow Operations
@@ -36,8 +47,8 @@ astro deploy --dags     # DAG-only deploy (fast, no image build)
 ```
 
 For more details:
-- **New project?** Use the Astro CLI commands in this section
-- **Local environment?** Use the Astro CLI commands in this section
+- **New project?** See the **setting-up-astro-project** skill
+- **Local environment?** See the **managing-astro-local-env** skill
 - **Deploying?** See the **deploying-airflow** skill
 
 ---
@@ -162,9 +173,9 @@ Or CLI flags: `af --airflow-url http://localhost:8080 --token "$TOKEN" <command>
 ## User Intent Patterns
 
 ### Getting Started
-- "How do I run Airflow locally?" / "Set up Airflow" -> use the Astro CLI commands above
-- "Create a new Airflow project" / "Initialize project" -> use `astro dev init`
-- "How do I install Airflow?" / "Get started with Airflow" -> use the Astro CLI commands above
+- "How do I run Airflow locally?" / "Set up Airflow" -> use the **managing-astro-local-env** skill (uses Astro CLI)
+- "Create a new Airflow project" / "Initialize project" -> use the **setting-up-astro-project** skill (uses Astro CLI)
+- "How do I install Airflow?" / "Get started with Airflow" -> use the **setting-up-astro-project** skill
 
 ### DAG Operations
 - "What DAGs exist?" / "List all DAGs" -> `af dags list`
@@ -183,17 +194,17 @@ Or CLI flags: `af --airflow-url http://localhost:8080 --token "$TOKEN" <command>
 - "Why did this run fail?" -> `af runs diagnose <dag_id> <run_id>`
 - "Delete this run" / "Remove stuck run" -> `af runs delete <dag_id> <run_id>`
 - "Clear this run" / "Retry this run" / "Re-run this" -> `af runs clear <dag_id> <run_id>`
-- "Test this DAG and fix if it fails" -> use `af runs trigger-wait`, then `af runs diagnose` and `af tasks logs` if needed
+- "Test this DAG and fix if it fails" -> use the **testing-dags** skill
 
 ### Task Operations
 - "What tasks are in DAG X?" -> `af tasks list <dag_id>`
 - "Get task logs" / "Why did task fail?" -> `af tasks logs <dag_id> <run_id> <task_id>`
-- "Full root cause analysis" / "Diagnose and fix" -> use `af runs diagnose`, task logs, DAG source, and connection/variable checks in this skill
+- "Full root cause analysis" / "Diagnose and fix" -> use the **debugging-dags** skill
 
 ### Data Operations
-- "Is the data fresh?" / "When was this table last updated?" -> inspect relevant DAG runs, task logs, and Airflow assets/datasets with `af config assets`
-- "Where does this data come from?" -> inspect DAG source and asset dependencies with `af dags source` and `af dags explore`
-- "What depends on this table?" / "What breaks if I change this?" -> inspect DAG dependencies and asset usage with `af dags explore` and repository search
+- "Is the data fresh?" / "When was this table last updated?" -> use the **checking-freshness** skill
+- "Where does this data come from?" -> use the **tracing-upstream-lineage** skill
+- "What depends on this table?" / "What breaks if I change this?" -> use the **tracing-downstream-lineage** skill
 
 ### Deployment Operations
 - "Deploy my DAGs" / "Push to production" -> use the **deploying-airflow** skill
@@ -387,6 +398,12 @@ af api variables/old_var -X DELETE
 | Skill | Use when... |
 |-------|-------------|
 | **authoring-dags** | Creating or editing DAG files with best practices |
+| **testing-dags** | Iterative test -> debug -> fix -> retest cycles |
+| **debugging-dags** | Deep root cause analysis and failure diagnosis |
+| **checking-freshness** | Checking if data is up to date or stale |
+| **tracing-upstream-lineage** | Finding where data comes from |
+| **tracing-downstream-lineage** | Impact analysis -- what breaks if something changes |
 | **deploying-airflow** | Deploying DAGs to production (Astro, Docker Compose, Kubernetes) |
-
-Use this skill's CLI workflows for testing, debugging, freshness checks, lineage exploration, local Astro setup, and project initialization.
+| **migrating-airflow-2-to-3** | Upgrading DAGs from Airflow 2.x to 3.x |
+| **managing-astro-local-env** | Starting, stopping, or troubleshooting local Airflow |
+| **setting-up-astro-project** | Initializing a new Astro/Airflow project |

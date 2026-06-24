@@ -1,12 +1,17 @@
 ---
-name: "aoti-debug"
-description: "Debug AOTInductor (AOTI) errors and crashes. Use when encountering AOTI segfaults, device mismatch errors, constant loading failures, or runtime errors from aot_compile, aot_load, aoti_compile_and_package, or aoti_load_package."
+name: aoti-debug
+description: >-
+  Debug AOTInductor (AOTI) errors and crashes. Use when encountering AOTI
+  segfaults, device mismatch errors, constant loading failures, or runtime
+  errors from aot_compile, aot_load, aoti_compile_and_package, or
+  aoti_load_package.
 metadata:
-  category: data
+  category: development
   source:
-    repository: "https://github.com/pytorch/pytorch"
-    path: ".claude/skills/aoti-debug"
-    license_path: "LICENSE"
+    repository: 'https://github.com/pytorch/pytorch'
+    path: .claude/skills/aoti-debug
+    license_path: LICENSE
+    commit: eaa0ca8c6d2c78108a0b715d3e6c8c99506b8e6d
 ---
 
 # AOTI Debugging Guide

@@ -83,8 +83,10 @@ export ELASTICSEARCH_API_KEY="$ES_LOCAL_API_KEY"
 
 Then run `node scripts/esql.js test` to verify the connection.
 
-## Optional: Skip TLS verification (development only)
+## Private CA certificates
+
+Keep TLS verification enabled. For a development cluster signed by a private CA, point Node.js at the reviewed CA bundle:
 
 ```bash
-export ELASTICSEARCH_INSECURE="true"
+export NODE_EXTRA_CA_CERTS="/path/to/private-ca-bundle.pem"
 ```

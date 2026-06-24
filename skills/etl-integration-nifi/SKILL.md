@@ -1,12 +1,22 @@
 ---
-name: "etl-integration-nifi"
-description: "Apache NiFi specialist for flow-based data integration, routing, and provenance tracking. Deep expertise in processors, FlowFiles, connections, process groups, clustering, record-oriented processing, and NiFi 2.x modernization. WHEN: \\\"Apache NiFi\\\", \\\"NiFi\\\", \\\"NiFi processor\\\", \\\"FlowFile\\\", \\\"process group\\\", \\\"NiFi provenance\\\", \\\"NiFi back pressure\\\", \\\"NiFi cluster\\\", \\\"NiFi registry\\\", \\\"NiFi expression language\\\", \\\"MiNiFi\\\", \\\"ConsumeKafka NiFi\\\", \\\"tMap NiFi\\\", \\\"NiFi REST API\\\", \\\"NiFi record\\\", \\\"RecordReader\\\", \\\"NiFi Python processor\\\", \\\"NiFi 2.x\\\", \\\"NiFi migration\\\", \\\"site-to-site\\\", \\\"NiFi controller service\\\", \\\"NiFi connection queue\\\"."
+name: etl-integration-nifi
+description: >-
+  Apache NiFi specialist for flow-based data integration, routing, and
+  provenance tracking. Deep expertise in processors, FlowFiles, connections,
+  process groups, clustering, record-oriented processing, and NiFi 2.x
+  modernization. WHEN: \"Apache NiFi\", \"NiFi\", \"NiFi processor\",
+  \"FlowFile\", \"process group\", \"NiFi provenance\", \"NiFi back pressure\",
+  \"NiFi cluster\", \"NiFi registry\", \"NiFi expression language\", \"MiNiFi\",
+  \"ConsumeKafka NiFi\", \"tMap NiFi\", \"NiFi REST API\", \"NiFi record\",
+  \"RecordReader\", \"NiFi Python processor\", \"NiFi 2.x\", \"NiFi migration\",
+  \"site-to-site\", \"NiFi controller service\", \"NiFi connection queue\".
 metadata:
   category: data
   source:
-    repository: "https://github.com/chrishuffman5/domain-expert"
-    path: "skills/etl/integration/nifi"
-    license_path: "LICENSE"
+    repository: 'https://github.com/chrishuffman5/domain-expert'
+    path: skills/etl/integration/nifi
+    license_path: LICENSE
+    commit: c570e980e6ea5804f8a2d062a7b8dfd7645c0359
 ---
 
 # Apache NiFi Technology Expert

@@ -143,7 +143,7 @@ az deployment group what-if \
 
 ### Current Version: Ver2
 
-**Location:** https://github.com/Azure/Azure-DataFactory/blob/main/SamplesV2/ContinuousIntegrationAndDelivery/PrePostDeploymentScript.Ver2.ps1
+**Location:** https://github.com/Azure/Azure-DataFactory/blob/507f4d4a53da29edc684d934161aa880befd3e0c/SamplesV2/ContinuousIntegrationAndDelivery/PrePostDeploymentScript.Ver2.ps1
 
 **Key Improvement in Ver2:**
 - Turns off/on ONLY triggers that have been modified
@@ -153,10 +153,10 @@ az deployment group what-if \
 **Download Command:**
 ```bash
 # Linux/macOS/Git Bash
-curl -o PrePostDeploymentScript.Ver2.ps1 https://raw.githubusercontent.com/Azure/Azure-DataFactory/main/SamplesV2/ContinuousIntegrationAndDelivery/PrePostDeploymentScript.Ver2.ps1
+curl -o PrePostDeploymentScript.Ver2.ps1 https://raw.githubusercontent.com/Azure/Azure-DataFactory/507f4d4a53da29edc684d934161aa880befd3e0c/SamplesV2/ContinuousIntegrationAndDelivery/PrePostDeploymentScript.Ver2.ps1
 
 # PowerShell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Azure/Azure-DataFactory/main/SamplesV2/ContinuousIntegrationAndDelivery/PrePostDeploymentScript.Ver2.ps1" -OutFile "PrePostDeploymentScript.Ver2.ps1"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Azure/Azure-DataFactory/507f4d4a53da29edc684d934161aa880befd3e0c/SamplesV2/ContinuousIntegrationAndDelivery/PrePostDeploymentScript.Ver2.ps1" -OutFile "PrePostDeploymentScript.Ver2.ps1"
 ```
 
 ### Parameters
@@ -276,7 +276,6 @@ Store in GitHub secret: `AZURE_CREDENTIALS`
 - Data Factory Contributor (on all Data Factories)
 - Contributor (on Resource Groups)
 - Key Vault access policies (if using secrets)
-
 **Configuration:**
 - Project Settings → Service connections → New service connection
 - Type: Azure Resource Manager

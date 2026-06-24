@@ -4,11 +4,11 @@
 
 Make sure to use the latest versions of each of these packages.
 
-- github.com/apache/arrow-adbc/go/adbc@latest
-- github.com/apache/arrow-adbc/go/adbc/drivermgr@latest
-- github.com/apache/arrow-go/v18/arrow@latest
-- github.com/apache/arrow-go/v18/arrow/array@latest
-- github.com/apache/arrow-go/v18/arrow/memory@latest
+- github.com/apache/arrow-adbc/go/adbc@v1.11.0
+- github.com/apache/arrow-adbc/go/adbc/drivermgr@v1.11.0
+- github.com/apache/arrow-go/v18/arrow@v18.6.0
+- github.com/apache/arrow-go/v18/arrow/array@v18.6.0
+- github.com/apache/arrow-go/v18/arrow/memory@v18.6.0
 
 Important: Make sure not to mix github.com/apache/arrow/go and github.com/apache/arrow-go.
 

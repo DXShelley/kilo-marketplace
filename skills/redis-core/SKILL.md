@@ -1,12 +1,21 @@
 ---
-name: "redis-core"
-description: "Core Redis modeling guidance — choose the right data structure (String, Hash, List, Set, Sorted Set, JSON, Stream, Vector Set) and use consistent colon-separated key names. Use when designing a Redis data model, caching objects, deciding between Hash and JSON, building counters, leaderboards, membership sets, or session stores, or when reviewing/cleaning up Redis key naming."
+name: redis-core
+description: >-
+  Core Redis modeling guidance — choose the right data structure (String, Hash,
+  List, Set, Sorted Set, JSON, Stream, Vector Set) and use consistent
+  colon-separated key names. Use when designing a Redis data model, caching
+  objects, deciding between Hash and JSON, building counters, leaderboards,
+  membership sets, or session stores, or when reviewing/cleaning up Redis key
+  naming.
 metadata:
+  author: 'Redis, Inc.'
+  version: 0.1.0
   category: data
   source:
-    repository: "https://github.com/redis/agent-skills"
-    path: "skills/redis-core"
-    license_path: "LICENSE"
+    repository: 'https://github.com/redis/agent-skills'
+    path: skills/redis-core
+    license_path: LICENSE
+    commit: 3d6f25505ea2adff4dd62d5a0e7f4a5b076fa047
 ---
 
 # Redis Core

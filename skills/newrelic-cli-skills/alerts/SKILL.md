@@ -2,7 +2,7 @@
 name: "newrelic-cli-alerts"
 description: "This subskill should be used when managing New Relic alert policies, APM or NRQL conditions, notification channels, or open incidents with the New Relic CLI. Use the parent newrelic-cli-skills skill for setup and routing."
 metadata:
-  category: data
+  category: observability
   source:
     repository: "https://github.com/vince-winkintel/newrelic-cli-skills"
     path: "alerts"

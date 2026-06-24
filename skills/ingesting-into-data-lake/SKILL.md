@@ -1,12 +1,32 @@
 ---
-name: "ingesting-into-data-lake"
-description: "This skill should be used when moving local files, S3 objects, JDBC data, Snowflake data, or BigQuery data into an AWS data lake table after any required Glue connection exists."
+name: ingesting-into-data-lake
+description: >-
+  Import data into the AWS data lake from S3 files, local uploads, JDBC
+  databases (Oracle, SQL Server, PostgreSQL, MySQL, RDS, Aurora), Amazon
+  Redshift, Snowflake, BigQuery, DynamoDB, or existing Glue catalog tables
+  (migration). Default target is S3 Tables; standard Iceberg on a general
+  purpose bucket is supported where S3 Tables is not adopted. Handles one-time
+  loads, recurring pipelines, migrations. Triggers on: import data, load data,
+  ingest, sync database, migrate table, move data to AWS, set up pipeline, ETL,
+  pull from Snowflake, query BigQuery into S3, export DynamoDB, CTAS, convert to
+  Iceberg. Do NOT use for setting up or troubleshooting Glue connections (use
+  connecting-to-data-source), creating empty tables (use
+  creating-data-lake-table), running queries (use querying-data-lake), finding
+  tables by fuzzy name (use finding-data-lake-assets), catalog audit (use
+  exploring-data-catalog), or SaaS platforms like Salesforce, ServiceNow, SAP,
+  MongoDB, Kafka.
 metadata:
+  upstream:
+    version: 1
+    argument-hint: >-
+      [source-path|connection-name|table-name] [--target
+      s3-tables|iceberg|parquet]
   category: data
   source:
-    repository: "https://github.com/aws/agent-toolkit-for-aws"
-    path: "plugins/aws-data-analytics/skills/ingesting-into-data-lake"
-    license_path: "LICENSE"
+    repository: 'https://github.com/aws/agent-toolkit-for-aws'
+    path: plugins/aws-data-analytics/skills/ingesting-into-data-lake
+    license_path: LICENSE
+    commit: cbdc61a29707dc97989d5d11a2b53ad584781e78
 ---
 
 # Ingest into Data Lake

@@ -108,7 +108,7 @@ DROP TABLE [_TempA];
 
 `INLINE` LOADs trigger the same full-match rule: two `LOAD * INLINE` blocks with identical column structures auto-concatenate even though they look visually distinct in source. The typical symptom is a later `RESIDENT [SecondTable]` failing with "table not found." Fix by adding a discriminator column or by prefixing with `NoConcatenate`.
 
-**(2) Partial overlap (some shared names but different field count) → NOT auto-concatenated.** Qlik keeps the two tables separate and emits a "tables ... cannot be concatenated implicitly" warning. The shared field names then create unintended associations between the two tables in the data model: a single shared field links them (often surprising the developer), and two or more shared fields generate a `$Syn` synthetic key. The fix is either to alias the overlapping non-key fields with `AS` so the names don't collide, to force concatenation with the explicit `CONCATENATE([TargetTable])` prefix (which fills the missing fields with NULL in the target), or to redesign the model shape.
+**(2) Partial overlap (some shared names but different field count) → NOT auto-concatenated.** Qlik keeps the two tables separate and emits a "tables ... cannot be concatenated implicitly" warning. The shared field names then create unintended associations between the two tables in the data model: a single shared field links them (often surprising the developer), and two or more shared fields generate a `$Syn` synthetic key. The fix is either to alias the overlapping non-key fields with `AS` so the names don't collide, to force concatenation with the explicit `CONCATENATE([TargetTable])` prefix (which fills the missing fields with NULL in the target), or to redesign the model — see `qlik-data-modeling` for synthetic-key resolution.
 
 Mapping tables are exempt from both rules (they are consumed at `ApplyMap()` time and don't appear in the data model).
 
@@ -148,7 +148,7 @@ UNQUALIFY *;                                // reset
 
 Forgetting to `UNQUALIFY` the keys is silent — no error, no warning, just a data model with no associations.
 
-Entity-prefixed field names often remove the need for `QUALIFY` in modern Qlik apps.
+See `qlik-naming-conventions` for the entity-prefix convention that obviates `QUALIFY` in most modern Qlik apps.
 
 ### 2.4 DROP TABLE discipline for temp tables
 
@@ -171,5 +171,5 @@ See `null-handling.md` Section 3 (NullAsValue pattern, scope-management example,
 - `qlik-load-script` SKILL.md Section 1 — inline summary table.
 - `qlik-load-script` SKILL.md Section 14 — NoConcatenate full treatment with the INLINE auto-concat trap.
 - `null-handling.md` — canonical script-layer null handling (Null/IsNull/NullCount, vCleanNull, NullAsValue with scope/corruption failure modes, key-field NULL, date sentinel guards, decision framework).
-- Entity-prefix conventions can obviate `QUALIFY` when applied consistently.
+- `qlik-naming-conventions` — entity-prefix convention that obviates `QUALIFY`.
 - help.qlik.com Cloud — Aggregation functions (Count, NullCount), Concatenate / NoConcatenate, NullAsValue.

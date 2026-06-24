@@ -40,6 +40,4 @@ open-source CLI tool that runs a local MCP server for BigQuery connections. For
 more on connecting BigQuery to your tools, see
 [Connect LLMs to BigQuery with MCP](https://docs.cloud.google.com/bigquery/docs/pre-built-tools-with-mcp-toolbox.md.txt)
 for details. For additional specialized skills and advanced analytics workflows,
-install the
-[BigQuery Data Analytics extension](https://github.com/gemini-cli-extensions/bigquery-data-analytics)
-for the Gemini CLI or plugin for Claude Code and Codex.
+use supported BigQuery data analytics integrations for your MCP client.

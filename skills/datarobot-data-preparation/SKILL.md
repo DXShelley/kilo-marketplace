@@ -1,12 +1,16 @@
 ---
-name: "datarobot-data-preparation"
-description: "Tools and guidance for data upload, dataset management, data validation, and preparing data for DataRobot projects. Use when uploading datasets, managing data, or validating data for DataRobot."
+name: datarobot-data-preparation
+description: >-
+  Tools and guidance for data upload, dataset management, data validation, and
+  preparing data for DataRobot projects. Use when uploading datasets, managing
+  data, or validating data for DataRobot.
 metadata:
   category: data
   source:
-    repository: "https://github.com/datarobot-oss/datarobot-agent-skills"
-    path: "skills/datarobot-data-preparation"
-    license_path: "LICENSE"
+    repository: 'https://github.com/datarobot-oss/datarobot-agent-skills'
+    path: skills/datarobot-data-preparation
+    license_path: LICENSE
+    commit: f4b3c29db60e1d735285a6f51328a69a2b500338
 ---
 
 # DataRobot Data Preparation Skill
@@ -117,7 +121,7 @@ See the [Common Patterns](#common-patterns) section below for complete examples.
 
 ## Helper Scripts
 
-This skill includes executable helper scripts that Claude can run directly:
+This skill includes executable helper scripts that the agent can run directly:
 
 - `scripts/upload_dataset.py` - Upload a dataset file to DataRobot
 
@@ -127,7 +131,7 @@ This skill includes executable helper scripts that Claude can run directly:
 python scripts/upload_dataset.py sales_data.csv "Sales Data Q4 2024"
 ```
 
-Claude can run this script directly or use it as reference when writing code.
+The agent can run this script directly or use it as reference when writing code.
 
 ## Best practices
 

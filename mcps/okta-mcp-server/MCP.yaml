@@ -3,7 +3,7 @@ name: Okta MCP Server (Official)
 description: Reads users, groups, applications, policies, and system logs from an Okta organization through device OAuth, exposing only tools covered by the configured least-privilege scopes.
 author: Okta
 url: https://github.com/okta/okta-mcp-server
-category: business
+category: development
 prerequisites:
   - Python 3.13 or newer and uv
   - Okta native OIDC application with Device Authorization enabled
