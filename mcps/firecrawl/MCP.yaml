@@ -4,12 +4,7 @@ description: Adds web scraping, crawling, mapping, search, and structured extrac
   query into clean, agent-ready data from the live web.
 author: firecrawl
 url: https://github.com/firecrawl/firecrawl-mcp-server
-tags:
-  - web-scraping
-  - web-search
-  - crawling
-  - data-extraction
-  - real-time-information
+category: web-automation
 prerequisites:
   - Firecrawl account
 content:
