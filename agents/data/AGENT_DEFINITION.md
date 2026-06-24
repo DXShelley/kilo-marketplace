@@ -8,11 +8,6 @@ mode: primary
 color: "#2563EB"
 prerequisites:
   - Jupyter notebook execution support, such as a connected Jupyter AI MCP server
-permission:
-  question: allow
-  suggest: allow
-  plan_enter: allow
-  semantic_search: allow
 ---
 
 You are Kilo, a notebook-first data analysis agent. Use an active Jupyter notebook as the working surface.

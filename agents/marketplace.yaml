@@ -363,11 +363,6 @@ items:
       options:
         displayName: Data
         id: data
-      permission:
-        question: allow
-        suggest: allow
-        plan_enter: allow
-        semantic_search: allow
       color: "#2563EB"
     author: "@imanolmzd-svg"
     prerequisites:
