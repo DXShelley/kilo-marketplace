@@ -5,14 +5,13 @@ description: >-
   ad-hoc analyses. This skill should be used when investigating a business
   question, explaining a metric anomaly, validating a hypothesis, performing
   root cause analysis, or preparing a one-off investigation dashboard or memo.
-license: MIT
 metadata:
   category: data
   author: Pedro / Kilo Code
   source:
     repository: 'https://github.com/Kilo-Org/skills'
     path: skills/data-investigation
-    ref: main
+    license_path: LICENSE
     commit: a30ff33da809171784aca50d1b5978cebc2185f1
 ---
 
@@ -201,4 +200,4 @@ Every completed investigation should leave behind:
 
 ## Related Skills
 
-- Use `answering-natural-language-questions-with-dbt` when the goal is answering a business question rather than debugging why analysis or metrics disagree.
+- Use the [`answering-natural-language-questions-with-dbt`](https://github.com/dbt-labs/dbt-agent-skills/tree/main/skills/dbt/skills/answering-natural-language-questions-with-dbt) workflow when the goal is answering a business question rather than debugging why analysis or metrics disagree.
