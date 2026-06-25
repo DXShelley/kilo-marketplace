@@ -2961,14 +2961,13 @@ items:
       filename:
         - "*.ipynb"
     prerequisites:
-      - nteract desktop app installed from https://www.nteract.io/ or with curl --proto '=https' --tlsv1.2 -sSf
-        https://sh.nteract.io | bash
-      - runt available on PATH, or the absolute path to runt from command -v runt
+      - nteract desktop app installed from https://www.nteract.io/ or the nteract GitHub releases page
+      - runt available on PATH, or the full path to the runt executable
     content:
       - name: PATH
         description: Runs nteract's MCP server through the runt CLI from PATH.
         prerequisites:
-          - command -v runt prints runt or a resolvable executable
+          - runt is available on PATH
         content: |
           {
             "command": "runt",
@@ -2983,7 +2982,7 @@ items:
         description: Runs nteract's MCP server through an absolute runt executable path for shells where PATH is not inherited
           by Kilo.
         prerequisites:
-          - command -v runt prints an absolute path
+          - You know the full path to the runt executable
         content: |
           {
             "command": "{{RUNT_PATH}}",
@@ -2997,7 +2996,7 @@ items:
     parameters:
       - name: runt absolute path
         key: RUNT_PATH
-        placeholder: /absolute/path/from/command-v/runt
+        placeholder: /absolute/path/to/runt or C:\path\to\runt.exe
   - id: oci-api-mcp
     name: Oracle OCI CLI MCP Server
     description: Discovers and runs non-mutating OCI CLI commands through a dedicated local OCI profile whose backend
