@@ -1139,9 +1139,10 @@ items:
     content: https://github.com/Kilo-Org/kilo-marketplace/releases/download/skills-latest/agent-md-refactor.tar.gz
   - id: anaconda-mcp
     description: >-
-      This skill should be used when installing, configuring, using, securing, or troubleshooting Anaconda MCP with
-      Kilo, OpenCode, Claude, Cursor, VS Code, or Windsurf; creating or inspecting conda environments; resolving Python
-      imports to conda packages; or evaluating conda-pypi instead of direct pip installs.
+      This skill should be used when the user explicitly mentions Anaconda MCP or asks to install, configure, secure,
+      use, or troubleshoot that server with Kilo, OpenCode, Claude, Cursor, VS Code, or Windsurf. It also covers conda
+      environment and package operations performed through Anaconda MCP, and evaluating conda-pypi as an alternative to
+      direct pip within that workflow.
     category: development
     githubUrl: https://github.com/Kilo-Org/kilo-marketplace/tree/main/skills/anaconda-mcp
     rawUrl: https://raw.githubusercontent.com/Kilo-Org/kilo-marketplace/main/skills/anaconda-mcp/SKILL.md

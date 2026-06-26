@@ -1,10 +1,11 @@
 ---
 name: anaconda-mcp
 description: >-
-  This skill should be used when installing, configuring, using, securing, or
-  troubleshooting Anaconda MCP with Kilo, OpenCode, Claude, Cursor, VS Code, or
-  Windsurf; creating or inspecting conda environments; resolving Python imports
-  to conda packages; or evaluating conda-pypi instead of direct pip installs.
+  This skill should be used when the user explicitly mentions Anaconda MCP or
+  asks to install, configure, secure, use, or troubleshoot that server with
+  Kilo, OpenCode, Claude, Cursor, VS Code, or Windsurf. It also covers conda
+  environment and package operations performed through Anaconda MCP, and
+  evaluating conda-pypi as an alternative to direct pip within that workflow.
 compatibility: >-
   Requires a supported conda installation, network access, an Anaconda account,
   and an MCP-capable client. Anaconda MCP and conda-pypi are public beta
@@ -19,7 +20,7 @@ metadata:
     path: skills/anaconda-mcp
     license_path: skills/anaconda-mcp/LICENSE
     ref: feat/anaconda-mcp-skill
-    commit: f8570b62141626ed216a9109650cb60e8f7db46f
+    commit: c7007d3c8020dcafbb695053ec8ff9511023496f
 ---
 
 # Anaconda MCP
@@ -42,8 +43,8 @@ then use Anaconda MCP for conda operations.
   `anaconda-assistant-mcp` plugin or the unrelated `mcp` Python SDK.
 - Prefer local stdio transport and a dedicated conda environment. Do not expose
   HTTP transport unless the user explicitly requires and secures it.
-- Never accept legal terms for the user. Let the user accept them interactively,
-  unless they explicitly direct an authorized non-interactive setup.
+- Never accept legal terms for the user. Let the user read the current agreement
+  and accept it personally before configuring any non-interactive process.
 - Prefer `anaconda login`, which stores credentials in the system keyring. Never
   commit API keys in MCP, editor, shell, or environment configuration.
 - Inspect before mutating. Identify the exact target environment, packages,
@@ -86,11 +87,17 @@ conda-forge-based installation, use that channel only when organization policy
 and applicable Anaconda terms permit it; do not add it persistently as a side
 effect.
 
-The user must accept the current beta agreement before tools can run:
+The user must read the current agreement and personally accept it before tools
+can run. First show the agreement and status:
 
 ```bash
-anaconda mcp terms accept
+anaconda mcp terms
+anaconda mcp terms status
 ```
+
+Explain that `anaconda mcp terms accept` persists acceptance immediately without
+a confirmation prompt. Never run it for the user; after reviewing the agreement,
+they must execute that command themselves.
 
 Do not pin a version unless reproducibility requires it. When pinning, compare
 the current stable conda package and stable GitHub release; never select a
