@@ -165,17 +165,17 @@ items:
       - The absolute Python executable path from `conda run --name anaconda-mcp python -c "import sys;
         print(sys.executable)"`
       - Approval for authenticated usage telemetry; Anaconda states that prompt and query content is not collected
-      - "After installation, add `\"anaconda-mcp_*\": \"ask\"` to Kilo's permission object before enabling this server"
     content:
       - name: Dedicated conda environment
-        description: Installs the server disabled using the dedicated environment's Python executable. Add the approval
-          permission described above, then enable it. This server can make destructive package and environment changes.
+        description: Runs the server using the dedicated environment's Python executable, avoiding shell activation and GUI PATH
+          differences. This server can make destructive package and environment changes; configure Kilo permissions
+          separately if desired.
         content: |
           {
             "command": "{{ANACONDA_MCP_PYTHON}}",
             "args": ["-m", "anaconda_mcp", "serve"],
             "env": {},
-            "enabled": false,
+            "enabled": true,
             "timeout": 600000
           }
     parameters:

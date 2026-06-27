@@ -108,24 +108,16 @@ Choose the artifact based on intent:
 Read an existing environment file before changing it, preserve project
 conventions, and never include authentication credentials.
 
-## MCP Permissions In Kilo
+## Optional MCP Permissions In Kilo
 
-Start conservatively:
-
-```jsonc
-{
-  "permission": {
-    "anaconda-mcp_*": "ask"
-  }
-}
-```
+Do not impose a permission policy when installing the server. Kilo users can
+customize MCP permissions independently when they want approval prompts or
+blocked operations.
 
 MCP permission keys combine the sanitized server name and exposed tool name.
-Anaconda MCP composes servers and can prefix or alias tools, so inspect actual
-names. Users may later allow specific read-only inventory or search tools. Keep
-create, install, update, remove, and delete tools at `ask` unless a controlled
-automation policy explicitly permits them. Kilo permission rules are
-order-sensitive; place broad rules before later specific overrides.
+Anaconda MCP composes servers and can prefix or alias tools, so inspect the
+actual names before writing rules. Kilo permission rules are order-sensitive;
+place broad rules before later specific overrides.
 
 ## Troubleshooting
 
@@ -220,7 +212,7 @@ user-owned config is preserved.
 ## Security Checklist
 
 - Keep the server local over stdio.
-- Keep destructive tools approval-gated.
+- Configure MCP tool permissions according to the user's own risk policy.
 - Keep credentials out of project files and logs.
 - Restrict companion filesystem access to the project.
 - Do not send any personal data without Anaconda's written agreement.

@@ -20,7 +20,7 @@ metadata:
     path: skills/anaconda-mcp
     license_path: skills/anaconda-mcp/LICENSE
     ref: feat/anaconda-mcp-skill
-    commit: c7007d3c8020dcafbb695053ec8ff9511023496f
+    commit: e995d5f50ddaa2888b9f146e460294f3cabe329d
 ---
 
 # Anaconda MCP
@@ -152,9 +152,6 @@ Merge this entry into the existing Kilo config:
       "enabled": true,
       "timeout": 600000
     }
-  },
-  "permission": {
-    "anaconda-mcp_*": "ask"
   }
 }
 ```
@@ -171,11 +168,10 @@ anaconda mcp setup --client opencode --scope project
 ```
 
 It creates `<project>/opencode.json`, which Kilo reads as a legacy project
-config. The wizard does not add Kilo's approval rule or the longer request
-timeout needed for conda solves. Immediately merge `"anaconda-mcp_*": "ask"`
-into the project's `permission` object and set the server's `timeout` to
-`600000` before using it. Do not use the wizard's global OpenCode path as Kilo
-global config; it writes `~/.config/opencode/opencode.json`, not `~/.config/kilo/kilo.json`.
+config. The wizard does not add the longer request timeout needed for conda
+solves, so set the server's `timeout` to `600000`. Kilo permissions remain the
+user's policy choice. Do not use the wizard's global OpenCode path as Kilo global
+config; it writes `~/.config/opencode/opencode.json`, not `~/.config/kilo/kilo.json`.
 
 ## Verify The Connection
 
@@ -247,4 +243,4 @@ Read `references/workflows.md` for:
 - Dependency-conflict diagnosis
 - Environment comparison and safe cleanup
 - Reproducibility and troubleshooting
-- Kilo MCP permission guidance
+- Optional Kilo MCP permission customization

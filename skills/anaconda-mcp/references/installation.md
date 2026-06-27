@@ -162,9 +162,6 @@ Kilo uses this local MCP shape:
       "enabled": true,
       "timeout": 600000
     }
-  },
-  "permission": {
-    "anaconda-mcp_*": "ask"
   }
 }
 ```
@@ -183,8 +180,9 @@ escape every backslash. Configuration choices are:
 - Project Kilo config: merge into `kilo.json` or `kilo.jsonc`.
 - Global Kilo config: merge into `~/.config/kilo/kilo.json` or `.jsonc`.
 - Project compatibility config: run the OpenCode wizard from the project root,
-  then separately add the approval permission and `600000` server timeout to the
-  generated `opencode.json`.
+  then separately add the `600000` server timeout to the generated
+  `opencode.json`. Configure Kilo permissions separately if the user wants a
+  custom policy.
 
 Do not use the vendor's global OpenCode path as Kilo global configuration. It
 writes `~/.config/opencode/opencode.json`, while Kilo's global root is
