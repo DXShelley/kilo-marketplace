@@ -30,9 +30,9 @@ Use this file when a user asks for native Obsidian CLI commands, non-plugin note
 Prefer the bundled script so agents can query this index without loading this reference:
 
 ```bash
-python3 ~/.codex/skills/obsidian-cli-plugins/scripts/obsidian_workflows.py official-commands
-python3 ~/.codex/skills/obsidian-cli-plugins/scripts/obsidian_workflows.py official-commands --category files
-python3 ~/.codex/skills/obsidian-cli-plugins/scripts/obsidian_workflows.py official-commands --search property --json
+python3 <skill-dir>/scripts/obsidian_workflows.py official-commands
+python3 <skill-dir>/scripts/obsidian_workflows.py official-commands --category files
+python3 <skill-dir>/scripts/obsidian_workflows.py official-commands --search property --json
 ```
 
 ## Syntax

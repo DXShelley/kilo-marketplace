@@ -32,7 +32,7 @@ def is_sensitive_vault_path(relative_path: str) -> bool:
 def read_tasks(note: pathlib.Path) -> list[str]:
     if not note.exists():
         return []
-    return TASK_RE.findall(note.read_text())
+    return TASK_RE.findall(note.read_text(encoding="utf-8"))
 
 
 def task_status_map(path: pathlib.Path) -> dict[str, str]:
@@ -41,7 +41,7 @@ def task_status_map(path: pathlib.Path) -> dict[str, str]:
     if not data.exists():
         return fallback
     try:
-        settings = json.loads(data.read_text())
+        settings = json.loads(data.read_text(encoding="utf-8"))
         result = dict(fallback)
         status_settings = settings.get("statusSettings", {})
         for entry in status_settings.get("coreStatuses", []) + status_settings.get("customStatuses", []):
@@ -73,7 +73,7 @@ def all_vault_tasks(path: pathlib.Path) -> list[dict[str, Any]]:
         if rel.startswith(".obsidian/") or is_sensitive_vault_path(rel):
             continue
         try:
-            lines = note.read_text().splitlines()
+            lines = note.read_text(encoding="utf-8").splitlines()
         except UnicodeDecodeError:
             continue
         for line_no, line in enumerate(lines, 1):
@@ -215,9 +215,6 @@ def query_week_tasks(path: pathlib.Path, date: dt.date) -> dict[str, Any]:
         "groups": groups,
         "plain_focus": plain_focus,
     }
-
-    return {key: value.isoformat() for key, value in dates.items()}
-
 
 def append_task_to_note(note: pathlib.Path, line: str, period: str = "day") -> dict[str, Any]:
     target_titles = target_section_titles(period)

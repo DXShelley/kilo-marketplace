@@ -19,7 +19,7 @@ STAGED_ID_RE = re.compile(r"^[0-9]{14}-[0-9a-f]{10}$")
 
 def safe_attachment_name(value: str) -> str:
     name = pathlib.Path(value).name.strip() or "attachment"
-    name = re.sub(r"[/:\\\0]+", "-", name).strip().strip(".")
+    name = re.sub(r'[<>:"/\\|?*\0]+', "-", name).strip().strip(".")
     return name or "attachment"
 
 

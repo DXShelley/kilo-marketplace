@@ -10,7 +10,14 @@ SCRIPTS_DIR = pathlib.Path(__file__).resolve().parents[2] / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 from obsidian_cli_plugins.reports import format_today_report, format_week_report
-from obsidian_cli_plugins.records import append_record_to_note, create_fleeting_record, inline_record_line, normalize_heading_title, record_index_line
+from obsidian_cli_plugins.records import (
+    append_record_to_note,
+    create_fleeting_record,
+    filename_from_title,
+    inline_record_line,
+    normalize_heading_title,
+    record_index_line,
+)
 from obsidian_cli_plugins.tasks import append_task_to_note, query_today_tasks, query_week_tasks
 from obsidian_cli_plugins.journals import apply_auto_template, note_has_target_section, target_date
 
@@ -112,6 +119,9 @@ def setup_quickadd_fleeting(vault: pathlib.Path, template: str = DEFAULT_FLEETIN
 
 
 class TaskReportTests(unittest.TestCase):
+    def test_filename_from_title_replaces_windows_reserved_characters(self) -> None:
+        self.assertEqual(filename_from_title('How does this work? A <note>|draft*'), "How does this work- A -note-draft-")
+
     def test_today_and_week_queries_with_reports(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             vault = pathlib.Path(tmp)

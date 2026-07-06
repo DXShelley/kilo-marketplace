@@ -385,6 +385,9 @@ class AttachmentStageTests(unittest.TestCase):
 
         self.assertTrue(redacted["path"].startswith("~"))
 
+    def test_safe_attachment_name_replaces_windows_reserved_characters(self) -> None:
+        self.assertEqual(attachments.safe_attachment_name('a<b>c:d"e|f?g*h.png'), "a-b-c-d-e-f-g-h.png")
+
 
 if __name__ == "__main__":
     unittest.main()

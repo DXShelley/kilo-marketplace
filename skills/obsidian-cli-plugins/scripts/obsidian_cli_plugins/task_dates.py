@@ -82,15 +82,22 @@ def has_task_date_marker(text: str) -> bool:
     return any(marker in text for marker in ("🛫", "⏳", "📅", "➕"))
 
 
+def date_or_none(year: int, month: int, day: int) -> dt.date | None:
+    try:
+        return dt.date(year, month, day)
+    except ValueError:
+        return None
+
+
 def infer_task_date_from_clue(text: str, base: dt.date) -> dt.date | None:
     if has_task_date_marker(text):
         return None
     explicit = re.search(r"\b(\d{4})-(\d{1,2})-(\d{1,2})\b", text)
     if explicit:
-        return dt.date(int(explicit.group(1)), int(explicit.group(2)), int(explicit.group(3)))
+        return date_or_none(int(explicit.group(1)), int(explicit.group(2)), int(explicit.group(3)))
     month_day = re.search(r"(?<!\d)(\d{1,2})[-/月](\d{1,2})(?:日|号)?", text)
     if month_day:
-        return dt.date(base.year, int(month_day.group(1)), int(month_day.group(2)))
+        return date_or_none(base.year, int(month_day.group(1)), int(month_day.group(2)))
     days_ago = re.search(r"(?<!\d)(\d{1,3})(?:\s*)(?:天|日)前", text)
     if days_ago:
         return base - dt.timedelta(days=int(days_ago.group(1)))
@@ -113,7 +120,8 @@ def infer_task_date_from_clue(text: str, base: dt.date) -> dt.date | None:
         }[relative_month_day.group(1)]
         target_month = shift_months(base.replace(day=1), offset)
         day = int(relative_month_day.group(2))
-        return dt.date(target_month.year, target_month.month, min(day, month_end(target_month.year, target_month.month).day))
+        max_day = month_end(target_month.year, target_month.month).day
+        return dt.date(target_month.year, target_month.month, min(max(day, 1), max_day))
     for phrase, offset in RELATIVE_DATE_OFFSETS.items():
         if phrase in text:
             return base + dt.timedelta(days=offset)

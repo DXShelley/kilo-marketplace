@@ -7,13 +7,13 @@ Use this file when adding support for newly installed Obsidian plugins.
 1. List enabled plugins:
 
 ```bash
-python3 ~/.codex/skills/obsidian-cli-plugins/scripts/obsidian_workflows.py plugins
+python3 <skill-dir>/scripts/obsidian_workflows.py plugins
 ```
 
 2. List a plugin's command IDs:
 
 ```bash
-python3 ~/.codex/skills/obsidian-cli-plugins/scripts/obsidian_workflows.py commands --plugin <plugin-id>
+python3 <skill-dir>/scripts/obsidian_workflows.py commands --plugin <plugin-id>
 ```
 
 3. Inspect the plugin manifest and only the needed settings keys:

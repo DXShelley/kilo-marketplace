@@ -16,6 +16,12 @@ class TaskDateTests(unittest.TestCase):
 
         self.assertEqual(infer_task_date_from_clue("下周一开会", base), dt.date(2026, 7, 6))
 
+    def test_invalid_explicit_date_clues_are_ignored(self) -> None:
+        base = dt.date(2026, 6, 30)
+
+        self.assertIsNone(infer_task_date_from_clue("误写为 2026-13-01", base))
+        self.assertIsNone(infer_task_date_from_clue("误写为 2/31", base))
+
     def test_month_period_defaults_to_month_end(self) -> None:
         base = dt.date(2026, 6, 30)
 

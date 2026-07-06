@@ -173,14 +173,18 @@ def enabled_plugins(path: pathlib.Path) -> list[str]:
     p = path / ".obsidian/community-plugins.json"
     if not p.exists():
         return []
-    return json.loads(p.read_text())
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    return data if isinstance(data, list) else []
 
 
 def plugin_manifests(path: pathlib.Path) -> dict[str, dict[str, Any]]:
     result: dict[str, dict[str, Any]] = {}
     for manifest in (path / ".obsidian/plugins").glob("*/manifest.json"):
         try:
-            data = json.loads(manifest.read_text())
+            data = json.loads(manifest.read_text(encoding="utf-8"))
             result[data.get("id") or manifest.parent.name] = data
         except Exception:
             continue

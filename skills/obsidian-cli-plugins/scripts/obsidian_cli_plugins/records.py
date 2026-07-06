@@ -298,7 +298,7 @@ def parse_record_analysis_json(value: str | None, original: str) -> dict[str, An
 
 
 def filename_from_title(title: str) -> str:
-    name = re.sub(r"[/:\\\0]+", "-", title).strip().strip(".")
+    name = re.sub(r'[<>:"/\\|?*\0]+', "-", title).strip().strip(".")
     return name or "未命名记录"
 
 

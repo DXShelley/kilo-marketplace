@@ -5,7 +5,7 @@
 所有示例默认：
 
 ```bash
-SKILL=~/.codex/skills/obsidian-cli-plugins
+SKILL=<skill-dir>
 VAULT=~/git/obsidian-2026
 PYTHON=python3
 ```

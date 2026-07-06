@@ -30,7 +30,7 @@ Recent local sessions showed these recurring jobs:
 
 - Treat the vault copy at `90_asset/skill/obsidian-cli-plugins` as the default source of truth for future skill edits.
 - Make behavior, documentation, and test changes in the vault copy first.
-- After tests pass, sync the vault copy to `~/.codex/skills/obsidian-cli-plugins`.
+- After tests pass, sync the vault copy to `<skill-dir>`.
 - Then sync the same vault copy to OpenClaw using `scripts/sync_openclaw.py --source 90_asset/skill/obsidian-cli-plugins --force`.
 - Avoid editing only the installed Codex or OpenClaw copies, because those changes are easy to lose.
 - If the source, Codex copy, and OpenClaw copy have diverged, do not bulk-sync one copy over another until the intended source of truth is clear. Patch the durable rule in the source first, then reconcile runtime copies deliberately.
@@ -103,7 +103,7 @@ Do not hard-code this layout when `doctor` can resolve the vault. Treat it as th
 - Analyze natural-language record requests with the Agent's own LLM/model before calling the local script, but first call `analyze-record --text "<original record content>" --date <date>` or `--prompt-only` to get the shared prompt/schema/current-date contract. Treat the user's utterance as context, not all as content, and use only the unified fields in `record-body.md`: `kind`, `headline`, `occurred_on`, `time_hints`, `scenes`, `actors`, `insight`, `question`, `reflection`, `next_actions`, and `intent`. Example: `今天又下雨了 突然灵光乍现 蚂蚁从飞机上掉下来会摔死吗 记录一下` on `2026-07-01` maps to `time_hints:["今天"]`, `occurred_on:"2026-07-01"`, `scenes:["下雨天"]`, `kind:"灵感"`, and `headline/question:"蚂蚁从飞机上掉下来会摔死吗"`. Semantic analysis is metadata only and must not replace the `--text` body. The record body config maps `fields` to `## 时间`, `## 场景`, `## 人物`, `## 灵感`, and other middle sections; appendix keywords stay reserved for `来源(Source)` and `关联(Reference)`.
 - If Agent-side LLM/model analysis is unavailable or invalid, do not block record creation and do not omit the analysis parameter silently. Pass the original `--text` and omit unsupported analysis fields; do not add local hard-coded semantic heuristics, and do not describe hand-built JSON as successful semantic analysis.
 - Use frontmatter `type` values `text`, `image`, `audio`, `video`, or `mixed` to classify the record.
-- If the current user request includes, uploads, records, or otherwise supplies a media/file attachment, pass it as `--attach` in the same record command and pass `--require-attachment`; do not create the note first and ask whether to add the already supplied file. If the channel cannot send text and media together but exposes a readable local path, use `attachment-stage --path <path> --type <image|audio|video|file>` for the media-only message, then later call `attachment-pending --ttl-hours 48` and create the record with the returned `--staged-attachment <selector>` plus `--type mixed --require-attachment`. If the runtime exposes the attachment but not a readable local path, stop before writing the record and report `attachment-path-unavailable`. If the channel cannot expose or stage media at all, report `unsupported-channel-attachment-record`.
+- If the current user request includes, uploads, records, or otherwise supplies a media/file attachment, pass it as `--attach` in the same record command and pass `--require-attachment`; do not create the note first and ask whether to add the already supplied file. If the channel cannot send text and media together but exposes a readable local path, use `attachment-stage --path <path> --type <image|audio|video|file>` for the media-only message, then later call `attachment-pending --ttl-hours 48` and create the record with `obs_record_sync.py --mode file --period <period> --date <date> --text "<text>" --staged-attachment <selector> --type mixed --require-attachment`. If the runtime exposes the attachment but not a readable local path, stop before writing the record and report `attachment-path-unavailable`. If the channel cannot expose or stage media at all, report `unsupported-channel-attachment-record`.
 - For multi-message media-then-text workflows, the later text is the authoritative record body and staged media are private cache state until consumed. Verify the stable `batch-key`, expected media count, `record_file.copied_attachments`, journal index link, and final Git sync before claiming success. Use `attachment-pending`, not `attachment-list --batch-key default`, stale staged ids from model memory, or direct cache directory reads. Detailed failure modes and uncontrollable channel risks are documented in `references/openclaw.md`.
 - OpenClaw channel notes from local verification: WeCom `mixed` is the preferred phone path for media + text records when readable local paths are exposed; QQBot can support media records when every referenced item has a readable local path; Feishu and current `openclaw-weixin` should not be treated as supported for attachment-backed records unless they expose readable local paths.
 - Write copied image/audio/video attachments as Markdown image/embed links such as `![clip](assets/record/clip.mp4)`. Keep non-media files as ordinary Markdown links such as `[doc](assets/record/doc.pdf)`. Do not generate wiki embeds unless the user explicitly asks to change the workflow.
@@ -133,7 +133,7 @@ Do not hard-code this layout when `doctor` can resolve the vault. Treat it as th
 
 - Current OpenClaw discovery on this host uses `~/.openclaw/skills` as the managed skills directory.
 - `~/.cc-switch/skills` is a legacy or compatibility location and may not be visible to current OpenClaw.
-- After changing the Codex source copy at `~/.codex/skills/obsidian-cli-plugins`, sync the OpenClaw copy too; otherwise OpenClaw may keep running stale script behavior even when `SKILL.md` in Codex is correct.
+- After changing the Codex source copy at `<skill-dir>`, sync the OpenClaw copy too; otherwise OpenClaw may keep running stale script behavior even when `SKILL.md` in Codex is correct.
 - `sync_openclaw.py --force` must replace the OpenClaw skill copy without creating a `.bak.*` directory by default. Use `--backup` only when the user explicitly asks to keep a timestamped backup.
 - When debugging a mismatch, check the actual runtime path shown in OpenClaw session logs or tool calls, especially `~/.openclaw/skills/obsidian-cli-plugins`, not only the Codex source path.
 - If OpenClaw still behaves differently after syncing, restart or refresh OpenClaw because it may cache skill discovery or loaded instructions.
@@ -150,16 +150,15 @@ Use this checklist when future sessions reveal friction:
 - If a failure creates or moves vault content incorrectly, add a regression test in `scripts/tests/` before changing behavior.
 - If adding command flags, keep defaults conservative: read-only before write, local-only only when explicit, and sync-backed writes by default for user-facing vault edits.
 - If OpenClaw behavior changes, update `references/openclaw.md`, `sync_openclaw.py`, and this field guide together.
-- Keep `agents/openai.yaml` aligned with the current skill description when the trigger surface changes.
 
 ## Validation Checklist
 
 Run at least:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python3 -m pytest ~/.codex/skills/obsidian-cli-plugins/scripts/tests
-PYTHONDONTWRITEBYTECODE=1 python3 ~/.codex/skills/obsidian-cli-plugins/scripts/obsidian_workflows.py doctor
-python3 ~/.codex/skills/obsidian-cli-plugins/scripts/sync_openclaw.py --dry-run
+PYTHONDONTWRITEBYTECODE=1 python3 -m pytest <skill-dir>/scripts/tests
+PYTHONDONTWRITEBYTECODE=1 python3 <skill-dir>/scripts/obsidian_workflows.py doctor
+python3 <skill-dir>/scripts/sync_openclaw.py --dry-run
 ```
 
 Remove generated `__pycache__` or `.pyc` files before syncing the skill.
