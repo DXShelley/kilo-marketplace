@@ -4,6 +4,10 @@ A curated collection of **Skills**, **MCP Servers**, and **Agents** for enhancin
 
 ---
 
+## 本项目支持
+
+如果本项目对你有帮助，欢迎通过[项目支持页](https://macosx.kooldns.cn/support/kilo-marketplace/)支持后续维护与迭代。
+
 ## What is the Kilo Marketplace?
 
 The Kilo Marketplace is a community-driven repository of agent tooling prompts and configurations. It provides three types of resources that extend what AI agents can do:
